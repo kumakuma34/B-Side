@@ -30,6 +30,6 @@ public class MemberService {
     }
 
     public boolean logout(Member member){
-        return true;
+        return false;
     }
 }
