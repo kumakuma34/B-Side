@@ -5,13 +5,13 @@ import java.util.List;
 
 public class Member {
     private Long userNumber;
-    private String nickName;
+    private String name;
     private String EmailAddress;
     private List<Long> ArticleNumberList;
 
-    public Member(Long userNumber, String nickName, String emailAddress, List<Long> articleNumberList) {
+    public Member(Long userNumber, String name, String emailAddress, List<Long> articleNumberList) {
         this.userNumber = userNumber;
-        this.nickName = nickName;
+        this.name = name;
         EmailAddress = emailAddress;
         ArticleNumberList = articleNumberList;
     }
@@ -20,12 +20,12 @@ public class Member {
         return userNumber;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getName() {
+        return name;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setUserNumber(Long userNumber) {
@@ -52,7 +52,7 @@ public class Member {
     public String toString() {
         return "Member{" +
                 "userNumber=" + userNumber +
-                ", nickName='" + nickName + '\'' +
+                ", nickName='" + name + '\'' +
                 ", EmailAddress='" + EmailAddress + '\'' +
                 ", ArticleNumberList=" + ArticleNumberList +
                 '}';
