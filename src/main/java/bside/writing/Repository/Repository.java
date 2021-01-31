@@ -4,6 +4,6 @@ import java.util.Optional;
 
 public interface Repository {
 
-    boolean save();
+    boolean save(Object object);
     Optional<Object> findByUserNumber(Long userNumber);
 }
