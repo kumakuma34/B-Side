@@ -24,7 +24,14 @@ public class MemberRepository implements Repository{
     }
 
     @Override
+    public boolean delete(Long userNumber) {
+        return false;
+    }
+
+    @Override
     public Optional<Object> findByUserNumber(Long userNumber) {
         return Optional.ofNullable(store.get(userNumber));
     }
+
+
 }
