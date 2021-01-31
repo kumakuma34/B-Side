@@ -4,7 +4,7 @@ package bside.writing.Member;
 import java.util.List;
 
 public class Member {
-    private final Long userNumber;
+    private Long userNumber;
     private String nickName;
     private String EmailAddress;
     private List<Long> ArticleNumberList;
@@ -26,6 +26,10 @@ public class Member {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public void setUserNumber(Long userNumber) {
+        this.userNumber = userNumber;
     }
 
     public String getEmailAddress() {
