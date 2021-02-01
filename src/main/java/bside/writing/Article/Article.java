@@ -3,7 +3,7 @@ package bside.writing.Article;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Aritcle {
+public class Article {
     private Long userNumber;
     private Long articleNumber;
     private String title;
@@ -11,7 +11,7 @@ public class Aritcle {
     private Date registerDate;
     private Date modifyDate;
 
-    public Aritcle(Long userNumber, Long articleNumber, String title, String content, Date registerDate, Date modifyDate) {
+    public Article(Long userNumber, Long articleNumber, String title, String content, Date registerDate, Date modifyDate) {
         this.userNumber = userNumber;
         this.articleNumber = articleNumber;
         this.title = title;
