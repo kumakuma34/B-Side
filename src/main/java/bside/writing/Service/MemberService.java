@@ -11,7 +11,7 @@ public class MemberService {
 
     public Long join(Member member){
         memberRepository.save(member);
-        return member.getUserNumber();
+        return member.getId();
     }
 
     private void validateDuplicateMember(Member member){
@@ -22,7 +22,7 @@ public class MemberService {
     }
 
     public Optional<Member> withdrawal(Member member){
-        return memberRepository.delete(member.getUserNumber());
+        return memberRepository.delete(member.getId());
     }
 
     public boolean login(Member member){
@@ -30,6 +30,6 @@ public class MemberService {
     }
 
     public boolean logout(Member member){
-        return false;
+        return true;
     }
 }
