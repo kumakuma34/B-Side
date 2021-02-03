@@ -4,20 +4,20 @@ package bside.writing.Member;
 import java.util.List;
 
 public class Member {
-    private Long userNumber;
+    private Long Id;
     private String name;
     private String EmailAddress;
-    private List<Long> ArticleNumberList;
+    private List<Long> ArticleIdList;
 
     public Member(Long userNumber, String name, String emailAddress, List<Long> articleNumberList) {
-        this.userNumber = userNumber;
+        this.Id = userNumber;
         this.name = name;
         EmailAddress = emailAddress;
-        ArticleNumberList = articleNumberList;
+        ArticleIdList = articleNumberList;
     }
 
-    public Long getUserNumber() {
-        return userNumber;
+    public Long getId() {
+        return Id;
     }
 
     public String getName() {
@@ -28,8 +28,8 @@ public class Member {
         this.name = name;
     }
 
-    public void setUserNumber(Long userNumber) {
-        this.userNumber = userNumber;
+    public void setId(Long id) {
+        this.Id = id;
     }
 
     public String getEmailAddress() {
@@ -40,21 +40,21 @@ public class Member {
         EmailAddress = emailAddress;
     }
 
-    public List<Long> getArticleNumberList() {
-        return ArticleNumberList;
+    public List<Long> getArticleIdList() {
+        return ArticleIdList;
     }
 
-    public void setArticleNumberList(List<Long> articleNumberList) {
-        ArticleNumberList = articleNumberList;
+    public void setArticleIdList(List<Long> articleIdList) {
+        ArticleIdList = articleIdList;
     }
 
     @Override
     public String toString() {
         return "Member{" +
-                "userNumber=" + userNumber +
+                "userNumber=" + Id +
                 ", nickName='" + name + '\'' +
                 ", EmailAddress='" + EmailAddress + '\'' +
-                ", ArticleNumberList=" + ArticleNumberList +
+                ", ArticleNumberList=" + ArticleIdList +
                 '}';
     }
     
