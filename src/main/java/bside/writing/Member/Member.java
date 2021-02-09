@@ -1,35 +1,48 @@
 package bside.writing.Member;
 
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.List;
 
+@Entity
 public class Member {
+    @javax.persistence.Id
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long Id;
-    private String name;
-    private String EmailAddress;
-    private List<Long> ArticleIdList;
 
-    public Member(Long userNumber, String name, String emailAddress, List<Long> articleNumberList) {
+    @Column(length = 100)
+    private String name;
+    @Column(length = 100)
+    private String EmailAddress;
+//    @Column(length = 100)
+//    private List<Long> ArticleIdList;
+/*
+    public Member(Long userNumber, String name, String emailAddress) {
+    //public Member(Long userNumber, String name, String emailAddress, List<Long> articleNumberList) {
         this.Id = userNumber;
         this.name = name;
         EmailAddress = emailAddress;
-        ArticleIdList = articleNumberList;
-    }
-
+        //ArticleIdList = articleNumberList;
+    }*/
     public Long getId() {
         return Id;
     }
 
+    public void setId(Long id) {
+        Id = id;
+    }
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setId(Long id) {
-        this.Id = id;
     }
 
     public String getEmailAddress() {
@@ -40,13 +53,13 @@ public class Member {
         EmailAddress = emailAddress;
     }
 
-    public List<Long> getArticleIdList() {
-        return ArticleIdList;
-    }
-
-    public void setArticleIdList(List<Long> articleIdList) {
-        ArticleIdList = articleIdList;
-    }
+//    public List<Long> getArticleIdList() {
+//        return ArticleIdList;
+//    }
+//
+//    public void setArticleIdList(List<Long> articleIdList) {
+//        ArticleIdList = articleIdList;
+//    }
 
     @Override
     public String toString() {
@@ -54,9 +67,9 @@ public class Member {
                 "userNumber=" + Id +
                 ", nickName='" + name + '\'' +
                 ", EmailAddress='" + EmailAddress + '\'' +
-                ", ArticleNumberList=" + ArticleIdList +
+                //", ArticleNumberList=" + ArticleIdList +
                 '}';
     }
-    
+
 
 }

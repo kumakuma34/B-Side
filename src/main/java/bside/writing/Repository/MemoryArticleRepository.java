@@ -18,6 +18,7 @@ public class MemoryArticleRepository implements ArticleRepository{
     public Article save(Article article) {
         article.setArticleNumber(++sequence);
         store.put(article.getArticleNumber(), article);
+        System.out.println("Memory Called");
         return article;
     }
 
