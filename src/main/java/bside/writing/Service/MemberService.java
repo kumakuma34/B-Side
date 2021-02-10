@@ -13,26 +13,26 @@ import java.util.Optional;
 @Transactional
 @Service
 public class MemberService {
-    private final MemberRepository JpaMemberRepository;
+    private final MemberRepository memberRepository;
     @Autowired
-    public MemberService(MemberRepository JpaMemberRepository) {
-        this.JpaMemberRepository = JpaMemberRepository;
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     public Long join(Member member){
-        JpaMemberRepository.save(member);
+        memberRepository.save(member);
         return member.getId();
     }
 
     private void validateDuplicateMember(Member member){
-        JpaMemberRepository.findByUserName(member.getName())
+        memberRepository.findByUserName(member.getName())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 존재하는 회원입니다.");
                 });
     }
 
     public Optional<Member> withdrawal(Member member){
-        return JpaMemberRepository.delete(member.getId());
+        return memberRepository.delete(member.getId());
     }
 
     public boolean login(Member member){

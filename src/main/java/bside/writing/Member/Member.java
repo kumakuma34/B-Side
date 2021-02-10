@@ -22,7 +22,8 @@ public class Member {
     private String EmailAddress;
 //    @Column(length = 100)
 //    private List<Long> ArticleIdList;
-/*
+
+    /*
     public Member(Long userNumber, String name, String emailAddress) {
     //public Member(Long userNumber, String name, String emailAddress, List<Long> articleNumberList) {
         this.Id = userNumber;
