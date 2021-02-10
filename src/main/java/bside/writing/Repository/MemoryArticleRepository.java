@@ -21,9 +21,7 @@ public class MemoryArticleRepository implements ArticleRepository{
         return article;
     }
 
-    //Optional로 해도되나..? null이면 삭제 처리 안됬다고 처리하는게 나을것같긴한데...
-    // > 아 아니네 null 결과값으로 던져주면 그때 처리하면되겠네 멍청이
-
+ 
     @Override
     public Optional<Article> delete(Long articleNumber) {
         Optional<Article> deletedArticle = Optional.ofNullable(store.get(articleNumber));
