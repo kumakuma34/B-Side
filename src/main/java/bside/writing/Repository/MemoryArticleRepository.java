@@ -20,7 +20,7 @@ public class MemoryArticleRepository implements ArticleRepository{
         store.put(article.getArticleNumber(), article);
         return article;
     }
-    
+
     @Override
     public Optional<Article> delete(Long articleNumber) {
         Optional<Article> deletedArticle = Optional.ofNullable(store.get(articleNumber));

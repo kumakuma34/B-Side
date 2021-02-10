@@ -16,7 +16,16 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	//about DB
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+	//about JWT
+	implementation 'javax.xml.bind:jaxb-api'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtime 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtime 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
