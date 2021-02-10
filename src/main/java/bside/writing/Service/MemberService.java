@@ -3,11 +3,16 @@ package bside.writing.Service;
 import bside.writing.Member.Member;
 import bside.writing.Repository.MemoryMemberRepository;
 import bside.writing.Repository.MemberRepository;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
+@RestController
 public class MemberService {
     private final MemberRepository memberRepository = new MemoryMemberRepository();
+    //
 
     public Long join(Member member){
         memberRepository.save(member);
@@ -31,5 +36,10 @@ public class MemberService {
 
     public boolean logout(Member member){
         return true;
+    }
+
+    @GetMapping("/react")
+    public String reactTestPage(){
+        return "hello";
     }
 }
