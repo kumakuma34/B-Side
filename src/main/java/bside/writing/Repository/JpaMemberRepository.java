@@ -3,6 +3,7 @@ package bside.writing.Repository;
 import bside.writing.Member.Member;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 public class JpaMemberRepository implements MemberRepository{
@@ -16,23 +17,25 @@ public class JpaMemberRepository implements MemberRepository{
 
     @Override
     public Member save(Member member) {
-        System.out.println("Jpa Called");
         em.persist(member);
         return member;
     }
 
     @Override
     public Optional<Member> delete(Long idNumber) {
+
         return Optional.empty();
     }
 
     @Override
     public Optional<Member> findByUserNumber(Long userNumber) {
-        return Optional.empty();
+        Member member = em.find(Member.class , userNumber);
+        return Optional.ofNullable(member);
     }
 
     @Override
-    public Optional<Member> findByUserName(String userName) {
-        return Optional.empty();
+    public List<Member> findByUserName(String userName) {
+        List<Member> resultList = em.createQuery("SELECT Id FROM TABLE Member", Member.class).getResultList();
+        return resultList;
     }
 }

@@ -25,10 +25,11 @@ public class MemberService {
     }
 
     private void validateDuplicateMember(Member member){
-        memberRepository.findByUserName(member.getName())
+       /* memberRepository.findByUserName(member.getName())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 존재하는 회원입니다.");
-                });
+                });*/
+
     }
 
     public Optional<Member> withdrawal(Member member){

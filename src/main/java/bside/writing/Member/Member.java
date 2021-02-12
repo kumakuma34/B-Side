@@ -20,17 +20,12 @@ public class Member {
     private String name;
     @Column(length = 100)
     private String EmailAddress;
-//    @Column(length = 100)
-//    private List<Long> ArticleIdList;
 
-    /*
-    public Member(Long userNumber, String name, String emailAddress) {
-    //public Member(Long userNumber, String name, String emailAddress, List<Long> articleNumberList) {
-        this.Id = userNumber;
+    public Member(String name, String emailAddress) {
+        //this.Id = userNumber;
         this.name = name;
         EmailAddress = emailAddress;
-        //ArticleIdList = articleNumberList;
-    }*/
+    }
     public Long getId() {
         return Id;
     }

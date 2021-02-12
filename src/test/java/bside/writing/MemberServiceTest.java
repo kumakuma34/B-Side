@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @SpringBootTest
 
 public class MemberServiceTest {
@@ -20,11 +22,20 @@ public class MemberServiceTest {
     @Test
     public void join() throws Exception{
         //Given
-        Member member = new Member();
-        member.setName("hello JPA!");
+        Member member = new Member("HyunSoo", "qgqg264@gmial.com");
 
         //When
         Long saveId = memberService.join(member);
         System.out.println(saveId);
+    }
+
+    public void findUser() throws Exception{
+        //Given
+        String findUserName = "HyunSoo";
+
+        List<Member> result = memberRepository.findByUserName(findUserName);
+
+        System.out.println(result.size());
+
     }
 }
