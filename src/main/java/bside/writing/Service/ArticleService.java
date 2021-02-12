@@ -3,12 +3,16 @@ package bside.writing.Service;
 import bside.writing.Article.*;
 import bside.writing.Repository.ArticleRepository;
 import bside.writing.Repository.MemoryArticleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.awt.geom.AffineTransform;
 import java.util.List;
 import java.util.Optional;
 
+//@Service
 public class ArticleService {
+    // @Autowired
     private final ArticleRepository articleRepository = new MemoryArticleRepository();
 
     public Article saveArticle(Article saveArticle){

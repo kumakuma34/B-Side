@@ -2,6 +2,7 @@ package bside.writing.Repository;
 
 import bside.writing.Member.Member;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -32,7 +33,7 @@ public class MemoryMemberRepository implements MemberRepository{
     }
 
     @Override
-    public Optional<Member> findByUserName(String userName) {
+    public List<Member> findByUserName(String userName) {
         return store.values().stream()
                 .filter(member -> member.getName().equals(userName))
                 .findAny();
