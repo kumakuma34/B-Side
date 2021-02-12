@@ -4,6 +4,7 @@ import bside.writing.Member.Member;
 import bside.writing.Repository.JpaMemberRepository;
 import bside.writing.Repository.MemoryMemberRepository;
 import bside.writing.Repository.MemberRepository;
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,18 @@ public class MemberService {
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
+=======
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
+
+@RestController
+public class MemberService {
+    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    //
+>>>>>>> master
 
     public Long join(Member member){
         memberRepository.save(member);
@@ -42,5 +55,10 @@ public class MemberService {
 
     public boolean logout(Member member){
         return true;
+    }
+
+    @GetMapping("/react")
+    public String reactTestPage(){
+        return "hello";
     }
 }
