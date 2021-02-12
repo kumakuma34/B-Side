@@ -21,6 +21,7 @@ public class Member {
     @Column(length = 100)
     private String EmailAddress;
 
+    public Member(){} //default Constructor
     public Member(String name, String emailAddress) {
         //this.Id = userNumber;
         this.name = name;

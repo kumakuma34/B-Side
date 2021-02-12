@@ -27,6 +27,11 @@ public class JpaMemberRepository implements MemberRepository{
         return Optional.empty();
     }
 
+    public List<Member> findAll() {
+        return em.createQuery("select m from Member m", Member.class)
+                .getResultList();
+    }
+
     @Override
     public Optional<Member> findByUserNumber(Long userNumber) {
         Member member = em.find(Member.class , userNumber);
@@ -35,7 +40,9 @@ public class JpaMemberRepository implements MemberRepository{
 
     @Override
     public List<Member> findByUserName(String userName) {
-        List<Member> resultList = em.createQuery("SELECT Id FROM TABLE Member", Member.class).getResultList();
-        return resultList;
+        List<Member> result = em.createQuery("select m from Member m where m.name = :name", Member.class)
+                .setParameter("name", userName)
+                .getResultList();
+        return result;
     }
 }
