@@ -62,7 +62,7 @@ public class Member {
     public String toString() {
         return "Member{" +
                 "userNumber=" + Id +
-                ", nickName='" + name + '\'' +
+                ", Name='" + name + '\'' +
                 ", EmailAddress='" + EmailAddress + '\'' +
                 //", ArticleNumberList=" + ArticleIdList +
                 '}';

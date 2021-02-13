@@ -29,15 +29,15 @@ public class MemberService {
         return member.getId();
     }
 
-    public void validateDuplicateMember(Member member) {
+    public boolean validateDuplicateMember(Member member) {
         List<Member> allMembers = memberRepository.findAll();
         String cmpEmailAddress = member.getEmailAddress();
         for(int i = 0 ; i < allMembers.size(); i++){
             if(cmpEmailAddress.equals(allMembers.get(i).getEmailAddress())){
-                throw new IllegalStateException("이미 존재하는 회원입니다.");
+                return false;
             }
         }
-        return;
+        return true;
     }
 
     public Optional<Member> withdrawal(Member member) {
