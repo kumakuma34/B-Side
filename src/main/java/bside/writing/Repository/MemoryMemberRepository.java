@@ -33,12 +33,25 @@ public class MemoryMemberRepository implements MemberRepository{
     }
 
     @Override
-    public List<Member> findByUserName(String userName) {
-        return store.values().stream()
-                .filter(member -> member.getName().equals(userName))
-                .findAny();
+    public List<Member> findAll() {
+        return null;
     }
 
+    @Override
+    public Optional<List<Member>> findByUserName(String userName) {
+      /*  return store.values().stream()
+                .filter(member -> member.getName().equals(userName))
+                .findAny();*/
+        Optional<List<Member>> result = null;
+        return result;
+    }
+
+    @Override
+    public Optional<List<Member>> findByUserEmail(String userEmail) {
+        return Optional.empty();
+    }
+    //interface에 method추가해서 일단 깡통만 구현해놓음
+    //MemoryArticleRepository이거 날려도되지않나..?
     public void clear(){
         store.clear();
     }

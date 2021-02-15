@@ -10,5 +10,7 @@ public interface MemberRepository {
     Member save(Member member);
     Optional<Member> delete(Long idNumber);
     Optional<Member> findByUserNumber(Long userNumber);
-    List<Member> findByUserName(String userName);
+    Optional<List<Member>> findByUserName(String userName);
+    Optional<List<Member>> findByUserEmail(String userEmail);
+    List<Member> findAll();
 }
