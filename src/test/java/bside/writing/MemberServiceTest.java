@@ -47,9 +47,9 @@ public class MemberServiceTest {
         //Given
         String searchName = "qgqg264";
 
-        List<Member> result= memberRepository.findByUserName(searchName);
+        ////List<Member> result= memberRepository.findByUserName(searchName);
 
-        System.out.println(result.get(0).getName() + " " + result.get(0).getEmailAddress());
+       // System.out.println(result.get(0).getName() + " " + result.get(0).getEmailAddress());
 
     }
 
@@ -58,6 +58,8 @@ public class MemberServiceTest {
         //Given
         String cmpEmail = "qgqg264@gmial.com";
         Member member = new Member("tmp", cmpEmail);
+        boolean result = memberService.validateDuplicateMember(member);
+        System.out.println(result);
         try{
             memberService.validateDuplicateMember(member);
         }finally{

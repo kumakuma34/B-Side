@@ -30,14 +30,11 @@ public class MemberService {
     }
 
     public boolean validateDuplicateMember(Member member) {
-        List<Member> allMembers = memberRepository.findAll();
-        String cmpEmailAddress = member.getEmailAddress();
-        for(int i = 0 ; i < allMembers.size(); i++){
-            if(cmpEmailAddress.equals(allMembers.get(i).getEmailAddress())){
-                return false;
-            }
-        }
-        return true;
+        boolean isduplicate = false;
+        Optional<List<Member>> foundMembers = memberRepository.findByUserEmail(member.getEmailAddress());
+        isduplicate = foundMembers.isPresent();
+        //emailAddress 검색 결과가 존재하면 duplicate == true;
+        return isduplicate;
     }
 
     public Optional<Member> withdrawal(Member member) {

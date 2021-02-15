@@ -39,10 +39,20 @@ public class JpaMemberRepository implements MemberRepository{
     }
 
     @Override
-    public List<Member> findByUserName(String userName) {
+    public Optional<List<Member>> findByUserName(String userName) {
         List<Member> result = em.createQuery("select m from Member m where m.name = :name", Member.class)
                 .setParameter("name", userName)
                 .getResultList();
-        return result;
+        return Optional.ofNullable(result);
+        //[PR #15] JPA로 쿼리 없이 실행시킬 수 있는지 더 알아봐야됨
+    }
+
+    @Override
+    public Optional<List<Member>> findByUserEmail(String userEmail) {
+        List<Member> result = em.createQuery("select m from Member m where m.EmailAddress = :EmailAddress", Member.class)
+                .setParameter("EmailAddress", userEmail)
+                .getResultList();
+        return Optional.ofNullable(result);
+        //[PR #15] JPA로 쿼리 없이 실행시킬 수 있는지 더 알아봐야됨
     }
 }

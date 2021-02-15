@@ -21,7 +21,9 @@ public class Member {
     @Column(length = 100)
     private String EmailAddress;
 
-    public Member(){} //default Constructor
+    public Member(){}
+    //PR #15 > default constructor 안써서 삭제
+    // >> 불가능 >> default constructor 없으면 에러뜨는데 사유 좀 더 확인해보겠음
     public Member(String name, String emailAddress) {
         //this.Id = userNumber;
         this.name = name;
