@@ -33,12 +33,17 @@ public class SecurityServiceImpl implements SecurityService{
     }
 
     @Override
-    public String getSubject(String token) {
+    public String getEmail(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET_KEY))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.getSubject();
+        return (String) claims.get("email");
+    }
+
+    @Override
+    public String getName(String token) {
+        return null;
     }
 }

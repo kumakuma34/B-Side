@@ -1,4 +1,4 @@
-package bside.writing.Service;
+package bside.writing.controller;
 
 import bside.writing.Service.Security.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class JWTtestService {
     @ResponseBody
     @GetMapping("/get/subject")
     public Map<String, Object> getSubject(@RequestParam("token") String token){
-        String subject = securityService.getSubject(token);
+        String subject = securityService.getEmail(token);
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         map.put("result", subject);
         return map;
