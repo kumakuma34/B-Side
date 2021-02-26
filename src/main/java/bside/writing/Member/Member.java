@@ -34,13 +34,21 @@ public class Member {
     @Column(length = 1)
     private String admin_yn;
 
-    @ConstructorProperties({"email_address", "nick_name", "admin_yn"})
+    @Column(length = 255)
+    private String userRole;
+
+    @Column(length = 255)
+    private String pictureURL;
+
+    @ConstructorProperties({"email_address", "nick_name", "admin_yn", "userRole", "pictureURL"})
     //JSON Type <> Member Constructor
-    public Member(String email_address , String nick_name , String admin_yn) {
+    public Member(String email_address , String nick_name , String admin_yn, String userRole, String pictureURL) {
         this.email_address = email_address;
         this.nick_name = nick_name;
         //this.reg_dt = reg_dt;
         this.admin_yn = admin_yn;
+        this.userRole = userRole;
+        this.pictureURL = pictureURL;
     }
 
     public Member(){};//default Constructor
@@ -85,7 +93,21 @@ public class Member {
     public void setAdmin_yn(String admin_yn) {
         this.admin_yn = admin_yn;
     }
+    public String getUserRole() {
+        return userRole;
+    }
 
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    public String getPictureURL() {
+        return pictureURL;
+    }
+
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
+    }
     @Override
     public String toString() {
         return "Member{" +
