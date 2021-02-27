@@ -47,10 +47,5 @@ public class MemberService {
     public boolean logout(Member member) {
         return true;
     }
-
-    @GetMapping("/react")
-    public String reactTestPage() {
-        return "hello";
-    }
 }
 

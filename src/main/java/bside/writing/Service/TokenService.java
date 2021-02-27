@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,13 +29,11 @@ public class TokenService {
         this.memberRepository = memberRepository;
     }
 
-    // TODO optional
     public String getAccessToken(String idTokenString) throws GeneralSecurityException, IOException {
 
         GoogleIdToken idToken = (getVerify(idTokenString));
         if(idToken != null){
             GoogleIdToken.Payload payload = idToken.getPayload();
-
             String email = payload.getEmail();
             String name = (String) payload.get("name");
             String pictureUrl = (String) payload.get("picture");
@@ -61,13 +60,17 @@ public class TokenService {
     }
 
     public void saveOrUpdateBy(String email, String name, String pictureUrl){
-        if(memberRepository.findByUserEmail(email).isEmpty()){
-            // TODO memberRepository. 정보 비교 메서드 없음, 이름과 picture URL이 바뀌었다면 update해줘야함
-            // memberService.update
-            }
+        Optional<List<Member>> member = memberRepository.findByUserEmail(email);
+        if(member.isPresent()){
+            List<Member> members = member.get();
+            Member curMember = members.get(0);
+            curMember.setEmail_address(email);
+            curMember.setNick_name(name);
+            curMember.setPictureURL(pictureUrl);
+            // memberService.updateMember(Member member) 구현 필요
+        }
         else{
-            // TODO member 객체를 어떻게 넘길 것인지 + Role 관련
-            memberService.join(new Member());
+            memberService.join(new Member(email, name,"ROLE_USER" ,pictureUrl));
         }
     }
 
