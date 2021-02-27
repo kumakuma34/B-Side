@@ -5,6 +5,7 @@ import bside.writing.Member.Member;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
+import static bside.writing.WritingApplication.findOrEmpty;
 
 public class JpaMemberRepository implements MemberRepository{
 
@@ -55,4 +56,5 @@ public class JpaMemberRepository implements MemberRepository{
         return Optional.ofNullable(result);
         //[PR #15] JPA로 쿼리 없이 실행시킬 수 있는지 더 알아봐야됨
     }
+
 }

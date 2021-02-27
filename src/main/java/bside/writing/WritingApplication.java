@@ -2,9 +2,11 @@ package bside.writing;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@EnableJpaAuditing // JPA Auditing 관련 어노테이션 활성화
+import bside.writing.Repository.DaoRetriever;
+import javax.persistence.NoResultException;
+import java.util.Optional;
+
 @SpringBootApplication
 public class WritingApplication {
 
@@ -12,4 +14,12 @@ public class WritingApplication {
 		SpringApplication.run(WritingApplication.class, args);
 	}
 
+	public static <T> Optional<T> findOrEmpty(final DaoRetriever<T> retriever) {
+		try {
+			return Optional.of(retriever.retrieve());
+		} catch (NoResultException ex) {
+			//log
+		}
+		return Optional.empty();
+	}
 }
