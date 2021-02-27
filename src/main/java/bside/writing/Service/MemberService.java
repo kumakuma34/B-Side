@@ -1,20 +1,19 @@
 package bside.writing.Service;
 
 import bside.writing.Member.Member;
-import bside.writing.Repository.JpaMemberRepository;
-import bside.writing.Repository.MemoryMemberRepository;
 import bside.writing.Repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
-
+import java.util.Optional;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 @Transactional
 @Service
 @RestController
@@ -26,19 +25,19 @@ public class MemberService {
     }
     public Long join(Member member) {
         memberRepository.save(member);
-        return member.getId();
+        return member.getMember_id();
     }
 
-    public boolean validateDuplicateMember(Member member) {
-        boolean isduplicate = false;
+    public void validateDuplicateMember(Member member){
+        /*boolean isduplicate = false;
         Optional<List<Member>> foundMembers = memberRepository.findByUserEmail(member.getEmailAddress());
         isduplicate = foundMembers.isPresent();
-        //emailAddress 검색 결과가 존재하면 duplicate == true;
-        return isduplicate;
+        //emailAddress 검색 결과가 존재하면 duplicate == true;*/
+       // return true;
     }
 
     public Optional<Member> withdrawal(Member member) {
-        return memberRepository.delete(member.getId());
+        return memberRepository.delete(member.getMember_id());
     }
 
     public boolean login(Member member) {
