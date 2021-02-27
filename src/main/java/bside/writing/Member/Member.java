@@ -48,7 +48,6 @@ public class Member {
 
     public Member(){};//default Constructor
 
-
     public Long getMember_id() {
         return member_id;
     }
@@ -96,6 +95,7 @@ public class Member {
     public void setPictureURL(String pictureURL) {
         this.pictureURL = pictureURL;
     }
+
     @Override
     public String toString() {
         return "Member{" +
