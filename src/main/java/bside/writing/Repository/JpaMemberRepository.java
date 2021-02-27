@@ -1,12 +1,14 @@
 package bside.writing.Repository;
 
 import bside.writing.Member.Member;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
-import static bside.writing.WritingApplication.findOrEmpty;
 
+@Component
 public class JpaMemberRepository implements MemberRepository{
 
     private final EntityManager em;

@@ -65,7 +65,7 @@ public class TokenService {
     }
 
     public void saveOrUpdateBy(String email, String name, String pictureUrl){
-        Optional<List<Member>> member = memberRepository.findByUserEmail(email);
+        /*Optional<List<Member>> member = memberRepository.findByUserEmail(email);
         if(member.isEmpty()){
             memberService.join(new Member(email, name,"ROLE_USER", pictureUrl));
         }
@@ -77,6 +77,7 @@ public class TokenService {
             curMember.setPictureURL(pictureUrl);
             //memberService.updateMember(Member member) 구현 필요
         }
+        */
     }
 
     public String makeAccessToken(String email){
