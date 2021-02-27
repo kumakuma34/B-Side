@@ -32,7 +32,7 @@ public class Member {
     private LocalDateTime reg_dt;
 
     @Column(length = 255)
-    private String userRole;
+    private String user_auth;
 
     @Column(length = 255)
     private String pictureURL;
@@ -42,7 +42,7 @@ public class Member {
         this.email_address = email_address;
         this.nick_name = nick_name;
         //this.reg_dt = reg_dt;
-        this.userRole = userRole;
+        this.user_auth = userRole;
         this.pictureURL = pictureURL;
     }
 
@@ -81,11 +81,11 @@ public class Member {
     }
 
     public String getUserRole() {
-        return userRole;
+        return user_auth;
     }
 
     public void setUserRole(String userRole) {
-        this.userRole = userRole;
+        this.user_auth = userRole;
     }
 
     public String getPictureURL() {
