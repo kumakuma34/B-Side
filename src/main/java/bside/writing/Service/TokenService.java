@@ -75,7 +75,7 @@ public class TokenService {
             curMember.setEmail_address(email);
             curMember.setNick_name(name);
             curMember.setPictureURL(pictureUrl);
-            //memberService.updateMember(Member member) 구현 필요
+            //memberService.update(Member member) 구현 필요
         }
         */
     }
