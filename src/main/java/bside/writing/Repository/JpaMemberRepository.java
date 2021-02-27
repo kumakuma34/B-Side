@@ -1,7 +1,6 @@
 package bside.writing.Repository;
 
 import bside.writing.Member.Member;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -42,7 +41,7 @@ public class JpaMemberRepository implements MemberRepository{
 
     @Override
     public Optional<List<Member>> findByUserName(String userName) {
-        List<Member> result = em.createQuery("select m from Member m where m.name = :name", Member.class)
+        List<Member> result = em.createQuery("select m from member m where m.name = :name", Member.class)
                 .setParameter("name", userName)
                 .getResultList();
         return Optional.ofNullable(result);
@@ -51,7 +50,7 @@ public class JpaMemberRepository implements MemberRepository{
 
     @Override
     public Optional<List<Member>> findByUserEmail(String userEmail) {
-        List<Member> result = em.createQuery("select m from Member m where m.EmailAddress = :EmailAddress", Member.class)
+        List<Member> result = em.createQuery("select m from member m where m.EmailAddress = :EmailAddress", Member.class)
                 .setParameter("EmailAddress", userEmail)
                 .getResultList();
         return Optional.ofNullable(result);

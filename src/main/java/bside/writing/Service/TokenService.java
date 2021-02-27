@@ -17,10 +17,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.Key;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TokenService {
@@ -65,19 +62,19 @@ public class TokenService {
     }
 
     public void saveOrUpdateBy(String email, String name, String pictureUrl){
-        /*Optional<List<Member>> member = memberRepository.findByUserEmail(email);
+        Optional<List<Member>> member = memberRepository.findByUserEmail(email);
         if(member.isEmpty()){
             memberService.join(new Member(email, name,"ROLE_USER", pictureUrl));
         }
         else{
             List<Member> members = member.get();
             Member curMember = members.get(0);
+
             curMember.setEmail_address(email);
             curMember.setNick_name(name);
             curMember.setPictureURL(pictureUrl);
             //memberService.update(Member member) 구현 필요
         }
-        */
     }
 
     public String makeAccessToken(String email){
@@ -90,4 +87,21 @@ public class TokenService {
                 .setExpiration(new Date(System.currentTimeMillis() + tokenLiveTime))
                 .compact();
     }
+
+    public boolean checkAccessToken(String accessTokenString){
+        return true;
+    }
+
+    public boolean checkRefreshToken(String accessTokenString){
+        /**
+         * if(memberService.getRefreshToken())
+         *  email = refreshToken.getEmail();
+         *  makeAccessToken(email);
+         */
+        return true;
+    }
+    /**
+     * 1. access token 확인 유효한지 시간이 지났는지, 유효하다면 관련 정보 send
+     * 2. 유효 하지 않다면,
+     */
 }

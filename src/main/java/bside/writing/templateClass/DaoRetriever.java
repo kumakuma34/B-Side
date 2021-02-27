@@ -1,4 +1,4 @@
-package bside.writing.Repository;
+package bside.writing.templateClass;
 
 import javax.persistence.NoResultException;
 

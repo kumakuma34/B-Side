@@ -22,23 +22,24 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class MemberController {
+public class MemberTestController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
 
-    public MemberController(MemberService memberService, MemberRepository memberRepository) {
+    public MemberTestController(MemberService memberService, MemberRepository memberRepository) {
         this.memberService = memberService;
         this.memberRepository = memberRepository;
     }
-
- /* @RequestMapping(value = "/members", method = RequestMethod.GET)
+/*
+    @RequestMapping(value = "/members", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     public boolean findMember(@RequestParam String email_address){
         System.out.println(email_address);
         Optional<List<Member>> findResult = memberRepository.findByUserEmail(email_address);
         if(findResult.isPresent()) return true;
         else return false;
-    }*/
+    }
+*/
     //필요없음 legacy
 
     /*@PostMapping(value = "/members" )
