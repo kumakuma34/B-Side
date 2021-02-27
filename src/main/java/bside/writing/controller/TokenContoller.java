@@ -16,8 +16,11 @@ import java.util.Collections;
 @RestController
 public class TokenContoller {
 
-    @Autowired
-    TokenService tokenService;
+    private final TokenService tokenService;
+
+    public TokenContoller(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     @RequestMapping(value = "accesstoken", method = RequestMethod.GET)
     public String getAccessToken(@RequestHeader(name="Authorization") String idTokenString) throws GeneralSecurityException, IOException {

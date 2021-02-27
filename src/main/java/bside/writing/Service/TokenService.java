@@ -20,13 +20,15 @@ public class TokenService {
 
     @Value("${CLIENT_ID}")
     private String CLIENT_ID;
+    private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
-    @Autowired
-    MemberService memberService;
+    public TokenService(MemberService memberService, MemberRepository memberRepository) {
+        this.memberService = memberService;
+        this.memberRepository = memberRepository;
+    }
 
-    @Autowired
-    MemberRepository memberRepository;
-
+    // TODO optional
     public String getAccessToken(String idTokenString) throws GeneralSecurityException, IOException {
 
         GoogleIdToken idToken = (getVerify(idTokenString));
@@ -43,8 +45,6 @@ public class TokenService {
 
             saveOrUpdateBy(email, name, pictureUrl);
             return makeAccessToken(email);
-            //refreshToken <<< DB
-            //user table <<
 
         }
         else{
@@ -67,7 +67,7 @@ public class TokenService {
             }
         else{
             // TODO member 객체를 어떻게 넘길 것인지 + Role 관련
-            // memberService.join(new Member());
+            memberService.join(new Member());
         }
     }
 
