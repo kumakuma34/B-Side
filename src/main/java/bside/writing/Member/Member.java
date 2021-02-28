@@ -31,28 +31,22 @@ public class Member {
     @CreationTimestamp //Audting 처리 예정
     private LocalDateTime reg_dt;
 
-    @Column(length = 1)
-    private String admin_yn;
-
     @Column(length = 255)
     private String userRole;
 
     @Column(length = 255)
     private String pictureURL;
 
-    @ConstructorProperties({"email_address", "nick_name", "admin_yn", "userRole", "pictureURL"})
-    //JSON Type <> Member Constructor
-    public Member(String email_address , String nick_name , String admin_yn, String userRole, String pictureURL) {
+    @ConstructorProperties({"email_address", "nick_name", "userRole", "pictureURL"})
+    public Member(String email_address , String nick_name , String userRole, String pictureURL) {
         this.email_address = email_address;
         this.nick_name = nick_name;
         //this.reg_dt = reg_dt;
-        this.admin_yn = admin_yn;
         this.userRole = userRole;
         this.pictureURL = pictureURL;
     }
 
     public Member(){};//default Constructor
-
 
     public Long getMember_id() {
         return member_id;
@@ -86,13 +80,6 @@ public class Member {
         this.reg_dt = reg_dt;
     }
 
-    public String getAdmin_yn() {
-        return admin_yn;
-    }
-
-    public void setAdmin_yn(String admin_yn) {
-        this.admin_yn = admin_yn;
-    }
     public String getUserRole() {
         return userRole;
     }
@@ -108,14 +95,14 @@ public class Member {
     public void setPictureURL(String pictureURL) {
         this.pictureURL = pictureURL;
     }
+
     @Override
     public String toString() {
         return "Member{" +
                 "member_id=" + member_id +
                 ", email_address='" + email_address + '\'' +
                 ", nick_name='" + nick_name + '\'' +
-                ", reg_dt=" + reg_dt +
-                ", admin_yn='" + admin_yn + '\'' +
+                ", reg_dt=" + reg_dt + '\'' +
                 '}';
     }
 }

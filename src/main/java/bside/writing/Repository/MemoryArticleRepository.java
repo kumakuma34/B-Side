@@ -55,7 +55,6 @@ public class MemoryArticleRepository implements ArticleRepository{
                 resultList.add(now);
             }
         }
-
         return resultList;
     }
 }

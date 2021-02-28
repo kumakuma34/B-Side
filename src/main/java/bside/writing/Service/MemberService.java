@@ -14,15 +14,16 @@ import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 @Transactional
 @Service
-@RestController
 public class MemberService {
     private final MemberRepository memberRepository;
-    @Autowired
+
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
+
     public Long join(Member member) {
         memberRepository.save(member);
         return member.getMember_id();
@@ -46,11 +47,6 @@ public class MemberService {
 
     public boolean logout(Member member) {
         return true;
-    }
-
-    @GetMapping("/react")
-    public String reactTestPage() {
-        return "hello";
     }
 }
 

@@ -22,24 +22,24 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class MemberController {
-    @Autowired
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
-    @Autowired
-    MemberService memberService;
-    @Autowired
-    MemberRepository memberRepository;
+public class MemberTestController {
+    private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
-   /* @RequestMapping(value = "/members", method = RequestMethod.GET)
+    public MemberTestController(MemberService memberService, MemberRepository memberRepository) {
+        this.memberService = memberService;
+        this.memberRepository = memberRepository;
+    }
+/*
+    @RequestMapping(value = "/members", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     public boolean findMember(@RequestParam String email_address){
         System.out.println(email_address);
         Optional<List<Member>> findResult = memberRepository.findByUserEmail(email_address);
         if(findResult.isPresent()) return true;
         else return false;
-    }*/
+    }
+*/
     //필요없음 legacy
 
     /*@PostMapping(value = "/members" )
@@ -58,5 +58,4 @@ public class MemberController {
         }*//*
     }*/
     //필요없음 legacy
-
 }
