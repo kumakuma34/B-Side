@@ -11,6 +11,6 @@ public interface MemberRepository {
     Optional<Member> delete(Long idNumber);
     Optional<Member> findByUserNumber(Long userNumber);
     Optional<List<Member>> findByUserName(String userName);
-    Optional<List<Member>> findByUserEmail(String userEmail);
+    Optional<Member> findByUserEmail(String userEmail);
     List<Member> findAll();
 }
