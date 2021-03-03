@@ -3,7 +3,7 @@ package bside.writing.templateClass;
 import javax.persistence.NoResultException;
 import java.util.Optional;
 
-public class DaoRetrieverImpl {
+public class TemplateMethodClass {
 
     public static <T> Optional<T> findOrEmpty(final DaoRetriever<T> retriever) {
         try {

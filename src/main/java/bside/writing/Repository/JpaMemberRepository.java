@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
-import static bside.writing.templateClass.DaoRetrieverImpl.findOrEmpty;
+import static bside.writing.templateClass.TemplateMethodClass.findOrEmpty;
 
 @Component
 public class JpaMemberRepository implements MemberRepository{
