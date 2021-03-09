@@ -17,12 +17,12 @@ public class MemberServiceTest {
 
     @Test
     public void join() throws Exception{
-        //Given
-      /*  Member member = new Member("qgqg264", "qgqg264@gmail.com");
-
-        //When
-        Long saveId = memberService.join(member);
-        System.out.println(saveId);*/
+//        //Given
+//        Member member = new Member("qgqg264", "qgqg264@gmail.com");
+//
+//        //When
+//        Long saveId = memberService.join(member);
+//        System.out.println(saveId);
     }
 
     @Test
