@@ -32,6 +32,8 @@ public class MemberRepositoryTest {
     public void 이메일로_맴버검색(){
          Member sample = newMemberRepository.findByEmail("sample3@dot.com");
          System.out.println("sample = " + sample);
-
     }
+
+    @Test
+    public void
 }

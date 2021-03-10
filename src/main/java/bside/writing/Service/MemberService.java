@@ -26,16 +26,8 @@ public class MemberService {
         return oldMember;
     }
 
-    /*
-    @Override
-    public Optional<List<Member>> findByUserName(String userName) {
-        String queryString = "select m from member m where m.name = :name";
-        return findOrEmpty(()->
-                em.createQuery(queryString, Member.class)
-                        .setParameter("name", userName)
-                        .getResultList()
-        );
+    public Long update(Long id, String newEmail, String newPictureURL){
+        Member member = memberRepository.
     }
-    */
 }
 

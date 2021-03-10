@@ -29,5 +29,12 @@ public class Member implements Serializable {
     @Column(name = "user_role", length = 30, nullable = false)
     private String userRole;
 
+    public void update(String nickName, String profileUrl){
+        this.nickName = nickName;
+        this.profileUrl = profileUrl;
+    }
 
+    public void changeRoll(String userRole){
+        this.userRole = userRole;
+    }
 }
