@@ -3,37 +3,31 @@ package bside.writing.domain.member;
 import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 
 @Getter
 @NoArgsConstructor
 @Table(name = "member")
 @Entity
+@ToString
+@Builder
 public class Member implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long member_id;
 
-    @Column(length = 40, nullable = false)
-    private String email_address;
+    @Column(name = "email_address", length = 40, nullable = false)
+    private String email;
 
-    @Column(length = 100, nullable = false)
-    private String nick_name;
+    @Column(name = "nick_name", length = 100, nullable = false)
+    private String nickName;
 
-    @Column(length = 255)
-    private String profile_url;
+    @Column(name = "profile_url", length = 255)
+    private String profileUrl;
 
-    @Column(length = 30, nullable = false)
-    private String user_role;
+    @Column(name = "user_role", length = 30, nullable = false)
+    private String userRole;
 
-    @Builder
-    public Member(String email_address, String nick_name, String user_role, String picture_url) {
-        this.email_address = email_address;
-        this.nick_name = nick_name;
-        this.user_role = user_role;
-        this.profile_url = picture_url;
-    }
 
 }

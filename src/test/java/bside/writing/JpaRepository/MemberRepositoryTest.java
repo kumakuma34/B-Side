@@ -2,7 +2,7 @@ package bside.writing.JpaRepository;
 
 import bside.writing.domain.member.Member;
 import bside.writing.domain.member.NewMemberRepository;
-import org.junit.After;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +19,19 @@ public class MemberRepositoryTest {
     @Test
     public void 맴버저장_불러오기(){
         Member sample = Member.builder()
-                .email_address("sample@dot.com")
-                .nick_name("장현수3")
-                .user_role("betrayer3")
-                .picture_url("www.naver.com")
+                .email("sample3@dot.com")
+                .nickName("장현수3")
+                .userRole("betrayer3")
+                .profileUrl("www.naver.com")
                 .build();
         newMemberRepository.save(sample);
 
     }
 
     @Test
-    public void 맴버삭제(){
-        newMemberRepository.deleteById(4L);
-        
+    public void 이메일로_맴버검색(){
+         Member sample = newMemberRepository.findByEmail("sample3@dot.com");
+         System.out.println("sample = " + sample);
+
     }
 }

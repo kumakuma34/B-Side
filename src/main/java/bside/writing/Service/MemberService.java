@@ -22,7 +22,7 @@ public class MemberService {
     }
 
     public Member updateUserNameAndProfile(Member member){
-        Member oldMember = memberRepository.findByUserEmail(member.getEmail_address()).get();
+        Member oldMember = memberRepository.findByUserEmail(member.getEmail()).get();
         return oldMember;
     }
 

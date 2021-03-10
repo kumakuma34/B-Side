@@ -32,7 +32,7 @@ public class MemberServiceTest {
     @Test
     public void email로_유저조회() throws Exception{
         memberService.join(sample);
-        Member member = memberService.findUserByEmail(sample.getEmail_address()).get();
+        Member member = memberService.findUserByEmail(sample.getEmail()).get();
         Assertions.assertThat(member).isEqualTo(sample);
     }
 
