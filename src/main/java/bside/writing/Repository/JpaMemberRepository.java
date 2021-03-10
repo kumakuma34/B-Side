@@ -1,7 +1,8 @@
 package bside.writing.Repository;
 
-import bside.writing.Member.Member;
+import bside.writing.domain.member.Member;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Optional;
 
 import static bside.writing.templateClass.TemplateMethodClass.findOrEmpty;
 
+@Transactional
 @Component
 public class JpaMemberRepository implements MemberRepository{
 
@@ -25,14 +27,8 @@ public class JpaMemberRepository implements MemberRepository{
     }
 
     @Override
-    public Optional<Member> delete(Long idNumber) {
-
+    public Optional<Member> delete(Member member) {
         return Optional.empty();
-    }
-
-    public List<Member> findAll() {
-        return em.createQuery("select m from Member m", Member.class)
-                .getResultList();
     }
 
     @Override
@@ -43,24 +39,23 @@ public class JpaMemberRepository implements MemberRepository{
 
     @Override
     public Optional<List<Member>> findByUserName(String userName) {
-        List<Member> result = em.createQuery("select m from member m where m.name = :name", Member.class)
+        String queryString = "select m from member m where m.name = :name";
+        return findOrEmpty(()->
+                em.createQuery(queryString, Member.class)
                 .setParameter("name", userName)
-                .getResultList();
-        return Optional.ofNullable(result);
-        //[PR #15] JPA로 쿼리 없이 실행시킬 수 있는지 더 알아봐야됨
+                .getResultList()
+                );
     }
 
     @Override
     public Optional<Member> findByUserEmail(String userEmail) {
-        String queryString = "select m from Member m where m.email_address = :EmailAddress";
+        String queryString = "select m from Member m where m.email_address = :userEmail";
         return findOrEmpty(() ->
                 em.createQuery(queryString, Member.class)
-                        .setParameter("EmailAddress", userEmail)
+                        .setParameter("userEmail", userEmail)
                         .setMaxResults(1)
-                        .getSingleResult());
-
-
-        //[PR #15] JPA로 쿼리 없이 실행시킬 수 있는지 더 알아봐야됨
+                        .getSingleResult()
+                );
     }
 
 }

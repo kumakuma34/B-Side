@@ -1,6 +1,6 @@
 package bside.writing.Service;
 
-import bside.writing.Member.Member;
+import bside.writing.domain.member.Member;
 import bside.writing.Repository.MemberRepository;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -8,7 +8,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson.JacksonFactory;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,20 +20,18 @@ import java.security.Key;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class TokenService {
 
     @Value("${CLIENT_ID}")
     private String CLIENT_ID;
     @Value("${JWT_SECRET}")
     private String JWT_SECRET;
-    private final static int tokenLiveTime = 1000 * 2 * 60;
+    @Value("${ACCESS_TOKEN_LIFETIME}")
+    private String ACCESS_TOKEN_LIFETIME;
+
     private final MemberService memberService;
     private final MemberRepository memberRepository;
-
-    public TokenService(MemberService memberService, MemberRepository memberRepository) {
-        this.memberService = memberService;
-        this.memberRepository = memberRepository;
-    }
 
     public String getAccessToken(String idTokenString) throws GeneralSecurityException, IOException {
 
@@ -44,10 +42,6 @@ public class TokenService {
         String email = payload.getEmail();
         String name = (String) payload.get("name");
         String pictureUrl = (String) payload.get("picture");
-        //TODO 아래 정보들을 활용할 것인지
-        String locale = (String) payload.get("locale");
-        String familyName = (String) payload.get("family_name");
-        String givenName = (String) payload.get("given_name");
 
         saveOrUpdateBy(email, name, pictureUrl);
         return makeAccessToken(email);
@@ -70,9 +64,9 @@ public class TokenService {
             //List<Member> members = member.get();
             Member curMember = member.get();
 
-            curMember.setEmail_address(email);
-            curMember.setNick_name(name);
-            curMember.setPictureURL(pictureUrl);
+            //curMember.setEmail_address(email);
+           // curMember.setNick_name(name);
+            //curMember.setProfile_url(pictureUrl);
             //memberService.update(Member member) 구현 필요
         }
     }
@@ -84,7 +78,7 @@ public class TokenService {
         return Jwts.builder()
                 .setId(email)
                 .signWith(signingKey,signatureAlgorithm)
-                .setExpiration(new Date(System.currentTimeMillis() + tokenLiveTime))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_LIFETIME))
                 .compact();
     }
 
