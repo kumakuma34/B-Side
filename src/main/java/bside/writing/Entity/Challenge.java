@@ -1,8 +1,7 @@
 package bside.writing.Entity;
 
+import bside.writing.domain2.BaseTimeEntity;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,9 +9,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "challenge")
 @Data
-public class Challenge {
+@Builder
+public class Challenge extends BaseTimeEntity {
     @javax.persistence.Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY) @NonNull
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long challenge_id;
 
     @Column(length = 255) @NonNull
@@ -45,16 +45,10 @@ public class Challenge {
     @Column(length = 10)
     private int status;
 
-    @CreationTimestamp @NonNull
-    private LocalDateTime reg_dt;
+    @Column @NonNull
+    private long created_id;
 
     @Column @NonNull
-    private long reg_id;
-
-    @UpdateTimestamp @NonNull
-    private LocalDateTime upd_dt;
-
-    @Column @NonNull
-    private long upd_id;
+    private long modified_id;
 
 }
