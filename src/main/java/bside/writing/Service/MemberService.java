@@ -1,33 +1,40 @@
 package bside.writing.Service;
 
 import bside.writing.domain.member.Member;
-import bside.writing.Repository.MemberRepository;
+import bside.writing.domain.member.NewMemberRepository;
+import bside.writing.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import javax.transaction.Transactional;
 
-@Service
+
 @RequiredArgsConstructor
+@Service
 public class MemberService {
-    private final MemberRepository memberRepository;
 
-    public Member join(Member member) {
-        memberRepository.save(member);
-        return member;
+    private final NewMemberRepository newMemberRepository;
+
+    @Transactional
+    public MemberDto join(MemberDto memberDto) {
+        Member entity = memberDto.toEntity();
+        newMemberRepository.save(entity);
+        return new MemberDto(entity);
     }
 
-    public Optional<Member> findUserByEmail(String userEmail){
-        return memberRepository.findByUserEmail(userEmail);
+    @Transactional
+    public MemberDto findByEmail(String email){
+        Member entity = newMemberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 중복 : " + email));
+        return new MemberDto(entity);
     }
 
-    public Member updateUserNameAndProfile(Member member){
-        Member oldMember = memberRepository.findByUserEmail(member.getEmail()).get();
-        return oldMember;
-    }
-
-    public Long update(Long id, String newEmail, String newPictureURL){
-        Member member = memberRepository.
+    @Transactional
+    public MemberDto update(String email, String newNickName, String newPictureURL){
+        Member member = newMemberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 중복 : " + email));
+        member.update(newNickName, newPictureURL);
+        return new MemberDto(member);
     }
 }
 

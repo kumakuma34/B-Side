@@ -10,12 +10,12 @@ import java.io.Serializable;
 @Table(name = "member")
 @Entity
 @ToString
-@Builder
 public class Member implements Serializable {
 
     @Id
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long member_id;
+    private Long id;
 
     @Column(name = "email_address", length = 40, nullable = false)
     private String email;
@@ -34,7 +34,12 @@ public class Member implements Serializable {
         this.profileUrl = profileUrl;
     }
 
-    public void changeRoll(String userRole){
+    @Builder
+    public Member(Long id, String email, String nickName, String userRole, String profileUrl) {
+        this.id = id;
+        this.email = email;
+        this.nickName = nickName;
         this.userRole = userRole;
+        this.profileUrl = profileUrl;
     }
 }

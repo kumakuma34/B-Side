@@ -58,7 +58,7 @@ public class TokenService {
     public void saveOrUpdateBy(String email, String name, String pictureUrl){
         Optional<Member> member = memberRepository.findByUserEmail(email);
         if(!member.isPresent()){
-            memberService.join(new Member(email, name,"ROLE_USER", pictureUrl));
+            //memberService.join(new Member(email, name,"ROLE_USER", pictureUrl));
         }
         else{
             //List<Member> members = member.get();
