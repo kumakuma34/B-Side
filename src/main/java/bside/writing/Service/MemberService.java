@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -35,6 +36,13 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 중복 : " + email));
         member.update(newNickName, newPictureURL);
         return new MemberDto(member);
+    }
+
+    @Transactional
+    public boolean has(String email) {
+        Optional<Member> member = newMemberRepository.findByEmail(email);
+        if(member.isPresent()) return true;
+        return false;
     }
 }
 

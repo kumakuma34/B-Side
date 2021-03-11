@@ -4,6 +4,7 @@ import bside.writing.Service.MemberService;
 import bside.writing.domain.member.Member;
 import bside.writing.dto.MemberDto;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.BooleanArrayAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,17 @@ public class MemberServiceTest {
         memberService.update(testEmail, "updated5555Name", "www.update5555.com");
         MemberDto memberDto = memberService.findByEmail(testEmail);
         Assertions.assertThat(testEmail).isEqualTo(memberDto.getEmail());
+    }
+
+    @Test
+    public void 맴버가입여부확인(){
+        boolean isJoined = memberService.has(sampleMemberDto.getEmail());
+        Assertions.assertThat(isJoined).isEqualTo(false);
+
+        memberService.join(sampleMemberDto);
+
+        isJoined = memberService.has(sampleMemberDto.getEmail());
+        Assertions.assertThat(isJoined).isEqualTo(true);
     }
 
 }

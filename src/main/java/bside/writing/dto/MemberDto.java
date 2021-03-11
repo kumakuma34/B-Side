@@ -1,9 +1,13 @@
 package bside.writing.dto;
 
 import bside.writing.domain.member.Member;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
+@AllArgsConstructor
 public class MemberDto {
     private Long id;
     private String email;
