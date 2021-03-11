@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @SpringBootTest
 public class ChallengeServiceTest {
@@ -39,4 +40,16 @@ public class ChallengeServiceTest {
 
     }
 
+    @Test
+    public void updateOrSave() throws Exception{
+        //Given
+        Optional<Challenge> result = newChallengeRepository.findById(1L);
+        if(result.isPresent()){
+            result.get().setChallenge_detail("내용을바꿈2222");
+            newChallengeRepository.save(result.get());
+        }
+
+
+
+    }
 }

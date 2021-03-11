@@ -8,7 +8,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "challenge")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Challenge extends BaseTimeEntity {
     @javax.persistence.Id
@@ -51,4 +54,5 @@ public class Challenge extends BaseTimeEntity {
     @Column @NonNull
     private long modified_id;
 
+    //public Challenge(){};//default Constructor
 }
