@@ -20,8 +20,9 @@ public class ChallengeController {
         this.challengeService = challengeService;
     }
 
+
 //    @RequestMapping(value = "challenge", method = RequestMethod.GET)
-//    public Optional<Challenge> getChallenge(@RequestHeader(name = "cnt") String searchKey) throws IOException{
+//    public List<Challenge> getChallenge(@RequestHeader(name = "cnt") String searchKey) throws IOException{
 //
 //    }
 

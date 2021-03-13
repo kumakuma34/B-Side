@@ -6,11 +6,14 @@ import bside.writing.Repository.MemberRepository;
 import bside.writing.Repository.NewChallengeRepository;
 import bside.writing.Service.ChallengeService;
 import bside.writing.Service.MemberService;
+import bside.writing.dto.ChallengeDto;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -37,6 +40,28 @@ public class ChallengeServiceTest {
 
         //when
         newChallengeRepository.save(sample);
+
+    }
+
+    @Test
+    public void 조회() throws Exception{
+        //Given
+        List<Challenge> challenges = newChallengeRepository.findAll();
+
+        for(int i = 0 ; i < challenges.size() ; i++){
+            ChallengeDto challengeDto = new ChallengeDto(challenges.get(i));
+            System.out.println(challengeDto.getChallenge_detail() + " : " + challenges.get(i).getChallenge_detail());
+            Assertions.assertThat(challenges.get(i).getChallenge_detail()).isEqualTo(challengeDto.getChallenge_detail());
+        }
+
+        for(int i = 0 ; i < challenges.size() ; i++){
+
+            challenges.get(i).setChallenge_detail("DTODTODTO");
+            ChallengeDto challengeDto = new ChallengeDto(challenges.get(i));
+
+            System.out.println(challengeDto.getChallenge_detail() + " : " + challenges.get(i).getChallenge_detail());
+            Assertions.assertThat(challenges.get(i).getChallenge_detail()).isEqualTo(challengeDto.getChallenge_detail());
+        }
 
     }
 

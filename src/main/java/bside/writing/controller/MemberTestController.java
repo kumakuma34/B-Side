@@ -43,7 +43,7 @@ public class MemberTestController {
     //필요없음 legacy
 
     /*@PostMapping(value = "/members" )
-    public String create(@RequestBody Member member, HttpServletResponse response) throws Exception{
+    public Member create(@RequestBody Member member, HttpServletResponse response) throws Exception{
         LocalDateTime curr = LocalDateTime.now();
         member.setReg_dt(curr);
         memberService.join(member);

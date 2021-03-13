@@ -17,4 +17,6 @@ public class JPAChallengeRepository implements ChallengeRepository{
         em.persist(challenge);
         return challenge;
     }
+
+
 }
