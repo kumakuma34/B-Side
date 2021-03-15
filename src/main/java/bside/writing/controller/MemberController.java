@@ -23,14 +23,12 @@ public class MemberController {
     public String memberLogout(@RequestHeader(name="Authorization") String accessToken, HttpServletResponse response){
         JsonObject jsonResponse = new JsonObject();
         try{
-            Long memberUID = tokenService.getUID(accessToken);
+            Long memberId = tokenService.getUID(accessToken);
 
 
-            jsonResponse.addProperty("uid", memberUID);
+            jsonResponse.addProperty("uid", memberId);
 
-            /*
-            *   delete acessToken from DB
-            */
+            tokenService.deleteMemberToken(memberId);
 
             response.setStatus(StatusCode.OK.getCode());
             return jsonResponse.toString();

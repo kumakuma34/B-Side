@@ -1,7 +1,6 @@
 package bside.writing.Service;
 
 
-import bside.writing.domain.member.Member;
 import bside.writing.domain.member.MemberToken;
 import bside.writing.domain.member.MemberTokenRespository;
 import bside.writing.dto.MemberDto;

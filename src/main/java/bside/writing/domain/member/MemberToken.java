@@ -2,13 +2,15 @@ package bside.writing.domain.member;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
 @Entity
-@Table(name = "member")
+@Table(name = "token")
+@NoArgsConstructor
 public class MemberToken implements Serializable {
     @Id
     @Column(name = "member_id")
@@ -17,7 +19,7 @@ public class MemberToken implements Serializable {
     @Column(name = "access_token", length = 255, nullable = false)
     private String accessToken;
 
-    @Column(name = "refresh_token", length = 255, nullable = false)
+    @Column(name = "refresh_token", length = 255, nullable = true)
     private String refreshToken;
 
     @Builder
