@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 public class ChallengeThemeTest {
     @Autowired
@@ -22,7 +24,13 @@ public class ChallengeThemeTest {
 
         newChallengeThemeRepository.save(sample);
 
+    }
 
-
+    @Test
+    public void 조회() throws Exception{
+        List<ChallengeTheme> result = newChallengeThemeRepository.findAll();
+        for(int i = 0 ; i <result.size(); i ++){
+            System.out.println(result.get(i).getChallenge_id() + " : " + result.get(i).getChallenge_theme_id());
+        }
     }
 }
