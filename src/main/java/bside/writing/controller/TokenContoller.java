@@ -1,5 +1,6 @@
 package bside.writing.controller;
 
+import bside.writing.Service.MemberService;
 import bside.writing.Service.TokenService;
 import bside.writing.dto.MemberDto;
 import bside.writing.templateClass.ResponseMessage;
@@ -28,26 +29,29 @@ import java.util.Collections;
 public class TokenContoller {
 
     private final TokenService tokenService;
+    private final MemberService memberService;
 
-    @RequestMapping(value = "accesstoken", method = RequestMethod.GET)
-    public String getAccessToken(@RequestHeader(name="Authorization") String idTokenString, HttpServletResponse response)
-            throws Exception {
+    @RequestMapping(value = "token", method = RequestMethod.GET)
+    public String getAccessToken(@RequestHeader(name="Authorization") String idTokenString, HttpServletResponse response){
+        JsonObject jsonResponse = new JsonObject();
         try{
             MemberDto memberDto = tokenService.getUserInfo(idTokenString);
 
-            JsonObject jsonResponse = new JsonObject();
-            jsonResponse.addProperty("accessToken", tokenService.makeAccessToken(memberDto.getEmail()));
-            jsonResponse.addProperty("nickName", memberDto.getNickName());
-            jsonResponse.addProperty("profileUrl", memberDto.getProfileUrl());
-            jsonResponse.addProperty("already_joined", tokenService.isAlreadyJoined(memberDto));
+            boolean firstJoin = false;
+            if(!memberService.has(memberDto.getEmail())){
+                firstJoin = true;
+                memberService.join(memberDto);
+            }
+            memberDto = memberService.findByEmail(memberDto.getEmail());
+
+            jsonResponse.addProperty("accessToken", tokenService.makeAccessToken(memberDto.getId()));
+            jsonResponse.addProperty("first_join", firstJoin);
 
             response.setStatus(StatusCode.OK.getCode());
             return jsonResponse.toString();
         }
         catch (Exception e){
-
-            JsonObject jsonResponse = new JsonObject();
-            jsonResponse.addProperty("error_msg", e.getMessage());
+            jsonResponse.addProperty("error_msg",ResponseMessage.UNAUTHORIZED_TOKEN.getMsg());
 
             response.setStatus(StatusCode.UNAUTHORIZED.getCode());
             return jsonResponse.toString();

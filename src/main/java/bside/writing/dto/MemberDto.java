@@ -32,7 +32,4 @@ public class MemberDto {
                 .userRole(this.getUserRole())
                 .build();
     }
-
-
-
 }

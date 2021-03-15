@@ -1,13 +1,15 @@
 package bside.writing.Service;
 
 
-import bside.writing.domain.member.NewMemberRepository;
+import bside.writing.domain.member.MemberTokenRespository;
 import bside.writing.dto.MemberDto;
 import bside.writing.templateClass.ResponseMessage;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson.JacksonFactory;
+
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +35,7 @@ public class TokenService {
     @Value("${ACCESS_TOKEN_LIFETIME}")
     private int ACCESS_TOKEN_LIFETIME;
 
-    private final MemberService memberService;
+    private final MemberTokenRespository memberTokenRespository;
 
     public MemberDto getUserInfo(String idTokenString) throws Exception {
 
@@ -63,24 +65,31 @@ public class TokenService {
         return verifier.verify(idTokenString);
     }
 
-    public String makeAccessToken(String email){
+    public byte[] generateKeyAsByte(){
+        return DatatypeConverter.parseBase64Binary(JWT_SECRET);
+    }
+
+    public String makeAccessToken(Long member_Id){
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(JWT_SECRET);
-        Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
+        final Key signingKey = new SecretKeySpec(generateKeyAsByte(), signatureAlgorithm.getJcaName());
         return Jwts.builder()
-                .setId(email)
+                .setId(String.valueOf(member_Id))
                 .signWith(signingKey,signatureAlgorithm)
                 .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_LIFETIME))
                 .compact();
     }
 
-    public boolean isAlreadyJoined(MemberDto memberDto){
-        System.out.println("memberDto = " + memberDto.getEmail());
-        return memberService.has(memberDto.getEmail());
+    public Long getUID(String accessToken){
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(generateKeyAsByte())
+                .build()
+                .parseClaimsJws(accessToken)
+                .getBody();
+        return Long.valueOf(claims.getId());
     }
 
-    public boolean checkRefreshToken(String accessTokenString){
 
-        return true;
-    }
+
+
+
 }

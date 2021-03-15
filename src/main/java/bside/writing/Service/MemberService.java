@@ -23,6 +23,12 @@ public class MemberService {
         return new MemberDto(entity);
     }
 
+    public MemberDto findById(Long id){
+        Member entity = newMemberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디" + id));
+        return new MemberDto(entity);
+    }
+
     @Transactional
     public MemberDto findByEmail(String email){
         Member entity = newMemberRepository.findByEmail(email)
@@ -44,5 +50,7 @@ public class MemberService {
         if(member.isPresent()) return true;
         return false;
     }
+
+
 }
 
