@@ -1,8 +1,11 @@
 package bside.writing.Service;
 
 
+import bside.writing.domain.member.Member;
+import bside.writing.domain.member.MemberToken;
 import bside.writing.domain.member.MemberTokenRespository;
 import bside.writing.dto.MemberDto;
+import bside.writing.dto.MemberTokenDto;
 import bside.writing.templateClass.ResponseMessage;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -18,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.transaction.Transactional;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -88,8 +92,22 @@ public class TokenService {
         return Long.valueOf(claims.getId());
     }
 
+    public MemberTokenDto saveMemberToken(MemberTokenDto memberTokenDto){
+        MemberToken entity = memberTokenDto.toEntity();
+        memberTokenRespository.save(entity);
+        return new MemberTokenDto(entity);
+    }
 
+    @Transactional
+    public MemberTokenDto updateMemberToken(Long memberId, String accessToken){
+        MemberToken memberToken = memberTokenRespository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 맴버ID : " + memberId));
+        memberToken.update(accessToken);
+        return new MemberTokenDto(memberToken);
+    }
 
-
-
+    @Transactional
+    public void deleteMemberToken(Long memberId){
+        memberTokenRespository.deleteById(memberId);
+    }
 }

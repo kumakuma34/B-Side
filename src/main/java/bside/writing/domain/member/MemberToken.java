@@ -26,4 +26,8 @@ public class MemberToken implements Serializable {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
+
+    public void update(String accessToken) {
+        this.accessToken = accessToken;
+    }
 }
