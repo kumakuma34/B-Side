@@ -54,25 +54,18 @@ public class ChallengeServiceTest {
             Assertions.assertThat(challenges.get(i).getChallenge_detail()).isEqualTo(challengeDto.getChallenge_detail());
         }
 
-        for(int i = 0 ; i < challenges.size() ; i++){
 
-            challenges.get(i).setChallenge_detail("DTODTODTO");
-            ChallengeDto challengeDto = new ChallengeDto(challenges.get(i));
-
-            System.out.println(challengeDto.getChallenge_detail() + " : " + challenges.get(i).getChallenge_detail());
-            Assertions.assertThat(challenges.get(i).getChallenge_detail()).isEqualTo(challengeDto.getChallenge_detail());
-        }
 
     }
 
     @Test
     public void updateOrSave() throws Exception{
         //Given
-        Optional<Challenge> result = newChallengeRepository.findById(1L);
-        if(result.isPresent()){
-            result.get().setChallenge_detail("내용을바꿈2222");
-            newChallengeRepository.save(result.get());
-        }
+//        Optional<Challenge> result = newChallengeRepository.findById(1L);
+//        if(result.isPresent()){
+//            result.get().setChallenge_detail("내용을바꿈2222");
+//            newChallengeRepository.save(result.get());
+//        }
 
 
 

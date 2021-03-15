@@ -21,8 +21,9 @@ public class ChallengeService {
         this.challengeRepository = challengeRepository;
     }
 
-    public List<ChallengeDto> search(){
-        List<Challenge> challenges = challengeRepository.findAll().stream().;
+    public List<ChallengeDto> search(int searchCount){
+        List<Challenge> challenges = challengeRepository.findAll();
+        
         Challenge entity = challenges.get(0);
         ChallengeDto dto = new ChallengeDto(entity);
 
