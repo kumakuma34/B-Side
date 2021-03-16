@@ -1,4 +1,4 @@
-package bside.writing;
+package bside.writing.challengeTest;
 
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.Repository.ChallengeRepository;
