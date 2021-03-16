@@ -1,6 +1,5 @@
 package bside.writing.Service;
 
-
 import bside.writing.domain.member.MemberToken;
 import bside.writing.domain.member.MemberTokenRespository;
 import bside.writing.dto.MemberDto;
@@ -44,7 +43,6 @@ public class TokenService {
 
         GoogleIdToken idToken = Optional.ofNullable(getVerify(idTokenString))
                 .orElseThrow(() -> new AuthenticationException(ResponseMessage.UNAUTHORIZED_TOKEN.getMsg()));
-
         GoogleIdToken.Payload payload = idToken.getPayload();
 
         String email = payload.getEmail();
@@ -82,7 +80,7 @@ public class TokenService {
                 .compact();
     }
 
-    public Long getUID(String accessToken){
+    public Long getUid(String accessToken){
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(generateKeyAsByte())
                 .build()

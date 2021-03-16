@@ -1,5 +1,6 @@
 package bside.writing.domain.member;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "token")
 @NoArgsConstructor
+
 public class MemberToken implements Serializable {
     @Id
     @Column(name = "member_id")

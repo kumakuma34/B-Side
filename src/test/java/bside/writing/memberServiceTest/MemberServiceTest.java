@@ -39,7 +39,7 @@ public class MemberServiceTest {
     @Test
     public void 맴버서비스_업데이트(){
         memberService.join(sampleMemberDto);
-        memberService.update(testEmail, "updated5555Name", "www.update5555.com");
+        //memberService.update(1, "updated5555Name", "www.update5555.com");
         MemberDto memberDto = memberService.findByEmail(testEmail);
         Assertions.assertThat(testEmail).isEqualTo(memberDto.getEmail());
     }

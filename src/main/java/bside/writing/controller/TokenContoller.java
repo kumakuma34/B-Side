@@ -34,7 +34,7 @@ public class TokenContoller {
     private final MemberService memberService;
 
     @RequestMapping(value = "token", method = RequestMethod.GET)
-    public String getAccessToken(@RequestHeader(name="Authorization") String idTokenString, HttpServletResponse response){
+    public String getToken(@RequestHeader(name="Authorization") String idTokenString, HttpServletResponse response){
         JsonObject jsonResponse = new JsonObject();
         try{
             MemberDto memberDto = tokenService.getUserInfo(idTokenString);
@@ -44,11 +44,11 @@ public class TokenContoller {
                 firstJoin = true;
                 memberService.join(memberDto);
             }
+
             memberDto = memberService.findByEmail(memberDto.getEmail());
             String accessToken = tokenService.makeAccessToken(memberDto.getId());
             MemberTokenDto memberTokenDto = MemberTokenDto.builder()
-                    .id(memberDto.getId())
-                    .accessToken(accessToken)
+                    .id(memberDto.getId()).accessToken(accessToken)
                     .build();
 
             tokenService.saveMemberToken(memberTokenDto);
@@ -57,13 +57,11 @@ public class TokenContoller {
             jsonResponse.addProperty("first_join", firstJoin);
 
             response.setStatus(StatusCode.OK.getCode());
-            return jsonResponse.toString();
         }
         catch (Exception e){
             jsonResponse.addProperty("error_msg",ResponseMessage.UNAUTHORIZED_TOKEN.getMsg());
-
             response.setStatus(StatusCode.UNAUTHORIZED.getCode());
-            return jsonResponse.toString();
         }
+        return jsonResponse.toString();
     }
 }

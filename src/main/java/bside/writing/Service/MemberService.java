@@ -37,9 +37,9 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDto update(String email, String newNickName, String newPictureURL){
-        Member member = newMemberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 중복 : " + email));
+    public MemberDto update(Long memberId, String newNickName, String newPictureURL){
+        Member member = newMemberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 중복 : " + memberId));
         member.update(newNickName, newPictureURL);
         return new MemberDto(member);
     }
