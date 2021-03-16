@@ -1,6 +1,7 @@
 package bside.writing.dto;
 
 import bside.writing.domain.member.Member;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,9 @@ import lombok.Getter;
 public class MemberDto {
     private Long id;
     private String email;
+    @JsonProperty("nick_name")
     private String nickName;
+    @JsonProperty("profile_url")
     private String profileUrl;
     private String userRole;
 

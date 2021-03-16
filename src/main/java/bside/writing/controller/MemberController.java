@@ -3,6 +3,7 @@ package bside.writing.controller;
 import bside.writing.Service.MemberService;
 import bside.writing.Service.TokenService;
 import bside.writing.domain.member.Member;
+import bside.writing.dto.MemberDto;
 import bside.writing.templateClass.ResponseMessage;
 import bside.writing.templateClass.StatusCode;
 import com.google.gson.JsonObject;
@@ -35,11 +36,11 @@ public class MemberController {
     }
 
     @RequestMapping(value = "member", method = RequestMethod.PUT)
-    public String memberUpdate(@RequestBody Member member, @RequestHeader(name="Authorization") String accessToken, HttpServletResponse response){
+    public String memberUpdate(@RequestBody MemberDto memberDto, @RequestHeader(name="Authorization") String accessToken, HttpServletResponse response){
         JsonObject jsonResponse = new JsonObject();
         try{
             Long uid = tokenService.getUid(accessToken);
-            memberService.update(uid, member.getNickName(), member.getProfileUrl());
+            memberService.update(uid, memberDto.getNickName(), memberDto.getProfileUrl());
             response.setStatus(StatusCode.OK.getCode());
             jsonResponse.addProperty("uid", uid);
         }
