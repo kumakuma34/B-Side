@@ -33,10 +33,8 @@ public class ChallengeService {
         return dtos;
     }
 
-    public Long join(Challenge challenge) {
-        challengeRepository.save(challenge);
-        return challenge.getChallenge_id();
+    public Long addNewChallenge(ChallengeDto challengeDto) {
+        Challenge challenge = challengeDto.toEntity();
+        return challengeRepository.save(challenge).getChallenge_id();
     }
-
-
 }

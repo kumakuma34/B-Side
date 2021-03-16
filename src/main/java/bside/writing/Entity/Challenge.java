@@ -1,9 +1,11 @@
 package bside.writing.Entity;
 
 import bside.writing.domain2.BaseTimeEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,14 +19,11 @@ public class Challenge extends BaseTimeEntity {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long challenge_id;
 
-    @Column(length = 255) @NonNull
-    private String cover_img;
-
-    @Column(length = 20) @NonNull
-    private String  writing_theme;
+    @Column @NonNull
+    private int cover_img;
 
     @Column(length = 50) @NonNull
-    private String  challenge_theme;
+    private String  challenge_title;
 
     @Column(length = 100) @NonNull
     private String  challenge_detail;
@@ -35,8 +34,9 @@ public class Challenge extends BaseTimeEntity {
     @Column
     private int current_participant;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     @Column @NonNull
-    private LocalDateTime start_dt;
+    private LocalDate start_dt;
 
     @Column @NonNull
     private int duration;

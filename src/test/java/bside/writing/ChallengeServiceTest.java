@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,13 +25,12 @@ public class ChallengeServiceTest {
     @Test
     public void join() throws Exception{
         //Given
-        LocalDateTime cur = LocalDateTime.now();
+        LocalDate cur = LocalDate.now();
         Challenge sample = Challenge
                 .builder()
-                .writing_theme("서평")
                 .challenge_detail("챌린지3")
-                .challenge_theme("서평")
-                .cover_img("tmp2")
+                .challenge_title("서평")
+                .cover_img(1)
                 .duration(4)
                 .max_participant(10)
                 .start_dt(cur)
