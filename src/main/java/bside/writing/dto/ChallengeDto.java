@@ -1,6 +1,7 @@
 package bside.writing.dto;
 
 import bside.writing.Entity.Challenge;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -14,6 +15,7 @@ public class ChallengeDto {
 
     @Getter
     @Setter
+    @AllArgsConstructor
     public static class Request{
         private int cover_img;
         private String  challenge_title;
@@ -26,20 +28,7 @@ public class ChallengeDto {
         private int status;
         private long created_id;
         private long modified_id;
-
-        public Request(Request request){
-            this.cover_img = request.getCover_img();
-            this.challenge_title = request.getChallenge_title();
-            this.challenge_detail = request.getChallenge_detail();
-            this.max_participant = request.getMax_participant();
-            this.current_participant = request.getCurrent_participant();
-            this.start_dt = request.getStart_dt();
-            this.duration = request.getDuration();
-            this.submit_days_cnt = request.getSubmit_days_cnt();
-            this.status = request.getStatus();
-            this.created_id = request.getCreated_id();
-            this.modified_id = request.getModified_id();
-        }
+        
     }
     private Long challenge_id;
 

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ChallengeTheme extends BaseTimeEntity {
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long challenge_theme_id;
 

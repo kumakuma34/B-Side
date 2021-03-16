@@ -1,11 +1,11 @@
 package bside.writing.Service;
 
 import bside.writing.Entity.Challenge;
-import bside.writing.Member.Member;
 import bside.writing.Repository.ChallengeRepository;
 import bside.writing.Repository.MemberRepository;
 import bside.writing.Repository.NewChallengeRepository;
 import bside.writing.dto.ChallengeDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +14,9 @@ import java.util.stream.Collectors;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class ChallengeService {
     private final NewChallengeRepository challengeRepository;
-
-    public ChallengeService(NewChallengeRepository challengeRepository) {
-        this.challengeRepository = challengeRepository;
-    }
 
     public List<ChallengeDto> search(int searchCount){
         List<Challenge> challenges = challengeRepository.findAll();

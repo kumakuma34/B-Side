@@ -3,6 +3,7 @@ package bside.writing.controller;
 import bside.writing.Entity.Challenge;
 import bside.writing.Service.ChallengeService;
 import bside.writing.dto.ChallengeDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -10,13 +11,10 @@ import java.security.GeneralSecurityException;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 public class ChallengeController {
 
     private final ChallengeService challengeService;
-
-    public ChallengeController(ChallengeService challengeService) {
-        this.challengeService = challengeService;
-    }
 
     @RequestMapping(value = "challenge", method = RequestMethod.POST)
     public long saveChallenge() throws IOException{
