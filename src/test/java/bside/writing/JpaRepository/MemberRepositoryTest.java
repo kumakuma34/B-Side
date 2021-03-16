@@ -1,7 +1,7 @@
 package bside.writing.JpaRepository;
 
 import bside.writing.domain.member.Member;
-import bside.writing.domain.member.NewMemberRepository;
+import bside.writing.Repository.MemberRepository;
 
 import bside.writing.dto.MemberDto;
 import org.assertj.core.api.Assertions;
@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 public class MemberRepositoryTest {
 
     @Autowired
-    NewMemberRepository newMemberRepository;
+    MemberRepository memberRepository;
 
     @Test
     public void 맴버저장_및_이메일_조회(){
@@ -30,9 +30,9 @@ public class MemberRepositoryTest {
                 .userRole("sample")
                 .profileUrl("www.sample.com")
                 .build();
-        newMemberRepository.save(sample);
+        memberRepository.save(sample);
 
-        Member entity = newMemberRepository.findByEmail(testEmail)
+        Member entity = memberRepository.findByEmail(testEmail)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 중복 : " + testEmail));
         MemberDto memberDto = new MemberDto(entity);
         Assertions.assertThat(testEmail).isEqualTo(memberDto.getEmail());

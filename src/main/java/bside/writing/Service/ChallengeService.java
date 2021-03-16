@@ -1,9 +1,7 @@
 package bside.writing.Service;
 
-import bside.writing.Entity.Challenge;
+import bside.writing.domain.challenge.Challenge;
 import bside.writing.Repository.ChallengeRepository;
-import bside.writing.Repository.MemberRepository;
-import bside.writing.Repository.NewChallengeRepository;
 import bside.writing.dto.ChallengeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ChallengeService {
-    private final NewChallengeRepository challengeRepository;
+    private final ChallengeRepository challengeRepository;
 
     public List<ChallengeDto> search(int searchCount){
         List<Challenge> challenges = challengeRepository.findAll();

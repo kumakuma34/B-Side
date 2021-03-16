@@ -1,4 +1,4 @@
-package bside.writing.domain2;
+package bside.writing.templateClass;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

@@ -1,14 +1,10 @@
 package bside.writing.controller;
 
-import bside.writing.Entity.Challenge;
 import bside.writing.Service.ChallengeService;
-import bside.writing.dto.ChallengeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor

@@ -1,11 +1,7 @@
 package bside.writing;
 
-import bside.writing.Entity.Challenge;
+import bside.writing.domain.challenge.Challenge;
 import bside.writing.Repository.ChallengeRepository;
-import bside.writing.Repository.MemberRepository;
-import bside.writing.Repository.NewChallengeRepository;
-import bside.writing.Service.ChallengeService;
-import bside.writing.Service.MemberService;
 import bside.writing.dto.ChallengeDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,14 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 public class ChallengeServiceTest {
     @Autowired
-    NewChallengeRepository newChallengeRepository;
+    ChallengeRepository challengeRepository;
 
     @Test
     public void join() throws Exception{
@@ -39,14 +33,14 @@ public class ChallengeServiceTest {
                 .build();
 
         //when
-        newChallengeRepository.save(sample);
+        challengeRepository.save(sample);
 
     }
 
     @Test
     public void 조회() throws Exception{
         //Given
-        List<Challenge> challenges = newChallengeRepository.findAll();
+        List<Challenge> challenges = challengeRepository.findAll();
 
         for(int i = 0 ; i < challenges.size() ; i++){
             ChallengeDto challengeDto = new ChallengeDto(challenges.get(i));

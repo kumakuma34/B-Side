@@ -1,14 +1,11 @@
 package bside.writing.dto;
 
-import bside.writing.Entity.Challenge;
+import bside.writing.domain.challenge.Challenge;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
-import javax.persistence.Column;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 public class ChallengeDto {

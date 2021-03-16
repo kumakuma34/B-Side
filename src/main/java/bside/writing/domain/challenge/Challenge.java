@@ -1,12 +1,11 @@
-package bside.writing.Entity;
+package bside.writing.domain.challenge;
 
-import bside.writing.domain2.BaseTimeEntity;
+import bside.writing.templateClass.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "challenge")

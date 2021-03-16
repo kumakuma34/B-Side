@@ -1,6 +1,8 @@
 package bside.writing.Repository;
 
-import bside.writing.Entity.Challenge;
+import bside.writing.domain.challenge.Challenge;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ChallengeRepository {
+public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
+
 }
