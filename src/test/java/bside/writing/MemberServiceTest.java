@@ -13,7 +13,8 @@ import java.util.Optional;
 
 public class MemberServiceTest {
     @Autowired MemberService memberService;
-    @Autowired MemberRepository memberRepository;
+    @Autowired
+    MemberRepository memberRepository;
 
     @Test
     public void join() throws Exception{
@@ -25,16 +26,6 @@ public class MemberServiceTest {
 //        System.out.println(saveId);
     }
 
-    @Test
-    public void findUserById() throws Exception{
-        //Given
-        Long findUserLId = Long.valueOf(12);
-
-        Optional<Member> result= memberRepository.findByUserNumber(findUserLId);
-
-       // System.out.println(result.get().getName());
-
-    }
 
     @Test
     public void findUserByName() throws Exception{

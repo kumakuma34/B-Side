@@ -1,15 +1,12 @@
 package bside.writing.Repository;
 
 import bside.writing.domain.member.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Member save(Member member);
-    Optional<Member> delete(Member member);
-    Optional<Member> findByUserNumber(Long userNumber);
-    Optional<List<Member>> findByUserName(String userName);
-    Optional<Member> findByUserEmail(String userEmail);
+    Optional<Member> findByEmail(final String email);
+
 }

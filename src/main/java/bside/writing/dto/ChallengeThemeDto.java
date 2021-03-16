@@ -1,13 +1,10 @@
 package bside.writing.dto;
 
-import bside.writing.Entity.Challenge;
-import bside.writing.Entity.ChallengeTheme;
+import bside.writing.domain.challenge.ChallengeTheme;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 public class ChallengeThemeDto {

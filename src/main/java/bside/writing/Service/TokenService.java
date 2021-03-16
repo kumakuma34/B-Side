@@ -1,7 +1,7 @@
 package bside.writing.Service;
 
 import bside.writing.domain.member.MemberToken;
-import bside.writing.domain.member.MemberTokenRespository;
+import bside.writing.Repository.MemberTokenRespository;
 import bside.writing.dto.MemberDto;
 import bside.writing.dto.MemberTokenDto;
 import bside.writing.templateClass.ResponseMessage;

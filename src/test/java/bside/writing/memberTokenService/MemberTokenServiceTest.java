@@ -1,11 +1,8 @@
 package bside.writing.memberTokenService;
 
 import bside.writing.Service.TokenService;
-import bside.writing.domain.member.MemberToken;
-import bside.writing.domain.member.MemberTokenRespository;
-import bside.writing.dto.MemberDto;
+import bside.writing.Repository.MemberTokenRespository;
 import bside.writing.dto.MemberTokenDto;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

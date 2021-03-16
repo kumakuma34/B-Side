@@ -1,8 +1,7 @@
 package bside.writing;
 
-import bside.writing.Entity.Challenge;
-import bside.writing.Entity.ChallengeTheme;
-import bside.writing.Repository.NewChallengeThemeRepository;
+import bside.writing.domain.challenge.ChallengeTheme;
+import bside.writing.Repository.ChallengeThemeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +11,7 @@ import java.util.List;
 @SpringBootTest
 public class ChallengeThemeTest {
     @Autowired
-    NewChallengeThemeRepository newChallengeThemeRepository;
+    ChallengeThemeRepository challengeThemeRepository;
 
     @Test
     public void save() throws Exception{
@@ -22,13 +21,13 @@ public class ChallengeThemeTest {
                 .theme_id(1L)
                 .build();
 
-        newChallengeThemeRepository.save(sample);
+        challengeThemeRepository.save(sample);
 
     }
 
     @Test
     public void 조회() throws Exception{
-        List<ChallengeTheme> result = newChallengeThemeRepository.findAll();
+        List<ChallengeTheme> result = challengeThemeRepository.findAll();
         for(int i = 0 ; i <result.size(); i ++){
             System.out.println(result.get(i).getChallenge_id() + " : " + result.get(i).getChallenge_theme_id());
         }
