@@ -1,52 +1,56 @@
 package bside.writing.Service;
 
-import bside.writing.Member.Member;
-import bside.writing.Repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import bside.writing.domain.member.Member;
+import bside.writing.domain.member.NewMemberRepository;
+import bside.writing.dto.MemberDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import javax.transaction.Transactional;
 import java.util.Optional;
-import java.util.Optional;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@Transactional
+
+@RequiredArgsConstructor
 @Service
 public class MemberService {
-    private final MemberRepository memberRepository;
 
-    public MemberService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
+    private final NewMemberRepository newMemberRepository;
+
+    @Transactional
+    public MemberDto join(MemberDto memberDto) {
+        Member entity = memberDto.toEntity();
+        newMemberRepository.save(entity);
+        return new MemberDto(entity);
     }
 
-    public Long join(Member member) {
-        memberRepository.save(member);
-        return member.getMember_id();
+    public MemberDto findById(Long id){
+        Member entity = newMemberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디" + id));
+        return new MemberDto(entity);
     }
 
-    public void validateDuplicateMember(Member member){
-        /*boolean isduplicate = false;
-        Optional<List<Member>> foundMembers = memberRepository.findByUserEmail(member.getEmailAddress());
-        isduplicate = foundMembers.isPresent();
-        //emailAddress 검색 결과가 존재하면 duplicate == true;*/
-       // return true;
+    @Transactional
+    public MemberDto findByEmail(String email){
+        Member entity = newMemberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 중복 : " + email));
+        return new MemberDto(entity);
     }
 
-    public Optional<Member> withdrawal(Member member) {
-        return memberRepository.delete(member.getMember_id());
+    @Transactional
+    public MemberDto update(Long memberId, String newNickName, String newPictureURL){
+        Member member = newMemberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 중복 : " + memberId));
+        member.update(newNickName, newPictureURL);
+        return new MemberDto(member);
     }
 
-    public boolean login(Member member) {
-        return true;
+    @Transactional
+    public boolean has(String email) {
+        Optional<Member> member = newMemberRepository.findByEmail(email);
+        if(member.isPresent()) return true;
+        return false;
     }
 
-    public boolean logout(Member member) {
-        return true;
-    }
+
 }
 
