@@ -1,8 +1,8 @@
 package bside.writing;
 
-import bside.writing.Member.Member;
 import bside.writing.Repository.MemberRepository;
 import bside.writing.Service.MemberService;
+import bside.writing.domain.member.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

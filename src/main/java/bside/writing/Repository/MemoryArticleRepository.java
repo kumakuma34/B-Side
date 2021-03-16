@@ -1,7 +1,6 @@
 package bside.writing.Repository;
 
 import bside.writing.Article.Article;
-import bside.writing.Member.Member;
 
 import java.util.Collection;
 import java.util.Iterator;

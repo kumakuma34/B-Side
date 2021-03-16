@@ -1,6 +1,5 @@
 package bside.writing.controller;
 
-import bside.writing.Member.Member;
 import bside.writing.Repository.MemberRepository;
 import bside.writing.Service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import bside.writing.Member.Member;
 import bside.writing.Repository.MemberRepository;
 import bside.writing.Service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
