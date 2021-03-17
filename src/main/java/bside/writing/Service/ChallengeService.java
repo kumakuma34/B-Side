@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Transactional
 @Service
 @RequiredArgsConstructor
 public class ChallengeService {
@@ -28,7 +27,7 @@ public class ChallengeService {
         return dtos;
     }
 
-    public Long addNewChallenge(ChallengeDto challengeDto) {
+    public Long addNewChallenge(ChallengeDto.SaveDto challengeDto) {
         Challenge challenge = challengeDto.toEntity();
         return challengeRepository.save(challenge).getChallenge_id();
     }

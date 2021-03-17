@@ -21,7 +21,7 @@ public class ChallengeTheme extends BaseTimeEntity {
     private Long challenge_id;
 
     @Column
-    private Long theme_id;
+    private String theme_name;
 
     //public Challenge(){};//default Constructor
 }

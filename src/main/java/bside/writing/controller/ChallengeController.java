@@ -1,6 +1,9 @@
 package bside.writing.controller;
 
 import bside.writing.Service.ChallengeService;
+import bside.writing.Service.TokenService;
+import bside.writing.domain.challenge.Challenge;
+import bside.writing.dto.ChallengeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,25 +14,23 @@ import java.io.IOException;
 public class ChallengeController {
 
     private final ChallengeService challengeService;
+    private final TokenService tokenService;
 
-    @RequestMapping(value = "challenge", method = RequestMethod.POST)
-    public long saveChallenge() throws IOException{
-        /*
-        TODO : Implement saveChallenge
-         */
+    @RequestMapping(value = "challenge", method = RequestMethod.PUT)
+    public long saveChallenge(@RequestBody ChallengeDto.Request request, @RequestHeader(name="Authorization") String accessToken) throws IOException{
+        try{
+            Long uid = tokenService.getUid(accessToken);
+            ChallengeDto.SaveDto saveDto = new ChallengeDto.SaveDto(request, uid, uid);
 
-          return 1L;
-//        try{
-//            return challengeService.addNewChallenge(challengeDto).toString();
-//        }
-//        catch(Exception e){
-//            System.out.println(e.toString());
-//            return "Invalid request body";
-//        }
+            return challengeService.addNewChallenge(saveDto);
+        }catch(Exception e){
+            return -1L;
+        }
     }
 
-//    @RequestMapping(value = "challenge", method = RequestMethod.GET)
-//    public List<Challenge> getChallenge(@RequestHeader(name = "cnt") String searchKey) throws IOException{
+//    @RequestMapping(value = "challenge", method = RequestMethod.POST)
+//    public String updateChallenge(@RequestBody )
+//    {
 //
 //    }
 

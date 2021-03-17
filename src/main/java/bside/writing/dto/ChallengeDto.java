@@ -2,6 +2,7 @@ package bside.writing.dto;
 
 import bside.writing.domain.challenge.Challenge;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,8 +26,36 @@ public class ChallengeDto {
         private int status;
         private long created_id;
         private long modified_id;
-        
+        private String theme_string;//#글감1 #글감2 #글감3
     }
+
+    @Getter
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    public static class SaveDto{
+        private Request request;
+        private long created_id;
+        private long modified_id;
+
+        public Challenge toEntity(){
+            return Challenge.builder()
+                    .cover_img(this.request.getCover_img())
+                    .challenge_title(this.request.getChallenge_title())
+                    .challenge_detail(this.request.getChallenge_detail())
+                    .max_participant(this.request.getMax_participant())
+                    .current_participant(this.request.getCurrent_participant())
+                    .start_dt(this.request.getStart_dt())
+                    .duration(this.request.getDuration())
+                    .submit_days_cnt(this.request.getSubmit_days_cnt())
+                    .status(this.request.getStatus())
+                    .created_id(this.getCreated_id())
+                    .modified_id(this.getModified_id())
+                    .build();
+        }
+
+    }
+
     private Long challenge_id;
 
     private int cover_img;

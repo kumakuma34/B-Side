@@ -15,13 +15,13 @@ public class ChallengeThemeTest {
 
     @Test
     public void save() throws Exception{
-        //Given
-        ChallengeTheme sample = ChallengeTheme.builder()
-                .challenge_id(1L)
-                .theme_id(1L)
-                .build();
-
-        challengeThemeRepository.save(sample);
+//        //Given
+//        ChallengeTheme sample = ChallengeTheme.builder()
+//                .challenge_id(11L)
+//                .theme_id(2L)
+//                .build();
+//
+//        challengeThemeRepository.save(sample);
 
     }
 

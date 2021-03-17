@@ -35,19 +35,19 @@ public class ChallengeThemeDto {
 
     private Long challenge_id;
 
-    private Long theme_id;
+    private String theme_name;
 
     public ChallengeThemeDto(ChallengeTheme entity){
         this.challenge_theme_id = entity.getChallenge_theme_id();
         this.challenge_id = entity.getChallenge_id();
-        this.theme_id = entity.getTheme_id();
+        this.theme_name = entity.getTheme_name();
     }
 
     public ChallengeTheme toEntity(){
         return ChallengeTheme.builder()
                 .challenge_theme_id(this.getChallenge_theme_id())
                 .challenge_id(this.getChallenge_id())
-                .theme_id(this.getTheme_id())
+                .theme_name(this.getTheme_name())
                 .build();
     }
 }
