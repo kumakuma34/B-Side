@@ -1,5 +1,6 @@
 package bside.writing.challengeTest;
 
+import bside.writing.Service.ChallengeService;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.Repository.ChallengeRepository;
 import bside.writing.dto.ChallengeDto;

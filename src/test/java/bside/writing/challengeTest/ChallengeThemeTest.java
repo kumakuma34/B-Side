@@ -1,5 +1,6 @@
 package bside.writing.challengeTest;
 
+import bside.writing.Service.ChallengeThemeService;
 import bside.writing.domain.challenge.ChallengeTheme;
 import bside.writing.Repository.ChallengeThemeRepository;
 import org.junit.jupiter.api.Test;
@@ -12,17 +13,19 @@ import java.util.List;
 public class ChallengeThemeTest {
     @Autowired
     ChallengeThemeRepository challengeThemeRepository;
-
+    @Autowired
+    ChallengeThemeService challengeThemeService;
     @Test
     public void save() throws Exception{
-//        //Given
-//        ChallengeTheme sample = ChallengeTheme.builder()
-//                .challenge_id(11L)
-//                .theme_id(2L)
-//                .build();
-//
-//        challengeThemeRepository.save(sample);
+        //Given
+        String testInput = "#문창주 #양아치 #문창주는양아치";
+        Long testId = 1L;
+        ChallengeTheme sample = ChallengeTheme.builder()
+                .challenge_id(1L)
+                .theme_name("#문창주 #양아치 #문창주는양아치")
+                .build();
 
+        challengeThemeService.insertChallengeTheme(testInput, testId);
     }
 
     @Test

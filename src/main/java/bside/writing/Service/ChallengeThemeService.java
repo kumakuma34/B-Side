@@ -8,6 +8,7 @@ import bside.writing.dto.ChallengeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,14 +18,18 @@ import java.util.stream.Collectors;
 public class ChallengeThemeService {
     private final ChallengeThemeRepository challengeThemeRepository;
 
-    public List<String> insertChallengeTheme(String input , Long Challenge_id){
+    public ArrayList<String> insertChallengeTheme(String input , Long Challenge_id){
         String[] result = input.split(" ");
+        ArrayList<String> processedData = new ArrayList<>();
         for(int i = 0 ; i < result.length; i++){
-            challengeThemeRepository.save(ChallengeTheme.builder().challenge_id(Challenge_id).theme_name(result[i]).build());
+            System.out.println(result[i]);
+            processedData.add(result[i].substring(1,result[i].length()));
+            //challengeThemeRepository.save(ChallengeTheme.builder().challenge_id(Challenge_id).theme_name(result[i]).build());
         }
-
-        List<String> empty = Arrays.asList("1");
-        return empty;
+        for(int i = 0 ; i<processedData.size(); i++){
+            challengeThemeRepository.save(ChallengeTheme.builder().challenge_id(Challenge_id).theme_name(processedData.get(i)).build());
+        }
+        return processedData;
 
     }
 }
