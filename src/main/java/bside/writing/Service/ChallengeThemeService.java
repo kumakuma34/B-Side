@@ -20,8 +20,9 @@ public class ChallengeThemeService {
     public List<String> insertChallengeTheme(String input , Long Challenge_id){
         String[] result = input.split(" ");
         for(int i = 0 ; i < result.length; i++){
-
+            challengeThemeRepository.save(ChallengeTheme.builder().challenge_id(Challenge_id).theme_name(result[i]).build());
         }
+
         List<String> empty = Arrays.asList("1");
         return empty;
 
