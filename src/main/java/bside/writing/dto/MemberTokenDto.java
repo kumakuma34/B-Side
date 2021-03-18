@@ -1,6 +1,5 @@
 package bside.writing.dto;
 
-import bside.writing.domain.member.Member;
 import bside.writing.domain.member.MemberToken;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
