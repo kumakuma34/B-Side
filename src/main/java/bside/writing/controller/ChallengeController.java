@@ -16,11 +16,12 @@ public class ChallengeController {
     private final ChallengeService challengeService;
     private final TokenService tokenService;
 
+    //challenge 신규 생성
     @RequestMapping(value = "challenge", method = RequestMethod.PUT)
     public long saveChallenge(@RequestBody ChallengeDto.Request request, @RequestHeader(name="Authorization") String accessToken) throws IOException{
         try{
             Long uid = tokenService.getUid(accessToken);
-            ChallengeDto.SaveDto saveDto = new ChallengeDto.SaveDto(request, uid, uid);
+            ChallengeDto.SaveDto saveDto = new ChallengeDto.SaveDto(request.getInfo(), uid, uid);
 
             return challengeService.addNewChallenge(saveDto);
         }catch(Exception e){

@@ -14,18 +14,25 @@ public class ChallengeDto {
     @Getter
     @Setter
     @AllArgsConstructor
-    public static class Request{
+    public static class Info{
         private int cover_img;
         private String  challenge_title;
         private String  challenge_detail;
         private int  max_participant;
-        private int current_participant;
+        //private int current_participant;
         private LocalDate start_dt;
         private int duration;
         private int submit_days_cnt;
         private int status;
         private long created_id;
         private long modified_id;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class Request{
+        private Info info;
         private String theme_string;//#글감1 #글감2 #글감3
     }
 
@@ -34,21 +41,21 @@ public class ChallengeDto {
     @Builder
     @AllArgsConstructor
     public static class SaveDto{
-        private Request request;
+        private Info info;
         private long created_id;
         private long modified_id;
 
         public Challenge toEntity(){
             return Challenge.builder()
-                    .cover_img(this.request.getCover_img())
-                    .challenge_title(this.request.getChallenge_title())
-                    .challenge_detail(this.request.getChallenge_detail())
-                    .max_participant(this.request.getMax_participant())
-                    .current_participant(this.request.getCurrent_participant())
-                    .start_dt(this.request.getStart_dt())
-                    .duration(this.request.getDuration())
-                    .submit_days_cnt(this.request.getSubmit_days_cnt())
-                    .status(this.request.getStatus())
+                    .cover_img(this.info.getCover_img())
+                    .challenge_title(this.info.getChallenge_title())
+                    .challenge_detail(this.info.getChallenge_detail())
+                    .max_participant(this.info.getMax_participant())
+                    .current_participant(0)
+                    .start_dt(this.info.getStart_dt())
+                    .duration(this.info.getDuration())
+                    .submit_days_cnt(this.info.getSubmit_days_cnt())
+                    .status(this.info.getStatus())
                     .created_id(this.getCreated_id())
                     .modified_id(this.getModified_id())
                     .build();
