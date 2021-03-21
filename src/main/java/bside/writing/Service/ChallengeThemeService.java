@@ -18,18 +18,20 @@ import java.util.stream.Collectors;
 public class ChallengeThemeService {
     private final ChallengeThemeRepository challengeThemeRepository;
 
-    public ArrayList<String> insertChallengeTheme(String input , Long Challenge_id){
+    //글감 한개당 10글자 제한
+    //글감 최대 3
+    public String insertChallengeTheme(String input , Long Challenge_id){
         String[] result = input.split(" ");
+        if(result.length > 3) return "challengeTheme count out of limit"; //금감 최대 갯수 3개 제한
+
         ArrayList<String> processedData = new ArrayList<>();
         for(int i = 0 ; i < result.length; i++){
-            System.out.println(result[i]);
+            if(result[i].length() > 10) return "length out of limit"; //글감 글자 수 10글자 제한
             processedData.add(result[i].substring(1,result[i].length()));
-            //challengeThemeRepository.save(ChallengeTheme.builder().challenge_id(Challenge_id).theme_name(result[i]).build());
         }
         for(int i = 0 ; i<processedData.size(); i++){
             challengeThemeRepository.save(ChallengeTheme.builder().challenge_id(Challenge_id).theme_name(processedData.get(i)).build());
         }
-        return processedData;
-
+        return "Success";//성공
     }
 }

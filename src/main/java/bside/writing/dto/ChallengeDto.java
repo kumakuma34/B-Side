@@ -32,7 +32,7 @@ public class ChallengeDto {
     @Setter
     @AllArgsConstructor
     public static class Request{
-        private Info info;
+        private Info challenge_info;
         private String theme_string;//#글감1 #글감2 #글감3
     }
 
