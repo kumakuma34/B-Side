@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "token")
 @NoArgsConstructor
-
 public class MemberToken implements Serializable {
     @Id
     @Column(name = "member_id")

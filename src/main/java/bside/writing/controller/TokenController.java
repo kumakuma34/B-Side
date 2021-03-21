@@ -28,7 +28,7 @@ import java.util.Collections;
 
 @RestController
 @RequiredArgsConstructor
-public class TokenContoller {
+public class TokenController {
 
     private final TokenService tokenService;
     private final MemberService memberService;

@@ -26,6 +26,7 @@ public class MemberDto {
         this.userRole = entity.getUserRole();
     }
 
+
     public Member toEntity(){
         return Member.builder()
                 .id(this.getId())
