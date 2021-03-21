@@ -56,6 +56,8 @@ public class ChallengeDto {
 
     }
 
+
+    //legacy
     private Long challenge_id;
 
     private int cover_img;
