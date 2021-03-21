@@ -3,6 +3,7 @@ package bside.writing.themeTest;
 import bside.writing.Repository.ThemeRepository;
 import bside.writing.domain.theme.Theme;
 import bside.writing.dto.ThemeDto;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class ThemeRepositoryTest {
     @Test
     public void 글감_저장(){
         Theme entity = ThemeDto.builder()
-                .name("Tiger")
-                .category("푸와 친구들")
+                .name("쿠마쿠")
+                .category("배신장르")
                 .build()
                 .toEntity();
         themeRepository.save(entity);
@@ -33,8 +34,8 @@ public class ThemeRepositoryTest {
 
     @Test
     public void 글감_랜덤으로_가져오기(){
-        List<Theme> nthRandomTheme = themeRepository.findByName();
-        System.out.println("nthRandomTheme.toString() = " + nthRandomTheme.toString());
-
+        int n = 3;
+        List<Theme> nthRandomTheme = themeRepository.getNRandomTheme(n);
+        Assertions.assertThat(nthRandomTheme.size()).isEqualTo(n);
     }
 }

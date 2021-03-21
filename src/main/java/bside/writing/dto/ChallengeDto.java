@@ -31,9 +31,9 @@ public class ChallengeDto {
 
     private int cover_img;
 
-    private String  challenge_title;
+    private String challenge_title;
 
-    private String  challenge_detail;
+    private String challenge_detail;
 
     private int  max_participant;
 

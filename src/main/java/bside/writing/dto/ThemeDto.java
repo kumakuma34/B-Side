@@ -5,11 +5,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @Builder
 @AllArgsConstructor
+@ToString
 public class ThemeDto {
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class Request{
+        @JsonProperty("theme_count")
+        private int count;
+
+        @JsonProperty("theme_category")
+        private String category;
+    }
 
     private Long id;
 

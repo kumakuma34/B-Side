@@ -1,10 +1,6 @@
 package bside.writing.domain.theme;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
-import lombok.extern.java.Log;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +10,7 @@ import java.io.Serializable;
 @Entity
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class Theme implements Serializable {
 
@@ -27,6 +24,5 @@ public class Theme implements Serializable {
 
     @Column(name = "theme_category", length = 10, nullable = false)
     private String category;
-
-    public Theme(){}
+    
 }
