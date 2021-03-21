@@ -11,11 +11,11 @@ import javax.persistence.*;
 @Table(name = "badge")
 @Getter
 @Entity
-public class Badge {
+public class Badge implements Comparable<Badge> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "badge_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long badgeId;
 
     @Column(name = "member_id", nullable = false)
@@ -26,4 +26,10 @@ public class Badge {
 
     @Column(name = "badge_value", nullable = false)
     private String badgeValue;
+
+    @Override
+    public int compareTo(Badge o) {
+        if(!badgeCode.equals(o.badgeCode)) return badgeCode.compareTo(o.badgeCode);
+        return badgeValue.compareTo(o.badgeValue);
+    }
 }
