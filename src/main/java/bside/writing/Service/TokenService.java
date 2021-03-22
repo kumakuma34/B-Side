@@ -46,13 +46,14 @@ public class TokenService {
         GoogleIdToken.Payload payload = idToken.getPayload();
 
         String email = payload.getEmail();
-        String nickName = (String) payload.get("name");
-        String profileUrl = (String) payload.get("picture");
+        String nickName = payload.get("name").toString();
+        String profileUrl = payload.get("picture").toString();
 
         MemberDto memberDto = MemberDto.builder()
                 .email(email)
                 .nickName(nickName)
                 .profileUrl(profileUrl)
+                .userRole("user")
                 .build();
 
         return memberDto;

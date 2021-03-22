@@ -3,13 +3,13 @@ package bside.writing.Service;
 import bside.writing.Repository.BadgeRepository;
 import bside.writing.domain.badge.Badge;
 import bside.writing.domain.badge.BadgeCode;
+import bside.writing.dto.BadgeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -18,21 +18,43 @@ public class BadgeService {
 
     @Transactional
     public List<Badge> getBadgesByMemberId(Long memberId){
-        List<Badge> badgesList = badgeRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 ID"));
-
-        Collections.sort(badgesList);
-
-        return badgesList;
+        return badgeRepository.findByMemberId(memberId)
+                .orElseThrow(()->new IllegalArgumentException("해당 ID의 베지가 존재하지 않음"));
     }
 
     @Transactional
     public List<Badge> getBadgeByMemberIdAndBadgeCode(Long memberId, String badgeCode){
-       List<Badge> badgeList = badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 ID"));
-       Collections.sort(badgeList);
-       return badgeList;
+        return badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 베지가 존재하지 않음"));
     }
 
+    public List<BadgeDto> toDtoList(List<Badge> badgeList){
+
+        return  badgeList.stream().map((entity) -> BadgeDto.builder()
+                .badgeCode(entity.getBadgeCode())
+                .badgeValue(entity.getBadgeValue())
+                .build())
+                .collect(Collectors.toList());
+    }
+
+    public Map<String, List> toMapByBadgeCode(List<BadgeDto> badgeDtoList){
+        Collections.sort(badgeDtoList);
+
+        Map<String, List> badgeDtoMap = new HashMap<>();
+
+        for(BadgeDto badgeDto : badgeDtoList){
+            String badgeCodeStr = badgeDto.getBadgeCode();
+
+            if(!badgeDtoMap.containsKey(badgeCodeStr))
+                badgeDtoMap.put(badgeCodeStr, new ArrayList());
+
+            List list = badgeDtoMap.get(badgeDto.getBadgeCode());
+            list.add(badgeDto.getBadgeValue());
+
+        }
+
+
+        return badgeDtoMap;
+    }
 
 }

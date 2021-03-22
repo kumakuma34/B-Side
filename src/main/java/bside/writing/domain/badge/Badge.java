@@ -11,7 +11,8 @@ import javax.persistence.*;
 @Table(name = "badge")
 @Getter
 @Entity
-public class Badge implements Comparable<Badge> {
+public class Badge{
+
 
     @Id
     @Column(name = "badge_id")
@@ -27,9 +28,4 @@ public class Badge implements Comparable<Badge> {
     @Column(name = "badge_value", nullable = false)
     private String badgeValue;
 
-    @Override
-    public int compareTo(Badge o) {
-        if(!badgeCode.equals(o.badgeCode)) return badgeCode.compareTo(o.badgeCode);
-        return badgeValue.compareTo(o.badgeValue);
-    }
 }

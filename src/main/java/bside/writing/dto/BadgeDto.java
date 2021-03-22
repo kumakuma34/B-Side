@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class BadgeDto {
+public class BadgeDto implements Comparable<BadgeDto>{
 
     private Long badgeId;
 
@@ -36,4 +36,11 @@ public class BadgeDto {
                 .badgeValue(badgeValue)
                 .build();
     }
+
+    @Override
+    public int compareTo(BadgeDto o) {
+        if(!badgeCode.equals(o.badgeCode)) return badgeCode.compareTo(o.badgeCode);
+        return Integer.parseInt(badgeValue) - (Integer.parseInt(o.badgeValue));
+    }
+
 }
