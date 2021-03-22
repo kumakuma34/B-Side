@@ -34,9 +34,9 @@ public class TokenController {
     private final MemberService memberService;
 
     @RequestMapping(value = "token", method = RequestMethod.GET)
-    public String getToken(@RequestHeader(name="Authorization") String idTokenString, HttpServletResponse response){
+    public String getToken(@RequestHeader(name="Authorization") String idTokenString, HttpServletResponse response) throws Exception {
         JsonObject jsonResponse = new JsonObject();
-        try{
+
             MemberDto memberDto = tokenService.getUserInfo(idTokenString);
 
             boolean firstJoin = false;
@@ -57,11 +57,13 @@ public class TokenController {
             jsonResponse.addProperty("first_join", firstJoin);
 
             response.setStatus(StatusCode.OK.getCode());
-        }
+
+        /*
         catch (Exception e){
+            System.out.println("e.toString() = " + e.toString());
             jsonResponse.addProperty("error_msg",ResponseMessage.UNAUTHORIZED_TOKEN.getMsg());
             response.setStatus(StatusCode.UNAUTHORIZED.getCode());
-        }
+        }*/
         return jsonResponse.toString();
     }
 }
