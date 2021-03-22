@@ -19,13 +19,19 @@ public class BadgeService {
     @Transactional
     public List<Badge> getBadgesByMemberId(Long memberId){
         return badgeRepository.findByMemberId(memberId)
-                .orElseThrow(()->new IllegalArgumentException("해당 ID의 베지가 존재하지 않음"));
+                .orElseThrow(()->new NoSuchElementException("user does not have any badge"));
     }
 
     @Transactional
     public List<Badge> getBadgeByMemberIdAndBadgeCode(Long memberId, String badgeCode){
         return badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode)
-                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 베지가 존재하지 않음"));
+                .orElseThrow(() -> {
+                    if (!Arrays.stream(BadgeCode.values()).anyMatch(curBadgeCode -> curBadgeCode.name().equals(badgeCode)))
+                        return new IllegalArgumentException("no such badgecode");
+                    else
+                        return new NoSuchElementException("user does not have any badge");
+                    }
+                );
     }
 
     public List<BadgeDto> toDtoList(List<Badge> badgeList){
