@@ -1,18 +1,12 @@
 package bside.writing.controller;
 
-import bside.writing.templateClass.StatusCode;
-import com.google.api.client.json.Json;
 import com.google.gson.JsonObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.NoSuchElementException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.*;
 import io.jsonwebtoken.MalformedJwtException;
 

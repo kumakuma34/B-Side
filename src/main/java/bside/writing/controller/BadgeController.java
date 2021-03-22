@@ -16,7 +16,7 @@ public class BadgeController {
     private final BadgeService badgeService;
     private final TokenService tokenService;
 
-    @RequestMapping(value = "badge", method = RequestMethod.GET)
+    @RequestMapping(value = "member/badge", method = RequestMethod.GET)
     public Map<String, List> getBadges(@RequestBody BadgeDto badgeDto, @RequestHeader(name="Authorization") String accessToken){
         List<Badge> badgeList;
         List<BadgeDto> badgeDtoList;
