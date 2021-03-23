@@ -20,6 +20,8 @@ public class ChallengeThemeService {
 
     //글감 한개당 10글자 제한
     //글감 최대 3
+    //#서평 #일기 #기록
+
     public String insertChallengeTheme(String input , Long Challenge_id){
         String[] result = input.split(" ");
         if(result.length > 3) return "challengeTheme count out of limit"; //금감 최대 갯수 3개 제한
@@ -33,5 +35,9 @@ public class ChallengeThemeService {
             challengeThemeRepository.save(ChallengeTheme.builder().challenge_id(Challenge_id).theme_name(processedData.get(i)).build());
         }
         return "Success";//성공
+    }
+
+    public List<String> getThemeByChallengeId(Long id){
+        return challengeThemeRepository.findByChallengeId(id);
     }
 }

@@ -21,7 +21,7 @@ public class ChallengeController {
     private final TokenService tokenService;
     private final ChallengeThemeService challengeThemeService;
     //challenge 신규 생성
-    @RequestMapping(value = "challenge", method = RequestMethod.PUT)
+    @RequestMapping(value = "challenge", method = RequestMethod.POST)
     public String saveChallenge(@RequestBody ChallengeDto.Request request, @RequestHeader(name="Authorization") String accessToken , HttpServletResponse response) throws IOException{
         JsonObject jsonResponse = new JsonObject();
         long new_challenge_id = -1L;

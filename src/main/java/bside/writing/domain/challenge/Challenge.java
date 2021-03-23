@@ -16,41 +16,71 @@ import java.time.LocalDate;
 public class Challenge extends BaseTimeEntity {
     @javax.persistence.Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long challenge_id;
+    @Column(name ="challenge_id")
+    private Long challengeId;
 
-    @Column @NonNull
-    private int cover_img;
+    @Column(name = "cover_img")
+    private int coverImg;
 
-    @Column(length = 50) @NonNull
-    private String  challenge_title;
+    @Column(name = "challenge_title", length = 50)
+    private String  challengeTitle;
 
-    @Column(length = 100) @NonNull
-    private String  challenge_detail;
+    @Column(name = "challenge_detail", length = 100)
+    private String  challengeDetail;
 
-    @Column @NonNull
-    private int  max_participant;
+    @Column(name = "max_participant")
+    private int  maxParticipant;
 
-    @Column
-    private int current_participant;
+    @Column(name = "current_participant")
+    private int currentParticipant;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    @Column @NonNull
-    private LocalDate start_dt;
+    @Column(name = "start_dt")
+    private LocalDate startDt;
 
-    @Column @NonNull
+    @Column
     private int duration;
 
-    @Column @NonNull
-    private int submit_days_cnt;
+    @Column(name = "submit_days_cnt")
+    private int submitDaysCnt;
 
     @Column(length = 10)
     private int status;
 
-    @Column @NonNull
-    private long created_id;
+    @Column
+    private Long theme1;
 
-    @Column @NonNull
-    private long modified_id;
+    @Column
+    private Long theme2;
 
+    @Column
+    private Long theme3;
+
+    @Column(name = "created_id")
+    private long createdId;
+
+    @Column(name = "modified_id")
+    private long modifiedId;
     //public Challenge(){};//default Constructor
+
+    @Override
+    public String toString() {
+        return "Challenge{" +
+                "challengeId=" + challengeId +
+                ", coverImg=" + coverImg +
+                ", challengeTitle='" + challengeTitle + '\'' +
+                ", challengeDetail='" + challengeDetail + '\'' +
+                ", maxParticipant=" + maxParticipant +
+                ", currentParticipant=" + currentParticipant +
+                ", startDt=" + startDt +
+                ", duration=" + duration +
+                ", submitDaysCnt=" + submitDaysCnt +
+                ", status=" + status +
+                ", theme1=" + theme1 +
+                ", theme2=" + theme2 +
+                ", theme3=" + theme3 +
+                ", createdId=" + createdId +
+                ", modifiedId=" + modifiedId +
+                '}';
+    }
 }

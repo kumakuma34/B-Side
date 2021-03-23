@@ -29,10 +29,10 @@ public class ChallengeThemeTest {
     }
 
     @Test
-    public void 조회() throws Exception{
-        List<ChallengeTheme> result = challengeThemeRepository.findAll();
-        for(int i = 0 ; i <result.size(); i ++){
-            System.out.println(result.get(i).getChallenge_id() + " : " + result.get(i).getChallenge_theme_id());
+    public void 글감조회() throws Exception{
+        List<String> result = challengeThemeRepository.findByChallengeId(15L);
+        for(int i = 0 ; i < result.size(); i ++){
+            System.out.println(result.get(i));
         }
     }
 }
