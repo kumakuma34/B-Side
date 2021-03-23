@@ -20,35 +20,28 @@ public class MemberController {
     private final MemberService memberService;
 
     @RequestMapping(value = "member/logout", method = RequestMethod.POST)
-    public String memberLogout(@RequestHeader(name="Authorization") String accessToken, HttpServletResponse response){
+    public String memberLogout(@RequestHeader(name="Authorization") String accessToken){
         JsonObject jsonResponse = new JsonObject();
-        try{
-            Long memberId = tokenService.getUid(accessToken);
-            jsonResponse.addProperty("uid", memberId);
-            tokenService.deleteMemberToken(memberId);
-            response.setStatus(StatusCode.OK.getCode());
-        }
-        catch (SignatureException e){
-            jsonResponse.addProperty("error_msg", ResponseMessage.UNAUTHORIZED_TOKEN.getMsg());
-            response.setStatus(StatusCode.UNAUTHORIZED.getCode());
-        }
+
+        Long memberId = tokenService.getUid(accessToken);
+        tokenService.deleteMemberToken(memberId);
+
+        jsonResponse.addProperty("uid", memberId);
         return jsonResponse.toString();
     }
 
     @RequestMapping(value = "member", method = RequestMethod.PUT)
-    public String memberUpdate(@RequestBody MemberDto memberDto, @RequestHeader(name="Authorization") String accessToken, HttpServletResponse response){
+    public String memberUpdate(@RequestBody MemberDto memberDto, @RequestHeader(name="Authorization") String accessToken){
         JsonObject jsonResponse = new JsonObject();
-        try{
-            Long uid = tokenService.getUid(accessToken);
-            memberService.update(uid, memberDto.getNickName(), memberDto.getProfileUrl());
-            response.setStatus(StatusCode.OK.getCode());
-            jsonResponse.addProperty("uid", uid);
-        }
-        catch (Exception e){
-            response.setStatus(StatusCode.OK.getCode());
-            jsonResponse.addProperty("error_msg", ResponseMessage.UNAUTHORIZED_TOKEN.getMsg());
-        }
+
+        Long uid = tokenService.getUid(accessToken);
+        memberService.update(uid, memberDto.getNickName(), memberDto.getProfileUrl());
+        jsonResponse.addProperty("uid", uid);
+
         return jsonResponse.toString();
     }
+
+    //@RequestMapping(value = "member", method = RequestMethod.GET)
+    //public String getMember
 
 }

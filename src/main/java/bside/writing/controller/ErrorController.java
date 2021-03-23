@@ -1,6 +1,7 @@
 package bside.writing.controller;
 
 import com.google.gson.JsonObject;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -13,7 +14,7 @@ import io.jsonwebtoken.MalformedJwtException;
 @RestControllerAdvice
 public class ErrorController {
 
-    @ExceptionHandler({SignatureException.class, MalformedJwtException.class})
+    @ExceptionHandler({SignatureException.class, MalformedJwtException.class, AuthenticationException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String unauthorizedToken(Exception e){
         JsonObject jsonResponse = new JsonObject();
