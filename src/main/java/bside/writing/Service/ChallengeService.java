@@ -3,7 +3,9 @@ package bside.writing.Service;
 import bside.writing.Repository.ChallengeThemeRepository;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.Repository.ChallengeRepository;
+import bside.writing.domain.challenge.ChallengeTheme;
 import bside.writing.dto.ChallengeDto;
+import bside.writing.enums.ThemeCode;
 import com.sun.istack.FinalArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -20,7 +22,8 @@ import java.util.stream.Collectors;
 public class ChallengeService {
     private final ChallengeRepository challengeRepository;
     private final ChallengeThemeRepository challengeThemeRepository;
-
+    private final ThemeService themeService;
+    /*
     public ArrayList<ChallengeDto.AllInfo> searchAll(){
         List<Challenge> result = challengeRepository.findAllByStartDt();
         ArrayList<ChallengeDto.AllInfo> list = new ArrayList<>();
@@ -48,7 +51,7 @@ public class ChallengeService {
         return list;
 
     }
-
+*/
     public List<ChallengeDto> search(int searchCount){
 
 
@@ -64,8 +67,42 @@ public class ChallengeService {
         return dtos;
     }
 
-    public Long addNewChallenge(ChallengeDto.SaveDto challengeDto) {
+    public ChallengeDto.AllInfo makeAllInfoDTO(ChallengeDto.Request request, Long uid){
+        String[] token = request.getTheme().split(" ");
+        int maxCnt = ThemeCode.valueOf("MAX_THEME_COUNT").getVal();
+        int maxLen = ThemeCode.valueOf("MAX_THEME_LENGTH").getVal();
+        if(token.length > maxCnt){
+            throw new IllegalArgumentException("Theme count must be under 3");
+        }
+
+        ArrayList<Long> themeId = new ArrayList<>();
+        for(int i = 0 ; i < token.length; i++){
+            if(token[i].length() > maxLen) {
+                throw new IllegalArgumentException("Theme length must be under 10");
+            }
+            Long id = themeService.findOrSaveTheme(token[i].substring(1,token[i].length()));
+            themeId.add(id);
+        }
+
+        return ChallengeDto.AllInfo.builder()
+                .coverImg(request.getCoverImg())
+                .challengeTitle(request.getChallengeTitle())
+                .challengeDetail(request.getChallengeDetail())
+                .maxParticipant(request.getMaxParticipant())
+                .currentParticipant(request.getCurrentParticipant())
+                .startDt(request.getStartDt())
+                .duration(request.getDuration())
+                .submitDaysCnt(request.getSubmitDaysCnt())
+                .status(request.getStatus())
+                .createdId(uid)
+                .modifiedId(uid)
+                .theme1(themeId.get(0))
+                .theme2(themeId.get(1))
+                .theme3(themeId.get(2))
+                .build();
+    }
+    public Challenge addNewChallenge(ChallengeDto.AllInfo challengeDto) {
         Challenge challenge = challengeDto.toEntity();
-        return challengeRepository.save(challenge).getChallengeId();
+        return challengeRepository.save(challenge);
     }
 }

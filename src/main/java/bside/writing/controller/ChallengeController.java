@@ -22,40 +22,11 @@ public class ChallengeController {
     private final ChallengeThemeService challengeThemeService;
     //challenge 신규 생성
     @RequestMapping(value = "challenge", method = RequestMethod.POST)
-    public String saveChallenge(@RequestBody ChallengeDto.Request request, @RequestHeader(name="Authorization") String accessToken , HttpServletResponse response) throws IOException{
+    public Challenge saveChallenge(@RequestBody ChallengeDto.Request request, @RequestHeader(name="Authorization") String accessToken ) throws IOException{
         JsonObject jsonResponse = new JsonObject();
-        long new_challenge_id = -1L;
+        Long uid = tokenService.getUid(accessToken);
 
-        //challenge 생성
-        try{
-            Long uid = tokenService.getUid(accessToken);
-            ChallengeDto.SaveDto saveDto = new ChallengeDto.SaveDto(request.getChallenge_info(), uid, uid);
-            new_challenge_id = challengeService.addNewChallenge(saveDto);
-            jsonResponse.addProperty("challenge_id", new_challenge_id);
-        }
-        catch(Exception e) {
-            jsonResponse.addProperty("challenge_result", "Error");
-            response.setStatus(StatusCode.BAD_REQUEST.getCode());
-        }
-
-        //challenge_theme 생성
-        try{
-            if(new_challenge_id == -1L){
-                jsonResponse.addProperty("challenge_theme_result" , "challenge create error");
-                response.setStatus(StatusCode.BAD_REQUEST.getCode());
-            }
-            else{
-                String result = challengeThemeService.insertChallengeTheme(request.getTheme_string(), new_challenge_id);
-                jsonResponse.addProperty("challenge_theme_result", result);
-                response.setStatus(StatusCode.OK.getCode());
-            }
-        }
-        catch(Exception e){
-            jsonResponse.addProperty("challenge_theme_result", "Error");
-            response.setStatus(StatusCode.BAD_REQUEST.getCode());
-        }
-
-        return jsonResponse.toString();
+        return challengeService.addNewChallenge(challengeService.makeAllInfoDTO(request, uid));
     }
 
 
