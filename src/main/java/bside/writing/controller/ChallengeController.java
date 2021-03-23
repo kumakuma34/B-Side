@@ -23,18 +23,9 @@ public class ChallengeController {
     //challenge 신규 생성
     @RequestMapping(value = "challenge", method = RequestMethod.POST)
     public Challenge saveChallenge(@RequestBody ChallengeDto.Request request, @RequestHeader(name="Authorization") String accessToken ) throws IOException{
-        JsonObject jsonResponse = new JsonObject();
         Long uid = tokenService.getUid(accessToken);
 
         return challengeService.addNewChallenge(challengeService.makeAllInfoDTO(request, uid));
     }
-
-
-
-//    @RequestMapping(value = "challenge", method = RequestMethod.POST)
-//    public String updateChallenge(@RequestBody )
-//    {
-//
-//    }
 
 }
