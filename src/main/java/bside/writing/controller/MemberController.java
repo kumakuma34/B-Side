@@ -36,7 +36,5 @@ public class MemberController {
         return jsonResponse.toString();
     }
 
-    //@RequestMapping(value = "member", method = RequestMethod.GET)
-    //public String getMember
 
 }
