@@ -22,7 +22,7 @@ public class Theme implements Serializable {
     @Column(name = "theme_name", length = 10, nullable = false)
     private String name;
 
-    @Column(name = "theme_category", length = 10, nullable = false)
+    @Column(name = "theme_category", length = 10)
     private String category;
     
 }

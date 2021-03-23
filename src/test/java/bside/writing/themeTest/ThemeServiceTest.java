@@ -26,4 +26,10 @@ public class ThemeServiceTest {
         List<ThemeDto> nRandomTheme = themeService.getNRandomTheme(n);
         Assertions.assertThat(nRandomTheme.size()).isEqualTo(n);
     }
+
+    @Test
+    public void 글감_저장혹은가져오기(){
+        themeService.findOrSaveTheme("Pooh");
+        themeService.findOrSaveTheme("Pooh2");
+    }
 }
