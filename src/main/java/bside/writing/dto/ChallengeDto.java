@@ -80,7 +80,7 @@ public class ChallengeDto {
     @AllArgsConstructor
     public static class SaveDto{
         private Info info;
-        private long created_id;
+        private long ;
         private long modified_id;
 
         public Challenge toEntity(){
