@@ -36,5 +36,17 @@ public class MemberController {
         return jsonResponse.toString();
     }
 
+    @RequestMapping(value = "member", method = RequestMethod.GET)
+    public String memberInfo(@RequestHeader(name = "Authorization") String accessToken) {
+        JsonObject jsonResponse = new JsonObject();
+
+        Long uid = tokenService.getUid(accessToken);
+        MemberDto memberDto = memberService.findById(uid);
+
+        jsonResponse.addProperty("email", memberDto.getEmail());
+        jsonResponse.addProperty("nick_name", memberDto.getNickName());
+        jsonResponse.addProperty("profile_url", memberDto.getProfileUrl());
+        return jsonResponse.toString();
+    }
 
 }
