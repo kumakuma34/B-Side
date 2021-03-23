@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -15,6 +16,17 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
+    public MemberDto joinOrLogin(MemberDto memberDto){
+        boolean firstJoin = false;
+        if(has(memberDto.getEmail())){
+            firstJoin = true;
+            join(memberDto);
+        }
+        return findByEmail(memberDto.getEmail());
+    }
+
+
 
     @Transactional
     public MemberDto join(MemberDto memberDto) {
@@ -25,21 +37,21 @@ public class MemberService {
 
     public MemberDto findById(Long id){
         Member entity = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디" + id));
+                .orElseThrow(() -> new NoSuchElementException());
         return new MemberDto(entity);
     }
 
     @Transactional
     public MemberDto findByEmail(String email){
         Member entity = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 중복 : " + email));
+                .orElseThrow(() -> new NoSuchElementException());
         return new MemberDto(entity);
     }
 
     @Transactional
     public MemberDto update(Long memberId, String newNickName, String newPictureURL){
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 중복 : " + memberId));
+                .orElseThrow(() -> new NoSuchElementException());
         member.update(newNickName, newPictureURL);
         return new MemberDto(member);
     }

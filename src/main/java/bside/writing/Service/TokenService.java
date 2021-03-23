@@ -4,7 +4,6 @@ import bside.writing.domain.member.MemberToken;
 import bside.writing.Repository.MemberTokenRespository;
 import bside.writing.dto.MemberDto;
 import bside.writing.dto.MemberTokenDto;
-import bside.writing.templateClass.ResponseMessage;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -36,24 +35,26 @@ public class TokenService {
     private String JWT_SECRET;
     @Value("${ACCESS_TOKEN_LIFETIME}")
     private int ACCESS_TOKEN_LIFETIME;
+    @Value("${REFRESH_TOKEN_LIFETIME}")
+    private int REFRESH_TOKEN_LIFETIME;
 
     private final MemberTokenRespository memberTokenRespository;
 
-    public MemberDto getUserInfo(String idTokenString) throws Exception {
+    public MemberDto getMemberDto(String idTokenString) throws GeneralSecurityException, IOException, AuthenticationException {
 
         GoogleIdToken idToken = Optional.ofNullable(getVerify(idTokenString))
-                .orElseThrow(() -> new AuthenticationException(ResponseMessage.UNAUTHORIZED_TOKEN.getMsg()));
+                .orElseThrow(() -> new AuthenticationException(""));
         GoogleIdToken.Payload payload = idToken.getPayload();
 
-        String email = payload.getEmail();
-        String nickName = payload.get("name").toString();
-        String profileUrl = payload.get("picture").toString();
+        String emailByToken = payload.getEmail();
+        String nickNameByToken = payload.get("name").toString();
+        String profileUrlByToken = payload.get("picture").toString();
 
         MemberDto memberDto = MemberDto.builder()
-                .email(email)
-                .nickName(nickName)
-                .profileUrl(profileUrl)
-                .userRole("user")
+                .email(emailByToken)
+                .nickName(nickNameByToken)
+                .profileUrl(profileUrlByToken)
+                .userRole("ROLE_USER")
                 .build();
 
         return memberDto;
@@ -64,6 +65,7 @@ public class TokenService {
                 .Builder(new NetHttpTransport(), new JacksonFactory())
                 .setAudience(Collections.singletonList(CLIENT_ID))
                 .build();
+
         return verifier.verify(idTokenString);
     }
 
@@ -71,13 +73,21 @@ public class TokenService {
         return DatatypeConverter.parseBase64Binary(JWT_SECRET);
     }
 
-    public String makeAccessToken(Long member_Id){
+    public String makeAccessToken(Long memberId){
+        return makeJwtToken(memberId, ACCESS_TOKEN_LIFETIME);
+    }
+
+    public String makeRefreshToken(Long memberId){
+        return makeJwtToken(memberId, REFRESH_TOKEN_LIFETIME);
+    }
+
+    public String makeJwtToken(Long memberId, int tokenLifeTime){
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         final Key signingKey = new SecretKeySpec(generateKeyAsByte(), signatureAlgorithm.getJcaName());
         return Jwts.builder()
-                .setId(String.valueOf(member_Id))
-                .signWith(signingKey,signatureAlgorithm)
-                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_LIFETIME))
+                .setId(String.valueOf(memberId))
+                .signWith(signingKey, signatureAlgorithm)
+                .setExpiration(new Date(System.currentTimeMillis() + tokenLifeTime))
                 .compact();
     }
 
@@ -87,6 +97,7 @@ public class TokenService {
                 .build()
                 .parseClaimsJws(accessToken)
                 .getBody();
+
         return Long.valueOf(claims.getId());
     }
 
@@ -99,7 +110,7 @@ public class TokenService {
     @Transactional
     public MemberTokenDto updateMemberToken(Long memberId, String accessToken){
         MemberToken memberToken = memberTokenRespository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 맴버ID : " + memberId));
+                .orElseThrow(() -> new NoSuchElementException());
         memberToken.update(accessToken);
         return new MemberTokenDto(memberToken);
     }
