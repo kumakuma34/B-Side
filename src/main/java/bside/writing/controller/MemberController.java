@@ -2,16 +2,11 @@ package bside.writing.controller;
 
 import bside.writing.Service.MemberService;
 import bside.writing.Service.TokenService;
-import bside.writing.domain.member.Member;
 import bside.writing.dto.MemberDto;
-import bside.writing.templateClass.ResponseMessage;
-import bside.writing.templateClass.StatusCode;
 import com.google.gson.JsonObject;
-import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
