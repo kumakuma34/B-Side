@@ -14,17 +14,6 @@ public class MemberController {
     private final TokenService tokenService;
     private final MemberService memberService;
 
-    @RequestMapping(value = "member/logout", method = RequestMethod.POST)
-    public String memberLogout(@RequestHeader(name="Authorization") String accessToken){
-        JsonObject jsonResponse = new JsonObject();
-
-        Long memberId = tokenService.getUid(accessToken);
-        tokenService.deleteMemberToken(memberId);
-
-        jsonResponse.addProperty("uid", memberId);
-        return jsonResponse.toString();
-    }
-
     @RequestMapping(value = "member", method = RequestMethod.PUT)
     public String memberUpdate(@RequestBody MemberDto memberDto, @RequestHeader(name="Authorization") String accessToken){
         JsonObject jsonResponse = new JsonObject();
