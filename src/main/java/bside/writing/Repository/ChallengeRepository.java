@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     @Query("SELECT c FROM Challenge c WHERE c.currentParticipant < c.maxParticipant")
-    Page<Challenge> findAbleToJoinChallenge(PageRequest pageable);
+    Page<Challenge> findOpenChallenge(PageRequest pageable);
 
 
 }

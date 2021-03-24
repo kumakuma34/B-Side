@@ -3,6 +3,7 @@ package bside.writing.Service;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.Repository.ChallengeRepository;
 import bside.writing.dto.ChallengeDto;
+import bside.writing.enums.ChallengeCode;
 import bside.writing.enums.ThemeCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -60,5 +61,13 @@ public class ChallengeService {
         return challengeRepository.save(challenge);
     }
 
+    public List<ChallengeDto.AllInfo> searchOpenChallenge() {
+        int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
+        Page<Challenge> list = challengeRepository.findOpenChallenge(PageRequest.of(0,searchCnt, Sort.by("startDt").descending().and(Sort.by("currentParticipant"))));
+        List<Challenge> challenges = list.getContent();
+        List<ChallengeDto.AllInfo> result = new ArrayList<>();
+        list.forEach(e->result.add(new ChallengeDto.AllInfo(e)));
+        return result;
+    }
 
 }

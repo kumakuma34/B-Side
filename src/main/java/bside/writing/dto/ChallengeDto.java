@@ -82,10 +82,11 @@ public class ChallengeDto {
     }
 
     @Getter
+    @Builder
     @AllArgsConstructor
     public static class GetRequest{
         private String search_type;
-        private int searchCount;
+        private int search_count;
     }
 
     @Getter
@@ -124,6 +125,26 @@ public class ChallengeDto {
                     .theme2(this.theme2)
                     .theme3(this.theme3)
                     .build();
+        }
+
+        public AllInfo(Challenge entity){
+            this.coverImg = entity.getCoverImg();
+            this.challengeTitle = entity.getChallengeTitle();
+            this.challengeDetail = entity.getChallengeDetail();
+            this.maxParticipant = entity.getMaxParticipant();
+            this.currentParticipant = entity.getCurrentParticipant();
+            this.startDt = entity.getStartDt();
+            this.duration = entity.getDuration();
+            this.submitDaysCnt = entity.getSubmitDaysCnt();
+            this.status = entity.getStatus();
+            this.createdId = entity.getCreatedId();
+            this.modifiedId = entity.getModifiedId();
+            if(entity.getTheme1() != null)
+                this.theme1 = entity.getTheme1();
+            if(entity.getTheme2() != null)
+                this.theme2 = entity.getTheme2();
+            if(entity.getTheme3() != null)
+                this.theme3 = entity.getTheme3();
         }
     }
 

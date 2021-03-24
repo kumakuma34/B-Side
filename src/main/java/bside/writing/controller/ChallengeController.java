@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,14 +26,14 @@ public class ChallengeController {
     }
 
     //challenge 조회
-  /*  @RequestMapping(value = "challenge", method = RequestMethod.GET)
+    @RequestMapping(value = "challenge", method = RequestMethod.GET)
     public List<ChallengeDto.AllInfo> getChallenge(@RequestBody ChallengeDto.GetRequest request, @RequestHeader(name="Authorization") String accessToken) throws IOException{
         Long uid = tokenService.getUid(accessToken);
-        List<ChallengeDto.AllInfo> challengeList;
+        List<ChallengeDto.AllInfo> challengeList = new ArrayList<>();
         if(request.getSearch_type().equals("ALL")){
-
+            challengeList = challengeService.searchOpenChallenge();
         }
-
-    }*/
+        return challengeList;
+    }
 
 }

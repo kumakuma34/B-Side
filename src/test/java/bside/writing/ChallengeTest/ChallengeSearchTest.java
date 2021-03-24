@@ -27,7 +27,7 @@ public class ChallengeSearchTest {
 
     @Test
     public void 전체조회(){
-        Page<Challenge> list = challengeRepository.findAbleToJoinChallenge(PageRequest.of(0,15, Sort.by("startDt").descending().and(Sort.by("currentParticipant"))));
+        Page<Challenge> list = challengeRepository.findOpenChallenge(PageRequest.of(0,15, Sort.by("startDt").descending().and(Sort.by("currentParticipant"))));
         List<Challenge> result = list.getContent();
         list.forEach(e->System.out.println(e.toString()));
 
