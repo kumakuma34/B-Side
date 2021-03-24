@@ -1,5 +1,6 @@
 package bside.writing.domain.badge;
 
+import bside.writing.templateClass.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,8 +12,7 @@ import javax.persistence.*;
 @Table(name = "badge")
 @Getter
 @Entity
-public class Badge{
-
+public class Badge extends BaseTimeEntity {
 
     @Id
     @Column(name = "badge_id")

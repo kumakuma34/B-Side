@@ -18,17 +18,15 @@ public class BadgeController {
 
     @RequestMapping(value = "member/badge", method = RequestMethod.GET)
     public Map<String, List> getBadges(@RequestBody BadgeDto badgeDto, @RequestHeader(name="Authorization") String accessToken){
-        List<Badge> badgeList;
-        List<BadgeDto> badgeDtoList;
-
         Long memberId = tokenService.getUid(accessToken);
 
+        List<Badge> badgeList;
         if(badgeDto.getBadgeCode().equals("ALL"))
             badgeList = badgeService.getBadgesByMemberId(memberId);
         else
             badgeList = badgeService.getBadgeByMemberIdAndBadgeCode(memberId, badgeDto.getBadgeCode());
 
-        badgeDtoList = badgeService.toDtoList(badgeList);
+        List<BadgeDto> badgeDtoList = badgeService.toDtoList(badgeList);
         return badgeService.toMapByBadgeCode(badgeDtoList);
     }
 }

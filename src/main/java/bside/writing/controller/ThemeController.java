@@ -26,6 +26,4 @@ public class ThemeController {
         return null;
     }
 
-
-
 }
