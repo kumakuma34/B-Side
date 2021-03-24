@@ -78,7 +78,14 @@ public class ChallengeDto {
 
         private int status;
 
-        private String theme;//#글감1 #글감2
+        private String theme_string;//#글감1 #글감2
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class GetRequest{
+        private String search_type;
+        private int searchCount;
     }
 
     @Getter
