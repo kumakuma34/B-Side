@@ -3,6 +3,7 @@ package bside.writing.controller;
 import com.google.gson.JsonObject;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,6 +13,7 @@ import io.jsonwebtoken.security.*;
 import io.jsonwebtoken.MalformedJwtException;
 
 @RestControllerAdvice
+@CrossOrigin
 public class ErrorController {
 
     @ExceptionHandler({SignatureException.class, MalformedJwtException.class, AuthenticationException.class})

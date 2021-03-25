@@ -15,6 +15,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class ChallengeController {
 
     private final ChallengeService challengeService;

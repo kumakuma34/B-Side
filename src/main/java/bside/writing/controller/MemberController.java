@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class MemberController {
     private final TokenService tokenService;
     private final MemberService memberService;
