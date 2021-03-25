@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class MemberController {
     private final TokenService tokenService;
     private final MemberService memberService;
