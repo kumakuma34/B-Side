@@ -3,7 +3,7 @@ package bside.writing.badge.badgeRepo;
 
 import bside.writing.Repository.BadgeRepository;
 import bside.writing.domain.badge.Badge;
-import bside.writing.enums.BadgeCode;
+import bside.writing.domain.badge.BadgeCode;
 import bside.writing.dto.BadgeDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;

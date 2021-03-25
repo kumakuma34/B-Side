@@ -1,4 +1,4 @@
-package bside.writing.enums;
+package bside.writing.domain.badge;
 
 public enum BadgeCode {
 
