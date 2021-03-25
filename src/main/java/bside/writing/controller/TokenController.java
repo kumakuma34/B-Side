@@ -22,7 +22,7 @@ public class TokenController {
 
         MemberDto memberDto = tokenService.getMemberDto(idTokenString);
         boolean signIn = !memberService.has(memberDto.getEmail());
-        memberDto = !signIn ? memberService.findByEmail(memberDto.getEmail()) : memberService.join(memberDto);
+        memberDto = signIn ? memberService.join(memberDto) : memberService.findByEmail(memberDto.getEmail());
 
         String accessToken = tokenService.makeAccessToken(memberDto.getId());
         String refreshToken = tokenService.makeRefreshToken(memberDto.getId());
