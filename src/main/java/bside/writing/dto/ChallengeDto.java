@@ -49,6 +49,47 @@ public class ChallengeDto {
     }
 
     @Getter
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    public static class Request{
+        @JsonProperty("cover_img")
+        private int coverImg;
+
+        @JsonProperty("challenge_title")
+        private String  challengeTitle;
+
+        @JsonProperty("challenge_detail")
+        private String  challengeDetail;
+
+        @JsonProperty("max_participant")
+        private int  maxParticipant;
+
+        @JsonProperty("current_participant")
+        private int currentParticipant;
+
+        @JsonProperty("start_dt")
+        private LocalDate startDt;
+
+        private int duration;
+
+        @JsonProperty("submit_days_cnt")
+        private int submitDaysCnt;
+
+        private int status;
+
+        private String theme_string;//#글감1 #글감2
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class GetRequest{
+        private String search_type;
+        private int search_count;
+    }
+
+    @Getter
     @Builder
     @AllArgsConstructor
     public static class AllInfo{
@@ -63,16 +104,50 @@ public class ChallengeDto {
         private int status;
         private long createdId;
         private long modifiedId;
-        private List<String> theme_string;
+        private long theme1;
+        private long theme2;
+        private long theme3;
+
+        public Challenge toEntity(){
+            return Challenge.builder()
+                    .coverImg(this.coverImg)
+                    .challengeTitle(this.challengeTitle)
+                    .challengeDetail(this.challengeDetail)
+                    .maxParticipant(this.maxParticipant)
+                    .currentParticipant(this.currentParticipant)
+                    .startDt(this.startDt)
+                    .duration(this.duration)
+                    .submitDaysCnt(this.submitDaysCnt)
+                    .status(this.status)
+                    .createdId(this.createdId)
+                    .modifiedId(this.modifiedId)
+                    .theme1(this.theme1)
+                    .theme2(this.theme2)
+                    .theme3(this.theme3)
+                    .build();
+        }
+
+        public AllInfo(Challenge entity){
+            this.coverImg = entity.getCoverImg();
+            this.challengeTitle = entity.getChallengeTitle();
+            this.challengeDetail = entity.getChallengeDetail();
+            this.maxParticipant = entity.getMaxParticipant();
+            this.currentParticipant = entity.getCurrentParticipant();
+            this.startDt = entity.getStartDt();
+            this.duration = entity.getDuration();
+            this.submitDaysCnt = entity.getSubmitDaysCnt();
+            this.status = entity.getStatus();
+            this.createdId = entity.getCreatedId();
+            this.modifiedId = entity.getModifiedId();
+            if(entity.getTheme1() != null)
+                this.theme1 = entity.getTheme1();
+            if(entity.getTheme2() != null)
+                this.theme2 = entity.getTheme2();
+            if(entity.getTheme3() != null)
+                this.theme3 = entity.getTheme3();
+        }
     }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class Request{
-        private Info challenge_info;
-        private String theme_string;//#글감1 #글감2 #글감3
-    }
 
     @Getter
     @Setter
