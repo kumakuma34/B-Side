@@ -14,7 +14,7 @@ import io.jsonwebtoken.security.*;
 import io.jsonwebtoken.MalformedJwtException;
 
 @RestControllerAdvice
-@CrossOrigin
+@CrossOrigin("*")
 public class ErrorController {
 
     @ExceptionHandler(ExpiredJwtException.class)

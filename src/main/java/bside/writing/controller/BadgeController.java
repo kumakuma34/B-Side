@@ -16,7 +16,7 @@ public class BadgeController {
     private final BadgeService badgeService;
     private final TokenService tokenService;
 
-    @CrossOrigin
+    @CrossOrigin("*")
     @RequestMapping(value = "member/badge", method = RequestMethod.GET)
     public Map<String, List> getBadges(@RequestBody BadgeDto badgeDto, @RequestHeader(name="Authorization") String accessToken){
         Long memberId = tokenService.getUid(accessToken);

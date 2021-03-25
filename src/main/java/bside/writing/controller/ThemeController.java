@@ -14,7 +14,7 @@ public class ThemeController {
 
     private final ThemeService themeService;
 
-    @CrossOrigin
+    @CrossOrigin("*")
     @RequestMapping(value = "/theme", method = RequestMethod.GET)
     public List<ThemeDto> getTheme(@RequestBody ThemeDto.Request themeRequstDto){
         JsonObject res = new JsonObject();
