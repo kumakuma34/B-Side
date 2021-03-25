@@ -14,15 +14,15 @@ import java.io.Serializable;
 @Table(name = "token")
 @NoArgsConstructor
 public class MemberToken extends BaseTimeEntity implements Serializable {
+
     @Id
-    @Column(name = "member_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id", nullable = false)
     private Long id;
 
     @Column(name = "access_token", length = 255, nullable = false)
     private String accessToken;
 
-    @Column(name = "refresh_token", length = 255, nullable = true)
+    @Column(name = "refresh_token", length = 255, nullable = false)
     private String refreshToken;
 
     @Builder

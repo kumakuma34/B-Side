@@ -21,9 +21,9 @@ public class MemberTokenDto {
 
     public MemberToken toEntity(){
         return MemberToken.builder()
-                .id(this.getId())
-                .accessToken(this.getAccessToken())
-                .refreshToken(this.getRefreshToken())
+                .id(id)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 }
