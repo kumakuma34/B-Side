@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 public class TokenController {
 
     private final TokenService tokenService;
     private final MemberService memberService;
 
+    @CrossOrigin
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String getToken(@RequestHeader(name="Authorization") String idTokenString) throws Exception {
         JsonObject jsonResponse = new JsonObject();
@@ -42,6 +42,7 @@ public class TokenController {
         return jsonResponse.toString();
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public String memberLogout(@RequestHeader(name="Authorization") String accessToken){
         JsonObject jsonResponse = new JsonObject();
@@ -53,6 +54,7 @@ public class TokenController {
         return jsonResponse.toString();
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/token", method = RequestMethod.GET)
     public String refreshAccessToken(@RequestHeader(name = "Authorization") String refreshToken){
         JsonObject jsonObject = new JsonObject();

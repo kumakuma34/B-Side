@@ -10,11 +10,11 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 public class ThemeController {
 
     private final ThemeService themeService;
 
+    @CrossOrigin
     @RequestMapping(value = "/theme", method = RequestMethod.GET)
     public List<ThemeDto> getTheme(@RequestBody ThemeDto.Request themeRequstDto){
         JsonObject res = new JsonObject();
