@@ -16,13 +16,13 @@ public class TokenController {
     private final TokenService tokenService;
     private final MemberService memberService;
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String getToken(@RequestHeader(name="Authorization") String idTokenString) throws Exception {
         JsonObject jsonResponse = new JsonObject();
 
         MemberDto memberDto = tokenService.getMemberDto(idTokenString);
-        boolean signIn = memberService.has(memberDto.getEmail());
-        memberDto = signIn ? memberService.findByEmail(memberDto.getEmail()) : memberService.join(memberDto);
+        boolean signIn = !memberService.has(memberDto.getEmail());
+        memberDto = !signIn ? memberService.findByEmail(memberDto.getEmail()) : memberService.join(memberDto);
 
         String accessToken = tokenService.makeAccessToken(memberDto.getId());
         String refreshToken = tokenService.makeRefreshToken(memberDto.getId());
@@ -57,9 +57,9 @@ public class TokenController {
         JsonObject jsonObject = new JsonObject();
 
         Long memberId = tokenService.getUid(refreshToken);
-        //String accessToken = tokenService.refreshAccessToken(refreshToken);
+        String accessToken = tokenService.refreshAccessToken(refreshToken);
 
-        //jsonObject.addProperty("access_token", accessToken);
+        jsonObject.addProperty("access_token", accessToken);
         return jsonObject.toString();
     }
 }

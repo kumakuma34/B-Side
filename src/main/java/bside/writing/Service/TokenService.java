@@ -128,7 +128,10 @@ public class TokenService {
 
         String accessToken = makeAccessToken(getUid(refreshToken));
 
-        MemberTokenDto memberTokenDto = MemberTokenDto.builder().accessToken(accessToken).refreshToken(refreshToken).build();
+        MemberTokenDto memberTokenDto = MemberTokenDto.builder()
+                .id(getUid(refreshToken))
+                .accessToken(accessToken)
+                .refreshToken(refreshToken).build();
         memberTokenRespository.save(memberTokenDto.toEntity());
         return accessToken;
     }
