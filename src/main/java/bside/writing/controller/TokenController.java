@@ -42,7 +42,7 @@ public class TokenController {
         return jsonResponse.toString();
     }
 
-    @CrossOrigin
+    @CrossOrigin("*")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public String memberLogout(@RequestHeader(name="Authorization") String accessToken){
         JsonObject jsonResponse = new JsonObject();
@@ -54,7 +54,7 @@ public class TokenController {
         return jsonResponse.toString();
     }
 
-    @CrossOrigin
+    @CrossOrigin("*")
     @RequestMapping(value = "/token", method = RequestMethod.GET)
     public String refreshAccessToken(@RequestHeader(name = "Authorization") String refreshToken){
         JsonObject jsonObject = new JsonObject();
