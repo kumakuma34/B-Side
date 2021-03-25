@@ -16,6 +16,7 @@ import java.io.Serializable;
 public class MemberToken extends BaseTimeEntity implements Serializable {
     @Id
     @Column(name = "member_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "access_token", length = 255, nullable = false)

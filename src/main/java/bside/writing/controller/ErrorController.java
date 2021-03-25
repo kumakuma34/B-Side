@@ -1,6 +1,7 @@
 package bside.writing.controller;
 
 import com.google.gson.JsonObject;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +14,14 @@ import io.jsonwebtoken.MalformedJwtException;
 
 @RestControllerAdvice
 public class ErrorController {
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String expiredToken(Exception e){
+        JsonObject jsonResponse = new JsonObject();
+        jsonResponse.addProperty("error_msg", "expired token");
+        return jsonResponse.toString();
+    }
 
     @ExceptionHandler({SignatureException.class, MalformedJwtException.class, AuthenticationException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

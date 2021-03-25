@@ -1,5 +1,6 @@
 package bside.writing.Service;
 
+import bside.writing.domain.member.Member;
 import bside.writing.domain.member.MemberToken;
 import bside.writing.Repository.MemberTokenRespository;
 import bside.writing.dto.MemberDto;
@@ -118,5 +119,20 @@ public class TokenService {
     @Transactional
     public void deleteMemberToken(Long memberId){
         memberTokenRespository.deleteById(memberId);
+    }
+
+    @Transactional
+    public String refreshAccessToken(String refreshToken){
+        MemberToken memberToken = memberTokenRespository.findByRefreshToken(refreshToken)
+                .orElseThrow(() -> new NoSuchElementException());
+
+        String accessToken = makeAccessToken(getUid(refreshToken));
+
+        MemberTokenDto memberTokenDto = MemberTokenDto.builder()
+                .id(getUid(refreshToken))
+                .accessToken(accessToken)
+                .refreshToken(refreshToken).build();
+        memberTokenRespository.save(memberTokenDto.toEntity());
+        return accessToken;
     }
 }
