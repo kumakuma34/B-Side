@@ -8,4 +8,3 @@ public enum BadgeCode {
     LIKE_COUNT
     ;
 }
-

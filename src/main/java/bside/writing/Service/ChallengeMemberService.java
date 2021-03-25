@@ -18,6 +18,9 @@ public class ChallengeMemberService {
                 .submitArticleCnt(0L)
                 .build();
 
+        /*
+        TODO : challenge current user ++
+         */
         return challengeMemberRepository.save(entity);
     }
 }
