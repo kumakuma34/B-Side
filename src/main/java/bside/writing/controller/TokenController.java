@@ -16,7 +16,7 @@ public class TokenController {
     private final TokenService tokenService;
     private final MemberService memberService;
 
-    @CrossOrigin
+    @CrossOrigin("*")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String getToken(@RequestHeader(name="Authorization") String idTokenString) throws Exception {
         JsonObject jsonResponse = new JsonObject();
