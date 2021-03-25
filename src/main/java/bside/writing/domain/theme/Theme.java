@@ -1,5 +1,6 @@
 package bside.writing.domain.theme;
 
+import bside.writing.templateClass.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Theme implements Serializable {
+public class Theme extends BaseTimeEntity implements Serializable {
 
     @Id
     @Column(name = "theme_id")

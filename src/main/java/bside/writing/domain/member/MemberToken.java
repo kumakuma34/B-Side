@@ -1,5 +1,6 @@
 package bside.writing.domain.member;
 
+import bside.writing.templateClass.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,15 +13,16 @@ import java.io.Serializable;
 @Entity
 @Table(name = "token")
 @NoArgsConstructor
-public class MemberToken implements Serializable {
+public class MemberToken extends BaseTimeEntity implements Serializable {
+
     @Id
-    @Column(name = "member_id")
+    @Column(name = "member_id", nullable = false)
     private Long id;
 
     @Column(name = "access_token", length = 255, nullable = false)
     private String accessToken;
 
-    @Column(name = "refresh_token", length = 255, nullable = true)
+    @Column(name = "refresh_token", length = 255, nullable = false)
     private String refreshToken;
 
     @Builder
