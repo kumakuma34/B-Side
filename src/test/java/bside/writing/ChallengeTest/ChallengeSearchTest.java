@@ -30,12 +30,6 @@ public class ChallengeSearchTest {
     ChallengeRepository challengeRepository;
     @Autowired
     ChallengeMemberService challengeMemberService;
-    @Test
-    public void 전체조회(){
-        Page<Challenge> list = challengeRepository.findOpenChallenge(PageRequest.of(0,15, Sort.by("startDt").descending().and(Sort.by("currentParticipant"))));
-        List<Challenge> result = list.getContent();
-        list.forEach(e->System.out.println(e.toString()));
-    }
 
     @Test
     public void 참여중챌린지조회(){
