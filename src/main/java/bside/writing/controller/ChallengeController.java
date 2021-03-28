@@ -19,6 +19,7 @@ public class ChallengeController {
     private final TokenService tokenService;
 
     //challenge 신규 생성
+    @CrossOrigin("*")
     @RequestMapping(value = "challenge", method = RequestMethod.POST)
     public Challenge saveChallenge(@RequestBody ChallengeDto.Request request, @RequestHeader(name="Authorization") String accessToken ) throws IOException{
         Long uid = tokenService.getUid(accessToken);
@@ -26,6 +27,7 @@ public class ChallengeController {
     }
 
     //challenge 조회
+    @CrossOrigin("*")
     @RequestMapping(value = "challenge", method = RequestMethod.GET)
     public List<ChallengeDto.AllInfo> getChallenge(@RequestBody ChallengeDto.GetRequest request, @RequestHeader(name="Authorization") String accessToken) throws IOException{
         Long uid = tokenService.getUid(accessToken);

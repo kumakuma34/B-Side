@@ -1,6 +1,5 @@
 package bside.writing.badge.badgeRepo;
 
-
 import bside.writing.Repository.BadgeRepository;
 import bside.writing.domain.badge.Badge;
 import bside.writing.domain.badge.BadgeCode;
@@ -25,7 +24,7 @@ public class BadgeRepoTest {
     @Test
     public void 뱃지_생성(){
         BadgeDto badgeDto = BadgeDto.builder()
-                .memberId(30L)
+                .memberId(31L)
                 .badgeCode(BadgeCode.CHALLENGE_FINISH.name())
                 .badgeValue("1")
                 .build();

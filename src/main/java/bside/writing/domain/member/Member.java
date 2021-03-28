@@ -1,5 +1,6 @@
 package bside.writing.domain.member;
 
+import bside.writing.templateClass.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.io.Serializable;
 @Table(name = "member")
 @Entity
 @ToString
-public class Member implements Serializable {
+public class Member extends BaseTimeEntity implements Serializable {
 
     @Id
     @Column(name = "member_id")
