@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -41,8 +42,8 @@ public class nofificationRepoTest {
 
     @Test
     public void 알람_조회(){
-        Optional<Notification> byMemberId = notificationRepository.findByMemberId(30L);
-        System.out.println("byMemberId = " + byMemberId);
+        Optional<List<Notification>> byMemberId = notificationRepository.findByMemberId(30L);
+
     }
 
 }
