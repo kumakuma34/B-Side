@@ -1,8 +1,7 @@
 package bside.writing.Service;
 
-import bside.writing.domain.member.Member;
 import bside.writing.domain.member.MemberToken;
-import bside.writing.Repository.MemberTokenRespository;
+import bside.writing.Repository.MemberTokenRepository;
 import bside.writing.dto.MemberDto;
 import bside.writing.dto.MemberTokenDto;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -39,7 +38,7 @@ public class TokenService {
     @Value("${REFRESH_TOKEN_LIFETIME}")
     private int REFRESH_TOKEN_LIFETIME;
 
-    private final MemberTokenRespository memberTokenRespository;
+    private final MemberTokenRepository memberTokenRepository;
 
     public MemberDto getMemberDto(String idTokenString) throws GeneralSecurityException, IOException, AuthenticationException {
 
@@ -104,13 +103,13 @@ public class TokenService {
 
     public MemberTokenDto saveMemberToken(MemberTokenDto memberTokenDto){
         MemberToken entity = memberTokenDto.toEntity();
-        memberTokenRespository.save(entity);
+        memberTokenRepository.save(entity);
         return new MemberTokenDto(entity);
     }
 
     @Transactional
     public MemberTokenDto updateMemberToken(Long memberId, String accessToken){
-        MemberToken memberToken = memberTokenRespository.findById(memberId)
+        MemberToken memberToken = memberTokenRepository.findById(memberId)
                 .orElseThrow(() -> new NoSuchElementException());
         memberToken.update(accessToken);
         return new MemberTokenDto(memberToken);
@@ -119,7 +118,7 @@ public class TokenService {
     @Transactional
     public void deleteMemberToken(Long memberId){
         try{
-            memberTokenRespository.deleteById(memberId);
+            memberTokenRepository.deleteById(memberId);
         }
         catch (Exception e){
             throw new IllegalArgumentException("no such user");
@@ -128,7 +127,7 @@ public class TokenService {
 
     @Transactional
     public String refreshAccessToken(String refreshToken){
-        MemberToken memberToken = memberTokenRespository.findByRefreshToken(refreshToken)
+        MemberToken memberToken = memberTokenRepository.findByRefreshToken(refreshToken)
                 .orElseThrow(() -> new NoSuchElementException());
 
         String accessToken = makeAccessToken(getUid(refreshToken));
@@ -137,7 +136,7 @@ public class TokenService {
                 .id(getUid(refreshToken))
                 .accessToken(accessToken)
                 .refreshToken(refreshToken).build();
-        memberTokenRespository.save(memberTokenDto.toEntity());
+        memberTokenRepository.save(memberTokenDto.toEntity());
         return accessToken;
     }
 }
