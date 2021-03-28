@@ -3,9 +3,12 @@ package bside.writing.domain.challenge;
 import bside.writing.templateClass.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.Formula;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "challenge")
@@ -22,10 +25,10 @@ public class Challenge extends BaseTimeEntity {
     @Column(name = "cover_img")
     private int coverImg;
 
-    @Column(name = "challenge_title", length = 50)
+    @Column(name = "challenge_title", length = 50, nullable = false)
     private String  challengeTitle;
 
-    @Column(name = "challenge_detail", length = 100)
+    @Column(name = "challenge_detail", length = 100, nullable = false)
     private String  challengeDetail;
 
     @Column(name = "max_participant")
@@ -40,7 +43,6 @@ public class Challenge extends BaseTimeEntity {
 
     @Column
     private int duration;
-
     @Column(name = "submit_days_cnt")
     private int submitDaysCnt;
 
@@ -62,6 +64,15 @@ public class Challenge extends BaseTimeEntity {
     @Column(name = "modified_id")
     private long modifiedId;
     //public Challenge(){};//default Constructor
+
+//    @Formula(value = "select DATE_ADD(c.startDt, INTERVAL c.duration * 7 DAY) from challenge")
+//    private LocalDateTime endDt;
+
+    public void increaseCurrentParticipant(){
+        if(this.currentParticipant >= this.maxParticipant)
+            throw new IllegalArgumentException("challenge participant full");
+        this.currentParticipant++;
+    }
 
     @Override
     public String toString() {
