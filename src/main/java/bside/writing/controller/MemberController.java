@@ -15,7 +15,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @CrossOrigin("*")
-    @RequestMapping(value = "member", method = RequestMethod.PUT)
+    @RequestMapping(value = "/member", method = RequestMethod.PUT)
     public String memberUpdate(@RequestBody MemberDto memberDto, @RequestHeader(name="Authorization") String accessToken){
         JsonObject jsonResponse = new JsonObject();
 
@@ -27,7 +27,7 @@ public class MemberController {
     }
 
     @CrossOrigin("*")
-    @RequestMapping(value = "member", method = RequestMethod.GET)
+    @RequestMapping(value = "/member", method = RequestMethod.GET)
     public String memberInfo(@RequestHeader(name = "Authorization") String accessToken) {
         JsonObject jsonResponse = new JsonObject();
 

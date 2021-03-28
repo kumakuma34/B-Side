@@ -45,4 +45,5 @@ public class Notification extends BaseTimeEntity {
 
     @Column(name = "reserve_date")
     private LocalDateTime reserveDate;
+
 }

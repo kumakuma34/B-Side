@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,7 @@ import java.util.Optional;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Transactional
-public class nofificationRepoTest {
+public class noti_Repo_test {
 
     @Autowired
     NotificationRepository notificationRepository;

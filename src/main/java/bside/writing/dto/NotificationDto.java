@@ -1,30 +1,81 @@
 package bside.writing.dto;
 
 import bside.writing.domain.notification.Notification;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import bside.writing.templateClass.Entityable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Builder
 @AllArgsConstructor
-public class NotificationDto {
+@ToString
+@EqualsAndHashCode
+public class NotificationDto implements Entityable {
+    @JsonIgnore
     private Long id;
+
+    @JsonIgnore
     private Long memberId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("from_member_name")
     private Long fromMemberId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("from_article_name")
     private Long fromArticleId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("from_challenge_name")
     private Long fromChallengeId;
+
+    @JsonProperty("notification_type")
     private String notiType;
+
+    @JsonProperty("notification_message")
     private String notiMessage;
+
+    @JsonProperty("notification_url")
     private String notiUrl;
+
+    @JsonProperty("notification_read")
     private Boolean notiRead;
+
+    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private LocalDateTime reserveDate;
 
-    public LocalDateTime getReserveDate() {
-        return reserveDate == null ? null : reserveDate;
+    @Getter
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    public static class Challenge implements Entityable {
+        private Long memberId;
+        private Long fromChallengeId;
+        private String notiType;
+        private String notiMessage;
+        private String notiUrl;
+        private Boolean notiRead;
+        private LocalDateTime reserveDate;
+
+        public Notification toEntity() {
+            return Notification.builder()
+                    .memberId(memberId)
+                    .fromChallengeId(fromChallengeId)
+                    .notiType(notiType)
+                    .notiMessage(notiMessage)
+                    .notiUrl(notiUrl)
+                    .notiRead(notiRead)
+                    .reserveDate(reserveDate)
+                    .build();
+        }
     }
+
+
 
     public NotificationDto(Notification entity) {
         this.id = entity.getId();
@@ -53,4 +104,6 @@ public class NotificationDto {
                 .reserveDate(reserveDate)
                 .build();
     }
+
+
 }
