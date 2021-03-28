@@ -3,6 +3,7 @@ package bside.writing.domain.challenge;
 import bside.writing.templateClass.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -62,6 +63,12 @@ public class Challenge extends BaseTimeEntity {
     @Column(name = "modified_id")
     private long modifiedId;
     //public Challenge(){};//default Constructor
+
+    public void increaseCurrentParticipant(){
+        if(this.currentParticipant >= this.maxParticipant)
+            throw new IllegalArgumentException("challenge participant full");
+        this.currentParticipant++;
+    }
 
     @Override
     public String toString() {

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,6 +59,23 @@ public class ChallengeService {
     }
 
     public Challenge addNewChallenge(ChallengeDto.AllInfo challengeDto) {
+        int title_len = ChallengeCode.CHALLENGE_TITLE_LENGTH.getVal();
+        int detail_len = ChallengeCode.CHALLENGE_DETAIL_LENGTH.getVal();
+
+        if(challengeDto.getChallengeTitle() == null || challengeDto.getChallengeTitle().equals("")){
+            throw new IllegalArgumentException("challenge title must not be null");
+        }
+        if(challengeDto.getChallengeTitle().length() > title_len){
+            throw new IllegalArgumentException("challenge title length must be under 39");
+        }
+
+        if(challengeDto.getChallengeDetail() == null || challengeDto.getChallengeDetail().equals("")){
+            throw new IllegalArgumentException("challenge detail must not be null");
+        }
+        if(challengeDto.getChallengeDetail().length() > detail_len){
+            throw new IllegalArgumentException("challenge detail length must be under 100");
+        }
+
         Challenge challenge = challengeDto.toEntity();
         return challengeRepository.save(challenge);
     }
@@ -68,6 +87,13 @@ public class ChallengeService {
         List<ChallengeDto.AllInfo> result = new ArrayList<>();
         list.forEach(e->result.add(new ChallengeDto.AllInfo(e)));
         return result;
+    }
+
+    public void increaseParticipant(Long challenge_id){
+        Optional<Challenge> challenge = challengeRepository.findById(challenge_id);
+        challenge.orElseThrow(()->new NoSuchElementException("no such Challenge"));
+        challenge.get().increaseCurrentParticipant();
+
     }
 
 
