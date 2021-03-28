@@ -118,7 +118,12 @@ public class TokenService {
 
     @Transactional
     public void deleteMemberToken(Long memberId){
-        memberTokenRespository.deleteById(memberId);
+        try{
+            memberTokenRespository.deleteById(memberId);
+        }
+        catch (Exception e){
+            throw new IllegalArgumentException("no such user");
+        }
     }
 
     @Transactional

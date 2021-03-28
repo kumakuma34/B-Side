@@ -15,19 +15,21 @@ import io.jsonwebtoken.MalformedJwtException;
 
 @RestControllerAdvice
 public class ErrorController {
-    @ExceptionHandler(ExpiredJwtException.class)
+    @ExceptionHandler({ExpiredJwtException.class, AuthenticationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String expiredToken(Exception e){
         JsonObject jsonResponse = new JsonObject();
-        jsonResponse.addProperty("error_msg", "expired token");
+        jsonResponse.addProperty("error_code", "token_error");
+        jsonResponse.addProperty("error_desc", "expired token");
         return jsonResponse.toString();
     }
 
-    @ExceptionHandler({SignatureException.class, MalformedJwtException.class, AuthenticationException.class})
+    @ExceptionHandler({SignatureException.class, MalformedJwtException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String unauthorizedToken(Exception e){
         JsonObject jsonResponse = new JsonObject();
-        jsonResponse.addProperty("error_msg", "invalid token");
+        jsonResponse.addProperty("error_code", "token_error");
+        jsonResponse.addProperty("error_desc", "invalid token");
         return jsonResponse.toString();
     }
 
@@ -35,7 +37,8 @@ public class ErrorController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String illergalArguException(Exception e){
         JsonObject jsonResponse = new JsonObject();
-        jsonResponse.addProperty("error_msg", e.getMessage());
+        jsonResponse.addProperty("error_code", "bad request");
+        jsonResponse.addProperty("error_desc", e.getMessage());
         return jsonResponse.toString();
     }
 
@@ -43,7 +46,8 @@ public class ErrorController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String noSuchElementException(Exception e){
         JsonObject jsonResponse = new JsonObject();
-        jsonResponse.addProperty("error_msg", e.getMessage());
+        jsonResponse.addProperty("error_code", "not found");
+        jsonResponse.addProperty("error_desc", e.getMessage());
         return jsonResponse.toString();
     }
 }
