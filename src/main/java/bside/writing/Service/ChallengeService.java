@@ -80,9 +80,20 @@ public class ChallengeService {
         return challengeRepository.save(challenge);
     }
 
+    //모집 중인 챌린지 조회
     public List<ChallengeDto.AllInfo> searchOpenChallenge() {
         int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
         Page<Challenge> list = challengeRepository.findOpenChallenge(PageRequest.of(0,searchCnt, Sort.by("startDt").descending().and(Sort.by("currentParticipant"))));
+        List<Challenge> challenges = list.getContent();
+        List<ChallengeDto.AllInfo> result = new ArrayList<>();
+        list.forEach(e->result.add(new ChallengeDto.AllInfo(e)));
+        return result;
+    }
+
+    //참여 중인 챌린지 조회
+    public List<ChallengeDto.AllInfo> searchInChallenge(Long member_id){
+        int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
+        Page<Challenge> list = challengeRepository.findInChallenge(member_id , PageRequest.of(0, searchCnt));
         List<Challenge> challenges = list.getContent();
         List<ChallengeDto.AllInfo> result = new ArrayList<>();
         list.forEach(e->result.add(new ChallengeDto.AllInfo(e)));
@@ -93,6 +104,7 @@ public class ChallengeService {
         Optional<Challenge> challenge = challengeRepository.findById(challenge_id);
         challenge.orElseThrow(()->new NoSuchElementException("no such Challenge"));
         challenge.get().increaseCurrentParticipant();
+        challengeRepository.save(challenge.get());
 
     }
 
