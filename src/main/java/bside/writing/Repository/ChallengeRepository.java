@@ -23,6 +23,9 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     @Query(value = "SELECT * FROM challenge c WHERE c.created_id = ?1 AND c.status = 0 order by c.start_dt desc", nativeQuery = true)
     Page<Challenge> findMyChallenge(Long id, PageRequest pageable);
 
+    @Query(value = "SELECT * FROM challenge c WHERE c.created_id = ?1 AND c.status = 2 order by c.start_dt desc", nativeQuery = true)
+    Page<Challenge> findMyDoneChallenge(Long id, PageRequest pageable);
+
     @Query(value = "SELECT * FROM challenge c INNER JOIN challenge_member m ON c.challenge_id = m.challenge_id " +
             "where m.member_id = ?1" , nativeQuery = true)
     List<Challenge> findAllInChallenge(Long id);
