@@ -51,6 +51,12 @@ public class ChallengeSearchTest {
         list.forEach(e->System.out.println(e.toString()));
 
     }
+
+    @Test
+    public void 참여중인모든챌린지조회(){
+        List<Challenge> list = challengeRepository.findAllInChallenge(30L);
+        list.forEach(e->System.out.println(e.toString()));
+    }
     @Test
     public void joinChallenge(){
         //given

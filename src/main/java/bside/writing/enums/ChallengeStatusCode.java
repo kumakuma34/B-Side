@@ -7,7 +7,7 @@ public enum ChallengeStatusCode {
 
     RECRUITING(0),
     IN_PROGRESS(1),
-    COMPLETE(1);
+    COMPLETE(2);
 
     private int val;
     ChallengeStatusCode(int i){this.val = i;}

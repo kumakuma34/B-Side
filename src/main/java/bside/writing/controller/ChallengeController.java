@@ -4,6 +4,8 @@ import bside.writing.Service.ChallengeService;
 import bside.writing.Service.TokenService;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.dto.ChallengeDto;
+import bside.writing.enums.ChallengeCode;
+import bside.writing.enums.ChallengeSearchCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,16 +33,7 @@ public class ChallengeController {
     @RequestMapping(value = "challenge", method = RequestMethod.GET)
     public List<ChallengeDto.AllInfo> getChallenge(@RequestBody ChallengeDto.GetRequest request, @RequestHeader(name="Authorization") String accessToken) throws IOException{
         Long uid = tokenService.getUid(accessToken);
-        List<ChallengeDto.AllInfo> challengeList = new ArrayList<>();
-        if(request.getSearch_type().equals("ALL")){
-            challengeList = challengeService.searchOpenChallenge();
-        }
-        else if(request.getSearch_type().equals("IN")){
-            challengeList = challengeService.searchInChallenge(uid);
-        }
-        else if(request.getSearch_type().equals("MINE")){
-            challengeList = challengeService.searchMyChallenge(uid);
-        }
-        return challengeList;
+        int searchType = ChallengeSearchCode.valueOf(request.getSearch_type()).getVal();
+        return challengeService.getSearchResult(searchType, uid);
     }
 }

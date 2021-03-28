@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class ChallengeService {
     private final ChallengeRepository challengeRepository;
     private final ThemeService themeService;
+    private int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
 
     public ChallengeDto.AllInfo makeAllInfoDTO(ChallengeDto.Request request, Long uid){
         String[] token = request.getTheme_string().split(" ");
@@ -80,40 +81,25 @@ public class ChallengeService {
         return challengeRepository.save(challenge);
     }
 
-    //모집 중인 챌린지 조회
-    public List<ChallengeDto.AllInfo> searchOpenChallenge() {
-        int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
-        Page<Challenge> list = challengeRepository.findOpenChallenge(PageRequest.of(0,searchCnt, Sort.by("startDt").descending().and(Sort.by("currentParticipant"))));
-        List<Challenge> challenges = list.getContent();
+    public Page<Challenge> searchChallenge(int searchType, Long member_id){
+        Page<Challenge> list = null;
+        if(searchType == 0) list = challengeRepository.findOpenChallenge(PageRequest.of(0,searchCnt));
+        else if(searchType == 1) list = challengeRepository.findInChallenge(member_id,PageRequest.of(0,searchCnt));
+        else if(searchType == 2) list = challengeRepository.findMyChallenge(member_id,PageRequest.of(0,searchCnt));
+        return list;
+    }
+
+    public List<ChallengeDto.AllInfo> getSearchResult(int searchType, Long member_id){
+        List<Challenge> list = searchChallenge(searchType, member_id).getContent();
         List<ChallengeDto.AllInfo> result = new ArrayList<>();
         list.forEach(e->result.add(new ChallengeDto.AllInfo(e)));
         return result;
     }
 
-    //참여 중인 챌린지 조회
-    public List<ChallengeDto.AllInfo> searchInChallenge(Long member_id){
-        int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
-        Page<Challenge> list = challengeRepository.findInChallenge(member_id , PageRequest.of(0, searchCnt));
-        List<Challenge> challenges = list.getContent();
-        List<ChallengeDto.AllInfo> result = new ArrayList<>();
-        list.forEach(e->result.add(new ChallengeDto.AllInfo(e)));
-        return result;
-    }
-
-    //내가 개설한 챌린지 조회
-    public List<ChallengeDto.AllInfo> searchMyChallenge(Long member_id){
-        int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
-        Page<Challenge> list = challengeRepository.findMyChallenge(member_id, PageRequest.of(0,searchCnt));
-        List<Challenge> challenges = list.getContent();
-        List<ChallengeDto.AllInfo> result = new ArrayList<>();
-        list.forEach(e->result.add(new ChallengeDto.AllInfo(e)));
-        return result;
-    }
     public void increaseParticipant(Long challenge_id){
-        Optional<Challenge> challenge = challengeRepository.findById(challenge_id);
-        challenge.orElseThrow(()->new NoSuchElementException("no such Challenge"));
-        challenge.get().increaseCurrentParticipant();
-        challengeRepository.save(challenge.get());
+        Challenge challenge = challengeRepository.findById(challenge_id).orElseThrow(()-> new NoSuchElementException("no such Challenge"));
+        challenge.increaseCurrentParticipant();
+        challengeRepository.save(challenge);
     }
 
     /*

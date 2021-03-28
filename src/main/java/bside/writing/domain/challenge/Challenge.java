@@ -25,10 +25,10 @@ public class Challenge extends BaseTimeEntity {
     @Column(name = "cover_img")
     private int coverImg;
 
-    @Column(name = "challenge_title", length = 50)
+    @Column(name = "challenge_title", length = 50, nullable = false)
     private String  challengeTitle;
 
-    @Column(name = "challenge_detail", length = 100)
+    @Column(name = "challenge_detail", length = 100, nullable = false)
     private String  challengeDetail;
 
     @Column(name = "max_participant")
