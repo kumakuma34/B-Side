@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ChallengeMemberService {
     private final ChallengeMemberRepository challengeMemberRepository;
+    private final ChallengeService challengeService;
 
     public ChallengeMember joinChallenge(Long challenge_id, Long uid){
         ChallengeMember entity = ChallengeMember.builder()
@@ -18,9 +19,8 @@ public class ChallengeMemberService {
                 .submitArticleCnt(0L)
                 .build();
 
-        /*
-        TODO : challenge current user ++
-         */
+        challengeService.increaseParticipant(challenge_id);
+
         return challengeMemberRepository.save(entity);
     }
 }

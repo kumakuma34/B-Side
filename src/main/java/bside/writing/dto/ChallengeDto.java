@@ -2,10 +2,7 @@ package bside.writing.dto;
 
 import bside.writing.domain.challenge.Challenge;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -94,7 +91,9 @@ public class ChallengeDto {
     @AllArgsConstructor
     public static class AllInfo{
         private int coverImg;
+        @NonNull
         private String  challengeTitle;
+        @NonNull
         private String  challengeDetail;
         private int  maxParticipant;
         private int currentParticipant;
@@ -154,7 +153,7 @@ public class ChallengeDto {
     @Builder
     @AllArgsConstructor
     public static class SaveDto{
-        private Info info;
+        private AllInfo info;
         private long created_id;
         private long modified_id;
 
@@ -168,7 +167,7 @@ public class ChallengeDto {
                     .startDt(this.info.getStartDt())
                     .duration(this.info.getDuration())
                     .submitDaysCnt(this.info.getSubmitDaysCnt())
-                    .status(this.info.getStatus())
+                    .status(0)
                     .createdId(created_id)
                     .modifiedId(modified_id)
                     .build();
