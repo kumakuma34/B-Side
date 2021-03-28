@@ -38,10 +38,9 @@ public class ChallengeController {
         else if(request.getSearch_type().equals("IN")){
             challengeList = challengeService.searchInChallenge(uid);
         }
-        /*
-        TODO : 참여 중인 챌린지, 내가 개설한 챌린지 조회 함수 구현
-         */
+        else if(request.getSearch_type().equals("MINE")){
+            challengeList = challengeService.searchMyChallenge(uid);
+        }
         return challengeList;
     }
-
 }

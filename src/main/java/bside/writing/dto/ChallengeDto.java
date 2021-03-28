@@ -154,7 +154,7 @@ public class ChallengeDto {
     @Builder
     @AllArgsConstructor
     public static class SaveDto{
-        private Info info;
+        private AllInfo info;
         private long created_id;
         private long modified_id;
 
@@ -168,7 +168,7 @@ public class ChallengeDto {
                     .startDt(this.info.getStartDt())
                     .duration(this.info.getDuration())
                     .submitDaysCnt(this.info.getSubmitDaysCnt())
-                    .status(this.info.getStatus())
+                    .status(0)
                     .createdId(created_id)
                     .modifiedId(modified_id)
                     .build();

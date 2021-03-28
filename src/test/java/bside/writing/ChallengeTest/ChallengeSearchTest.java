@@ -39,16 +39,24 @@ public class ChallengeSearchTest {
 
     @Test
     public void 참여중챌린지조회(){
-        Page<Challenge> list = challengeRepository.findInChallenge(20L, PageRequest.of(0,10));
+        Page<Challenge> list = challengeRepository.findInChallenge(30L, PageRequest.of(0,10));
         List<Challenge> result = list.getContent();
         list.forEach(e->System.out.println(e.toString()));
+    }
+
+    @Test
+    public void 내챌린지(){
+        Page<Challenge> list = challengeRepository.findMyChallenge(1L, PageRequest.of(0,10));
+        List<Challenge> result = list.getContent();
+        list.forEach(e->System.out.println(e.toString()));
+
     }
     @Test
     public void joinChallenge(){
         //given
-        Random random = new Random();
-        Long uid = Long.valueOf(random.nextInt(random.nextInt(30)));
-        challengeMemberService.joinChallenge(1L,20L);
+        //Random random = new Random();
+        //Long uid = Long.valueOf(random.nextInt(random.nextInt(30)));
+        challengeMemberService.joinChallenge(7L,30L);
 
     }
 

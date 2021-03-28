@@ -100,14 +100,25 @@ public class ChallengeService {
         return result;
     }
 
+    //내가 개설한 챌린지 조회
+    public List<ChallengeDto.AllInfo> searchMyChallenge(Long member_id){
+        int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
+        Page<Challenge> list = challengeRepository.findMyChallenge(member_id, PageRequest.of(0,searchCnt));
+        List<Challenge> challenges = list.getContent();
+        List<ChallengeDto.AllInfo> result = new ArrayList<>();
+        list.forEach(e->result.add(new ChallengeDto.AllInfo(e)));
+        return result;
+    }
     public void increaseParticipant(Long challenge_id){
         Optional<Challenge> challenge = challengeRepository.findById(challenge_id);
         challenge.orElseThrow(()->new NoSuchElementException("no such Challenge"));
         challenge.get().increaseCurrentParticipant();
         challengeRepository.save(challenge.get());
-
     }
 
+    /*
+    TODO : 매일 일배치로 시작일자 도달한 챌린지 status 업데이트 (0>1)
+     */
 
 
 

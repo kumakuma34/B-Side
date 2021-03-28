@@ -15,11 +15,12 @@ public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
     @Query("SELECT c FROM Challenge c WHERE c.currentParticipant < c.maxParticipant")
     Page<Challenge> findOpenChallenge(PageRequest pageable);
 
-    //    @Query(value = "SELECT * FROM theme order by rand() limit ?1", nativeQuery = true)
     @Query(value = "SELECT * FROM challenge c INNER JOIN challenge_member m ON c.challenge_id = m.challenge_id " +
             "where m.member_id = ?1 " +
             "order by DATE_ADD(c.start_dt, INTERVAL c.duration * 7 DAY)", nativeQuery = true)
     Page<Challenge> findInChallenge(Long id, PageRequest pageable);
 
+    @Query(value = "SELECT * FROM challenge c WHERE c.created_id = ?1 AND c.status = 0 order by c.start_dt desc", nativeQuery = true)
+    Page<Challenge> findMyChallenge(Long id, PageRequest pageable);
 
 }
