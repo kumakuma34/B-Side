@@ -6,9 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
 @Table(name = "theme")
 @Entity
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,5 +25,6 @@ public class Theme extends BaseTimeEntity implements Serializable {
 
     @Column(name = "theme_category", length = 10)
     private String category;
-    
+
 }
+
