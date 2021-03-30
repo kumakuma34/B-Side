@@ -36,7 +36,7 @@ public class NotificationDto implements Entityable {
     private Boolean notiRead;
 
     @JsonIgnore
-    private LocalDateTime reserveDate;
+    private LocalDateTime notiStartDate;
 
     @JsonIgnore
     private Long fromMemberId;
@@ -82,7 +82,7 @@ public class NotificationDto implements Entityable {
                     .notiMessage(notiMessage)
                     .notiUrl(notiUrl)
                     .notiRead(notiRead)
-                    .reserveDate(reserveDate)
+                    .notiStartDate(reserveDate)
                     .build();
         }
     }
@@ -99,7 +99,7 @@ public class NotificationDto implements Entityable {
         this.notiMessage = entity.getNotiMessage();
         this.notiUrl = entity.getNotiUrl();
         this.notiRead = entity.getNotiRead();
-        this.reserveDate = entity.getReserveDate();
+        this.notiStartDate = entity.getNotiStartDate();
     }
 
     public Notification toEntity(){
@@ -113,7 +113,7 @@ public class NotificationDto implements Entityable {
                 .notiMessage(notiMessage)
                 .notiUrl(notiUrl)
                 .notiRead(notiRead)
-                .reserveDate(reserveDate)
+                .notiStartDate(notiStartDate)
                 .build();
     }
 

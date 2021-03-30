@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +28,10 @@ public class noti_Repo_test {
         NotificationDto notificationDto = NotificationDto.builder()
                 .memberId(30L)
                 .fromMemberId(47L)
-                .notiMessage("장현수 4월에 죽이고 지옥가겠습니다")
+                .notiMessage("장현수 지금 죽이고 놀러가겠습니다")
                 .notiRead(false)
                 .notiType("유저알람")
                 .notiUrl("www.google.com")
-                .reserveDate(LocalDateTime.now().plusMonths(1))
                 .build();
         Notification save = notificationRepository.save(notificationDto.toEntity());
         Assertions.assertThat(save.getMemberId()).isEqualTo(notificationDto.getMemberId());

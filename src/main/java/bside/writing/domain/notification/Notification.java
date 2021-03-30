@@ -43,7 +43,6 @@ public class Notification extends BaseTimeEntity {
     @Column(name = "noti_read", nullable = false)
     private Boolean notiRead;
 
-    @Column(name = "reserve_date")
-    private LocalDateTime reserveDate;
-
+    @Column(name = "noti_start_date")
+    private LocalDateTime notiStartDate;
 }
