@@ -26,8 +26,6 @@ public class MemberService {
         return findByEmail(memberDto.getEmail());
     }
 
-
-
     @Transactional
     public MemberDto join(MemberDto memberDto) {
         Member entity = memberDto.toEntity();
@@ -62,7 +60,5 @@ public class MemberService {
         if(member.isPresent()) return true;
         return false;
     }
-
-
 }
 

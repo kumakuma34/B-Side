@@ -1,4 +1,4 @@
-package bside.writing.domain.badge;
+package bside.writing.enums;
 
 public enum BadgeCode {
     ARTICLE_COMMIT,

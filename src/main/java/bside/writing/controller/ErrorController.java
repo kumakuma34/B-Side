@@ -4,7 +4,6 @@ import com.google.gson.JsonObject;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,7 +14,7 @@ import io.jsonwebtoken.MalformedJwtException;
 
 @RestControllerAdvice
 public class ErrorController {
-    @ExceptionHandler({ExpiredJwtException.class, AuthenticationException.class})
+    @ExceptionHandler({ExpiredJwtException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String expiredToken(Exception e){
         JsonObject jsonResponse = new JsonObject();
@@ -35,7 +34,7 @@ public class ErrorController {
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String illergalArguException(Exception e){
+    public String illegalArgumentException(Exception e){
         JsonObject jsonResponse = new JsonObject();
         jsonResponse.addProperty("error_code", "bad request");
         jsonResponse.addProperty("error_desc", e.getMessage());

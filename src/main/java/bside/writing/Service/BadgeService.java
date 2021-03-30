@@ -2,7 +2,7 @@ package bside.writing.Service;
 
 import bside.writing.Repository.BadgeRepository;
 import bside.writing.domain.badge.Badge;
-import bside.writing.domain.badge.BadgeCode;
+import bside.writing.enums.BadgeCode;
 import bside.writing.dto.BadgeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

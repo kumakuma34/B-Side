@@ -4,6 +4,7 @@ import bside.writing.templateClass.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Table(name = "notification")
 @Entity
@@ -40,6 +41,8 @@ public class Notification extends BaseTimeEntity {
     private String notiUrl;
 
     @Column(name = "noti_read", nullable = false)
-    private String notiRead;
+    private Boolean notiRead;
 
+    @Column(name = "noti_start_date")
+    private LocalDateTime notiStartDate;
 }
