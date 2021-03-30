@@ -48,26 +48,25 @@ public class TokenController {
 
     @CrossOrigin("*")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public String memberLogout(@RequestHeader(name="Authorization") String accessToken){
-        JsonObject jsonResponse = new JsonObject();
+    public Map<String, Object> memberLogout(@RequestHeader(name="Authorization") String accessToken){
+        Map<String, Object> response = new HashMap<>();
 
         Long memberId = tokenService.getUid(accessToken);
         tokenService.deleteMemberToken(memberId);
 
-        jsonResponse.addProperty("uid", memberId);
-        return jsonResponse.toString();
+        response.put("uid", memberId);
+        return response;
     }
 
     @CrossOrigin("*")
     @RequestMapping(value = "/token", method = RequestMethod.GET)
-    public String refreshAccessToken(@RequestHeader(name = "Authorization") String refreshToken){
-        JsonObject jsonObject = new JsonObject();
-
+    public Map<String, Object> refreshAccessToken(@RequestHeader(name = "Authorization") String refreshToken){
+        Map<String, Object> response = new HashMap<>();
 
         Long memberId = tokenService.getUid(refreshToken);
         String accessToken = tokenService.refreshAccessToken(refreshToken);
 
-        jsonObject.addProperty("access_token", accessToken);
-        return jsonObject.toString();
+        response.put("access_token", accessToken);
+        return response;
     }
 }

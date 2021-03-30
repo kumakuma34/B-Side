@@ -9,6 +9,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Setter
 @Getter
 @Builder
 @AllArgsConstructor
@@ -37,17 +38,26 @@ public class NotificationDto implements Entityable {
     @JsonIgnore
     private LocalDateTime reserveDate;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("from_member_name")
+    @JsonIgnore
     private Long fromMemberId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("from_article_name")
+    @JsonProperty("from_member_name")
+    private String fromMemberName;
+
+    @JsonIgnore
     private Long fromArticleId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("from_challenge_name")
+    @JsonProperty("from_article_name")
+    private String fromArticleName;
+
+    @JsonIgnore
     private Long fromChallengeId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("from_challenge_name")
+    private String fromChallengeName;
 
 
 
@@ -106,6 +116,5 @@ public class NotificationDto implements Entityable {
                 .reserveDate(reserveDate)
                 .build();
     }
-
 
 }

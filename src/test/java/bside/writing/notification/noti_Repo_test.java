@@ -29,11 +29,11 @@ public class noti_Repo_test {
         NotificationDto notificationDto = NotificationDto.builder()
                 .memberId(30L)
                 .fromMemberId(47L)
-                .notiMessage("장현수 반드시 죽이고 지옥가겠습니다")
+                .notiMessage("장현수 4월에 죽이고 지옥가겠습니다")
                 .notiRead(false)
                 .notiType("유저알람")
                 .notiUrl("www.google.com")
-                .reserveDate(LocalDateTime.now())
+                .reserveDate(LocalDateTime.now().plusMonths(1))
                 .build();
         Notification save = notificationRepository.save(notificationDto.toEntity());
         Assertions.assertThat(save.getMemberId()).isEqualTo(notificationDto.getMemberId());

@@ -1,5 +1,6 @@
 package bside.writing.Service;
 
+import bside.writing.Repository.MemberRepository;
 import bside.writing.Repository.NotificationRepository;
 import bside.writing.domain.notification.Notification;
 import bside.writing.dto.NotificationDto;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class NotificationService {
     private final NotificationRepository notificationRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public <T extends Entityable> NotificationDto save(T notificationDto){
@@ -26,18 +28,28 @@ public class NotificationService {
 
     @Transactional
     public List<NotificationDto> getNotification(Long memberId) {
-        Optional<List<Notification>> entityList = notificationRepository.findByMemberId(memberId);
-        if(entityList.isPresent()){
-            List<NotificationDto> collect = entityList.get().stream()
-                    .map((entity) -> new NotificationDto(entity)).collect(Collectors.toList());
-            return deleteReservedNotification(collect);
-        }
-        return null;
+        List<Notification> notificationsList = notificationRepository.findByMemberId(memberId)
+                .orElseThrow();
+        return IdtoName(toNotiDtoList(notificationsList));
     }
 
-    public List<NotificationDto> deleteReservedNotification(List<NotificationDto> notificationDtoList){
-        return  notificationDtoList.stream()
-                .filter(e-> e.getReserveDate() == null || LocalDateTime.now().isBefore(e.getReserveDate()))
+    public List<NotificationDto> toNotiDtoList(List<Notification> notificationList){
+        return notificationList.stream()
+                    .map((entity) -> new NotificationDto(entity))
                 .collect(Collectors.toList());
     }
+
+    public List<NotificationDto> IdtoName(List<NotificationDto> notificationDtoList){
+        return notificationDtoList.stream()
+                .map((dto) -> {
+                    if (dto.getFromArticleId() != null)
+                        dto.setFromArticleName("장현수킬러 일기");
+                    if (dto.getFromChallengeId() != null)
+                        dto.setFromChallengeName("장현수 킬러들 모임");
+                    if (dto.getFromMemberId() != null)
+                        dto.setFromMemberName(memberRepository.findById(dto.getFromMemberId()).get().getNickName());
+                    return dto;
+                }).collect(Collectors.toList());
+    }
+
 }

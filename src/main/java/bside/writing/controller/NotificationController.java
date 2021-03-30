@@ -3,11 +3,9 @@ package bside.writing.controller;
 import bside.writing.Service.NotificationService;
 import bside.writing.Service.TokenService;
 import bside.writing.dto.NotificationDto;
-import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
