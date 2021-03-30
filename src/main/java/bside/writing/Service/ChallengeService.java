@@ -8,14 +8,11 @@ import bside.writing.enums.ThemeCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +21,7 @@ public class ChallengeService {
     private final ThemeService themeService;
     private int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
 
-    public ChallengeDto.AllInfo makeAllInfoDTO(ChallengeDto.Request request, Long uid){
+    public ChallengeDto.Response makeAllInfoDTO(ChallengeDto.Request request, Long uid){
         String[] token = request.getTheme_string().split(" ");
         int maxCnt = ThemeCode.MAX_THEME_COUNT.getVal();
         int maxLen = ThemeCode.MAX_THEME_LENGTH.getVal();
@@ -41,7 +38,7 @@ public class ChallengeService {
             themeId.add(id);
         }
 
-        return ChallengeDto.AllInfo.builder()
+        return ChallengeDto.Response.builder()
                 .coverImg(request.getCoverImg())
                 .challengeTitle(request.getChallengeTitle())
                 .challengeDetail(request.getChallengeDetail())
@@ -56,10 +53,13 @@ public class ChallengeService {
                 .theme1(themeId.get(0))
                 .theme2(themeId.get(1))
                 .theme3(themeId.get(2))
+                .theme1_name(token[0])
+                .theme2_name(token[1])
+                .theme3_name(token[2])
                 .build();
     }
 
-    public Challenge addNewChallenge(ChallengeDto.AllInfo challengeDto) {
+    public Challenge addNewChallenge(ChallengeDto.Response challengeDto) {
         int title_len = ChallengeCode.CHALLENGE_TITLE_LENGTH.getVal();
         int detail_len = ChallengeCode.CHALLENGE_DETAIL_LENGTH.getVal();
 
@@ -80,6 +80,16 @@ public class ChallengeService {
         Challenge challenge = challengeDto.toEntity();
         return challengeRepository.save(challenge);
     }
+
+    //theme id > Name 변환 함수
+    public ChallengeDto.Response setThemeName(ChallengeDto.Response response){
+        ChallengeDto.Response result = response;
+        result.setTheme1_name("문창주가 개발해줄 themeName");
+        result.setTheme2_name("문창주가 개발해줄 themeName");
+        result.setTheme3_name("문창주가 개발해줄 themeName");
+        return result;
+    }
+
     public Page<Challenge> searchChallenge(int searchType, Long member_id){
         Page<Challenge> list = null;
         if(searchType == 0) list = challengeRepository.findOpenChallenge(PageRequest.of(0,searchCnt));
@@ -89,10 +99,11 @@ public class ChallengeService {
         return list;
     }
 
-    public List<ChallengeDto.AllInfo> getSearchResult(int searchType, Long member_id){
+    public List<ChallengeDto.Response> getSearchResult(int searchType, Long member_id){
         List<Challenge> list = searchChallenge(searchType, member_id).getContent();
-        List<ChallengeDto.AllInfo> result = new ArrayList<>();
-        list.forEach(e->result.add(new ChallengeDto.AllInfo(e)));
+        List<ChallengeDto.Response> result = new ArrayList<>();
+        list.forEach(e->result.add(new ChallengeDto.Response(e)));
+        result.forEach(e->setThemeName(e));
         return result;
     }
 

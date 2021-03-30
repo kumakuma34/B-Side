@@ -4,14 +4,12 @@ import bside.writing.Service.ChallengeService;
 import bside.writing.Service.TokenService;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.dto.ChallengeDto;
-import bside.writing.enums.ChallengeCode;
 import bside.writing.enums.ChallengeSearchCode;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,7 +30,7 @@ public class ChallengeController {
     //challenge 조회
     @CrossOrigin("*")
     @RequestMapping(value = "challenge", method = RequestMethod.GET)
-    public List<ChallengeDto.AllInfo> getChallenge(@RequestParam String search_type, @RequestHeader(name="Authorization") String accessToken) throws IOException{
+    public List<ChallengeDto.Response> getChallenge(@RequestParam String search_type, @RequestHeader(name="Authorization") String accessToken) throws IOException{
         Long uid = tokenService.getUid(accessToken);
         int searchType = ChallengeSearchCode.valueOf(search_type).getVal();
         return challengeService.getSearchResult(searchType, uid);
@@ -50,8 +48,7 @@ public class ChallengeController {
 /*
 TODO : 모집 중 챌린지 조회
 TODO : 진행 중 챌린지 조회
-TODO : 챌린지 조회 query param으로 변경
-TODO : 챌린지 조회 글감 id>이름으로 바꿔서 받아오기
+TODO : 챌린지 조회 글감 id > 이름으로 바꿔서 받아오기
  */
 
 }

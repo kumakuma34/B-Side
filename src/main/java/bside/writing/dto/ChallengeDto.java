@@ -1,15 +1,15 @@
 package bside.writing.dto;
 
+import bside.writing.Repository.ThemeRepository;
 import bside.writing.domain.challenge.Challenge;
+import bside.writing.domain.theme.Theme;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
-@Getter
 public class ChallengeDto {
-
     @Getter
     @Setter
     @AllArgsConstructor
@@ -87,13 +87,13 @@ public class ChallengeDto {
     }
 
     @Getter
+    @Setter
     @Builder
     @AllArgsConstructor
-    public static class AllInfo{
+    public static class Response {
+        private Long challengeId;
         private int coverImg;
-        @NonNull
         private String  challengeTitle;
-        @NonNull
         private String  challengeDetail;
         private int  maxParticipant;
         private int currentParticipant;
@@ -103,12 +103,19 @@ public class ChallengeDto {
         private int status;
         private long createdId;
         private long modifiedId;
+        @JsonIgnore
         private long theme1;
+        @JsonIgnore
         private long theme2;
+        @JsonIgnore
         private long theme3;
+        private String theme1_name;
+        private String theme2_name;
+        private String theme3_name;
 
         public Challenge toEntity(){
             return Challenge.builder()
+                    .challengeId(this.challengeId)
                     .coverImg(this.coverImg)
                     .challengeTitle(this.challengeTitle)
                     .challengeDetail(this.challengeDetail)
@@ -126,7 +133,8 @@ public class ChallengeDto {
                     .build();
         }
 
-        public AllInfo(Challenge entity){
+        public Response(Challenge entity){ //Response
+            this.challengeId = entity.getChallengeId();
             this.coverImg = entity.getCoverImg();
             this.challengeTitle = entity.getChallengeTitle();
             this.challengeDetail = entity.getChallengeDetail();
@@ -138,12 +146,15 @@ public class ChallengeDto {
             this.status = entity.getStatus();
             this.createdId = entity.getCreatedId();
             this.modifiedId = entity.getModifiedId();
-            if(entity.getTheme1() != null)
+            if(entity.getTheme1() != null){
                 this.theme1 = entity.getTheme1();
-            if(entity.getTheme2() != null)
+            }
+            if(entity.getTheme2() != null){
                 this.theme2 = entity.getTheme2();
-            if(entity.getTheme3() != null)
+            }
+            if(entity.getTheme3() != null){
                 this.theme3 = entity.getTheme3();
+            }
         }
     }
 
@@ -153,7 +164,7 @@ public class ChallengeDto {
     @Builder
     @AllArgsConstructor
     public static class SaveDto{
-        private AllInfo info;
+        private Response info;
         private long created_id;
         private long modified_id;
 
@@ -200,7 +211,7 @@ public class ChallengeDto {
 
     private long modified_id;
 
-    public ChallengeDto(Challenge entity){
+    public ChallengeDto(ThemeRepository themeRepository, Challenge entity){
         this.challenge_id = entity.getChallengeId();
         this.cover_img = entity.getCoverImg();
         this.challenge_title = entity.getChallengeTitle();
@@ -215,20 +226,5 @@ public class ChallengeDto {
         this.modified_id = entity.getModifiedId();
     }
 
-    public Challenge toEntity(){
-        return Challenge.builder()
-                .challengeId(this.getChallenge_id())
-                .coverImg(this.getCover_img())
-                .challengeTitle(this.getChallenge_title())
-                .challengeDetail(this.getChallenge_detail())
-                .maxParticipant(this.getMax_participant())
-                .currentParticipant(this.getCurrent_participant())
-                .startDt(this.getStart_dt())
-                .duration(this.getDuration())
-                .submitDaysCnt(this.getSubmit_days_cnt())
-                .status(this.getStatus())
-                .createdId(this.getCreated_id())
-                .modifiedId(this.getModified_id())
-                .build();
-    }
+
 }
