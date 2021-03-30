@@ -14,7 +14,7 @@ import io.jsonwebtoken.MalformedJwtException;
 
 @RestControllerAdvice
 public class ErrorController {
-    @ExceptionHandler({ExpiredJwtException.class, AuthenticationException.class})
+    @ExceptionHandler({ExpiredJwtException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String expiredToken(Exception e){
         JsonObject jsonResponse = new JsonObject();

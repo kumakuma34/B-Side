@@ -15,23 +15,12 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 public class NotificationDto implements Entityable {
+
     @JsonIgnore
     private Long id;
 
     @JsonIgnore
     private Long memberId;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("from_member_name")
-    private Long fromMemberId;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("from_article_name")
-    private Long fromArticleId;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonProperty("from_challenge_name")
-    private Long fromChallengeId;
 
     @JsonProperty("notification_type")
     private String notiType;
@@ -46,8 +35,21 @@ public class NotificationDto implements Entityable {
     private Boolean notiRead;
 
     @JsonIgnore
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private LocalDateTime reserveDate;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("from_member_name")
+    private Long fromMemberId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("from_article_name")
+    private Long fromArticleId;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("from_challenge_name")
+    private Long fromChallengeId;
+
+
 
     @Getter
     @Setter

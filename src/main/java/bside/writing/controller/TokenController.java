@@ -4,10 +4,14 @@ import bside.writing.Service.MemberService;
 import bside.writing.Service.TokenService;
 import bside.writing.dto.MemberDto;
 import bside.writing.dto.MemberTokenDto;
-import com.google.api.client.json.Json;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -18,11 +22,11 @@ public class TokenController {
 
     @CrossOrigin("*")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String getToken(@RequestHeader(name="Authorization") String idTokenString) throws Exception {
-        JsonObject jsonResponse = new JsonObject();
+    public Map<String, Object> getToken(@RequestHeader(name="Authorization") String idTokenString) throws Exception {
+        Map<String, Object> response = new HashMap<>();
 
         MemberDto memberDto = tokenService.getMemberDto(idTokenString);
-        boolean signIn = !memberService.has(memberDto.getEmail());
+        Boolean signIn = !memberService.has(memberDto.getEmail());
         memberDto = signIn ? memberService.join(memberDto) : memberService.findByEmail(memberDto.getEmail());
 
         String accessToken = tokenService.makeAccessToken(memberDto.getId());
@@ -36,10 +40,10 @@ public class TokenController {
 
         tokenService.saveMemberToken(memberTokenDto);
 
-        jsonResponse.addProperty("access_token", accessToken);
-        jsonResponse.addProperty("refresh_token", refreshToken);
-        jsonResponse.addProperty("sign_in", signIn);
-        return jsonResponse.toString();
+        response.put("access_token", accessToken);
+        response.put("refresh_token", refreshToken);
+        response.put("sign_in", signIn);
+        return response;
     }
 
     @CrossOrigin("*")
@@ -58,6 +62,7 @@ public class TokenController {
     @RequestMapping(value = "/token", method = RequestMethod.GET)
     public String refreshAccessToken(@RequestHeader(name = "Authorization") String refreshToken){
         JsonObject jsonObject = new JsonObject();
+
 
         Long memberId = tokenService.getUid(refreshToken);
         String accessToken = tokenService.refreshAccessToken(refreshToken);

@@ -42,8 +42,7 @@ public class TokenService {
 
     public MemberDto getMemberDto(String idTokenString) throws GeneralSecurityException, IOException, AuthenticationException {
 
-        GoogleIdToken idToken = Optional.ofNullable(getVerify(idTokenString))
-                .orElseThrow(() -> new AuthenticationException(""));
+        GoogleIdToken idToken = getVerify(idTokenString);
         GoogleIdToken.Payload payload = idToken.getPayload();
 
         String emailByToken = payload.getEmail();
