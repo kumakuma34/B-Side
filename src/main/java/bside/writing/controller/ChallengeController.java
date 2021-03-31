@@ -44,9 +44,20 @@ public class ChallengeController {
     @RequestMapping(value = "challenge/join/{challenge_id}", method = RequestMethod.POST)
     public String joinChallenge(@PathVariable String challenge_id , @RequestHeader(name="Authorization") String accessToken) throws IOException{
         Long uid  = tokenService.getUid(accessToken);
-        challengeMemberService.joinChallenge(Long.valueOf(challenge_id), uid);
+        challengeService.increaseParticipant(Long.valueOf(challenge_id), uid);
         return "Success!!";
     }
+
+    //challenge join in detail
+    @CrossOrigin("*")
+    @RequestMapping(value = "challenge/{challenge_id}", method = RequestMethod.GET)
+    public ChallengeDto.Response getChallengeDetail(@PathVariable String challenge_id , @RequestHeader(name="Authorization") String accessToken) throws IOException{
+        Long uid  = tokenService.getUid(accessToken);
+        return challengeService.getChallengeDetail(Long.valueOf(challenge_id), uid);
+
+    }
+
+
 /*
 TODO : 모집 중 챌린지 조회
 TODO : 진행 중 챌린지 조회

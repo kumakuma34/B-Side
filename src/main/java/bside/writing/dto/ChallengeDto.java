@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ChallengeDto {
     @Getter
@@ -112,6 +113,10 @@ public class ChallengeDto {
         private String theme1_name;
         private String theme2_name;
         private String theme3_name;
+        private List<String> joinMembers;
+        private Long ownerId;
+        private String ownerName;
+        private Boolean isOwner;
 
         public Challenge toEntity(){
             return Challenge.builder()

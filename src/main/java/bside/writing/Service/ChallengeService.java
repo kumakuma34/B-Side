@@ -19,6 +19,8 @@ import java.util.NoSuchElementException;
 public class ChallengeService {
     private final ChallengeRepository challengeRepository;
     private final ThemeService themeService;
+    private final MemberService memberService;
+    private final ChallengeMemberService challengeMemberService;
     private int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
 
     public ChallengeDto.Response makeAllInfoDTO(ChallengeDto.Request request, Long uid){
@@ -90,6 +92,13 @@ public class ChallengeService {
         return result;
     }
 
+
+
+    public ChallengeDto.Response setUerInfo(ChallengeDto.Response response){
+        response.setJoinMembers(challengeMemberService.getMemberList(response.getChallengeId()));
+        return response;
+    }
+
     //challenge 조회
     public Page<Challenge> searchChallenge(int searchType, Long member_id){
         Page<Challenge> list = null;
@@ -110,17 +119,31 @@ public class ChallengeService {
     }
 
     //challenge Participant 증가
-    public void increaseParticipant(Long challenge_id){
+    public void increaseParticipant(Long challenge_id, Long uid){
         Challenge challenge = challengeRepository.findById(challenge_id).orElseThrow(()-> new NoSuchElementException("no such Challenge"));
         challenge.increaseCurrentParticipant();
         challengeRepository.save(challenge);
+
+        challengeMemberService.joinChallenge(challenge_id, uid);
     }
+
+    //challenge detail Search
+    public ChallengeDto.Response getChallengeDetail(Long challenge_id, Long uid){
+        Challenge challenge = challengeRepository.findById(challenge_id).orElseThrow(()-> new NoSuchElementException("no such Challenge"));
+        ChallengeDto.Response result = new ChallengeDto.Response(challenge);
+        setThemeName(result);
+        setUerInfo(result);
+        result.setOwnerId(challenge.getCreatedId());
+        result.setOwnerName(memberService.findNameById(challenge.getCreatedId()));
+        if(uid == challenge.getChallengeId()) result.setIsOwner(true);
+        else result.setIsOwner(false);
+        return result;
+    }
+
 
 
     /*
     TODO : 매일 일배치로 시작일자 도달한 챌린지 status 업데이트 (0>1)
      */
-
-
 
 }
