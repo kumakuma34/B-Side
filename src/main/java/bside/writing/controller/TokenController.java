@@ -4,26 +4,23 @@ import bside.writing.Service.MemberService;
 import bside.writing.Service.TokenService;
 import bside.writing.dto.MemberDto;
 import bside.writing.dto.MemberTokenDto;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class TokenController {
 
     private final TokenService tokenService;
     private final MemberService memberService;
 
+    @CrossOrigin("*")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Map<String, Object> getToken(@RequestHeader(name="Authorization") String idTokenString) throws Exception {
-        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> response = new LinkedHashMap<>();
 
         MemberDto memberDto = tokenService.getMemberDto(idTokenString);
         Boolean signIn = !memberService.has(memberDto.getEmail());
@@ -46,20 +43,22 @@ public class TokenController {
         return response;
     }
 
+    @CrossOrigin("*")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public Map<String, Object> memberLogout(@RequestHeader(name="Authorization") String accessToken){
-        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> response = new LinkedHashMap<>();
 
-        Long memberId = tokenService.getUid(accessToken);
+        final Long memberId = tokenService.getUid(accessToken);
         tokenService.deleteMemberToken(memberId);
 
         response.put("uid", memberId);
         return response;
     }
 
-    @RequestMapping(value = "/token", method = RequestMethod.GET)
+    @CrossOrigin("*")
+    @RequestMapping(value = "/accesstoken", method = RequestMethod.GET)
     public Map<String, Object> refreshAccessToken(@RequestHeader(name = "Authorization") String refreshToken){
-        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> response = new LinkedHashMap<>();
 
         String accessToken = tokenService.refreshAccessToken(refreshToken);
 

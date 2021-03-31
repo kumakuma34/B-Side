@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
@@ -42,7 +43,8 @@ public class TokenService {
 
     // google library method
     public MemberDto getMemberDto(final String idTokenString) throws GeneralSecurityException, IOException{
-        GoogleIdToken idToken = getTokenAfterVerify(idTokenString);
+        GoogleIdToken idToken = Optional.ofNullable(getTokenAfterVerify(idTokenString))
+                .orElseThrow(()-> new MalformedJwtException(""));
         GoogleIdToken.Payload payload = idToken.getPayload();
 
         return MemberDto.builder()
