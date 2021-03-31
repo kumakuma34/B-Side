@@ -1,5 +1,6 @@
 package bside.writing.controller;
 
+import bside.writing.Service.ChallengeMemberService;
 import bside.writing.Service.ChallengeService;
 import bside.writing.Service.TokenService;
 import bside.writing.domain.challenge.Challenge;
@@ -18,6 +19,7 @@ public class ChallengeController {
 
     private final ChallengeService challengeService;
     private final TokenService tokenService;
+    private final ChallengeMemberService challengeMemberService;
 
     //challenge 신규 생성
     @CrossOrigin("*")
@@ -36,19 +38,18 @@ public class ChallengeController {
         return challengeService.getSearchResult(searchType, uid);
     }
 
+
     //challenge join
     @CrossOrigin("*")
-    @RequestMapping(value = "challenge/join", method = RequestMethod.GET)
-    public String joinChallenge(@RequestBody ChallengeDto.GetRequest request, @RequestHeader(name="Authorization") String accessToken) throws IOException{
-        JsonObject jsonResponse = new JsonObject();
-
-
-        return jsonResponse.toString();
+    @RequestMapping(value = "challenge/join/{challenge_id}", method = RequestMethod.POST)
+    public String joinChallenge(@PathVariable String challenge_id , @RequestHeader(name="Authorization") String accessToken) throws IOException{
+        Long uid  = tokenService.getUid(accessToken);
+        challengeMemberService.joinChallenge(Long.valueOf(challenge_id), uid);
+        return "Success!!";
     }
 /*
 TODO : 모집 중 챌린지 조회
 TODO : 진행 중 챌린지 조회
-TODO : 챌린지 조회 글감 id > 이름으로 바꿔서 받아오기
  */
 
 }
