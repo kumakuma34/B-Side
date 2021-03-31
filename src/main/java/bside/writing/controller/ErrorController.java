@@ -6,6 +6,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.io.DecodingException;
 import org.codehaus.jackson.JsonParseException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -52,6 +53,17 @@ public class ErrorController {
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("error_code", "bad request");
         response.put("error_desc", e.getMessage());
+        return response;
+    }
+
+    @ExceptionHandler({
+        HttpMessageNotReadableException.class // bad json request
+    })
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> HttpMessageNotReadableException(Exception e){
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("error_code", "bad request");
+        response.put("error_desc", "Request JSON parse error");
         return response;
     }
 

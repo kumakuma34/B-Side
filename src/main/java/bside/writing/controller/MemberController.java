@@ -3,9 +3,11 @@ package bside.writing.controller;
 import bside.writing.Service.MemberService;
 import bside.writing.Service.TokenService;
 import bside.writing.dto.MemberDto;
-import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 @RestController
@@ -16,28 +18,28 @@ public class MemberController {
 
     @CrossOrigin("*")
     @RequestMapping(value = "/member", method = RequestMethod.PUT)
-    public String memberUpdate(@RequestBody MemberDto memberDto, @RequestHeader(name="Authorization") String accessToken){
-        JsonObject jsonResponse = new JsonObject();
+    public Map<String, Object> memberUpdate(@RequestBody MemberDto memberDto, @RequestHeader(name="Authorization") String accessToken){
+        Map<String, Object> response = new LinkedHashMap<>();
 
-        Long uid = tokenService.getUid(accessToken);
-        memberService.update(uid, memberDto.getNickName(), memberDto.getProfileUrl());
-        jsonResponse.addProperty("uid", uid);
+        Long memberId = tokenService.getUid(accessToken);
+        memberDto.checkOrElseThrow();
+        memberService.update(memberId, memberDto.getNickName(), memberDto.getProfileUrl());
+        response.put("uid", memberId);
 
-        return jsonResponse.toString();
+        return response;
     }
 
     @CrossOrigin("*")
     @RequestMapping(value = "/member", method = RequestMethod.GET)
-    public String memberInfo(@RequestHeader(name = "Authorization") String accessToken) {
-        JsonObject jsonResponse = new JsonObject();
+    public Map<String, Object> memberInfo(@RequestHeader(name = "Authorization") String accessToken) {
+        Map<String, Object> response = new LinkedHashMap<>();
 
-        Long uid = tokenService.getUid(accessToken);
-        MemberDto memberDto = memberService.findById(uid);
+        Long memberId = tokenService.getUid(accessToken);
+        MemberDto memberDto = memberService.findById(memberId);
 
-        jsonResponse.addProperty("email", memberDto.getEmail());
-        jsonResponse.addProperty("nick_name", memberDto.getNickName());
-        jsonResponse.addProperty("profile_url", memberDto.getProfileUrl());
-        return jsonResponse.toString();
+        response.put("email", memberDto.getEmail());
+        response.put("nick_name", memberDto.getNickName());
+        response.put("profile_url", memberDto.getProfileUrl());
+        return response;
     }
-
 }
