@@ -15,12 +15,12 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class TokenController {
 
     private final TokenService tokenService;
     private final MemberService memberService;
 
-    @CrossOrigin("*")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Map<String, Object> getToken(@RequestHeader(name="Authorization") String idTokenString) throws Exception {
         Map<String, Object> response = new HashMap<>();
@@ -46,7 +46,6 @@ public class TokenController {
         return response;
     }
 
-    @CrossOrigin("*")
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public Map<String, Object> memberLogout(@RequestHeader(name="Authorization") String accessToken){
         Map<String, Object> response = new HashMap<>();
@@ -58,12 +57,10 @@ public class TokenController {
         return response;
     }
 
-    @CrossOrigin("*")
     @RequestMapping(value = "/token", method = RequestMethod.GET)
     public Map<String, Object> refreshAccessToken(@RequestHeader(name = "Authorization") String refreshToken){
         Map<String, Object> response = new HashMap<>();
 
-        Long memberId = tokenService.getUid(refreshToken);
         String accessToken = tokenService.refreshAccessToken(refreshToken);
 
         response.put("access_token", accessToken);

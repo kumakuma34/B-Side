@@ -11,9 +11,9 @@ import com.google.api.client.json.jackson.JacksonFactory;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -40,36 +40,27 @@ public class TokenService {
 
     private final MemberTokenRepository memberTokenRepository;
 
-    public MemberDto getMemberDto(String idTokenString) throws GeneralSecurityException, IOException, AuthenticationException {
-
-        GoogleIdToken idToken = getVerify(idTokenString);
+    // google library method
+    public MemberDto getMemberDto(final String idTokenString) throws GeneralSecurityException, IOException{
+        GoogleIdToken idToken = getTokenAfterVerify(idTokenString);
         GoogleIdToken.Payload payload = idToken.getPayload();
 
-        String emailByToken = payload.getEmail();
-        String nickNameByToken = payload.get("name").toString();
-        String profileUrlByToken = payload.get("picture").toString();
-
-        MemberDto memberDto = MemberDto.builder()
-                .email(emailByToken)
-                .nickName(nickNameByToken)
-                .profileUrl(profileUrlByToken)
+        return MemberDto.builder()
+                .email(payload.getEmail())
+                .nickName(payload.get("name").toString())
+                .profileUrl(payload.get("picture").toString())
+                //TODO : handle userRole using Spring security
                 .userRole("ROLE_USER")
                 .build();
-
-        return memberDto;
     }
 
-    public GoogleIdToken getVerify(String idTokenString) throws GeneralSecurityException, IOException {
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
+    // google library method
+    public GoogleIdToken getTokenAfterVerify(final String idTokenString) throws GeneralSecurityException, IOException {
+        return new GoogleIdTokenVerifier
                 .Builder(new NetHttpTransport(), new JacksonFactory())
                 .setAudience(Collections.singletonList(CLIENT_ID))
-                .build();
-
-        return verifier.verify(idTokenString);
-    }
-
-    public byte[] generateKeyAsByte(){
-        return DatatypeConverter.parseBase64Binary(JWT_SECRET);
+                .build()
+                .verify(idTokenString);
     }
 
     public String makeAccessToken(Long memberId){
@@ -90,28 +81,32 @@ public class TokenService {
                 .compact();
     }
 
-    public Long getUid(String accessToken){
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(generateKeyAsByte())
-                .build()
-                .parseClaimsJws(accessToken)
-                .getBody();
+    public byte[] generateKeyAsByte(){
+        return DatatypeConverter.parseBase64Binary(JWT_SECRET);
+    }
 
-        return Long.valueOf(claims.getId());
+    @Transactional
+    public String refreshAccessToken(final String refreshToken){
+        memberTokenRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(() -> new MalformedJwtException("invalid refresh token"));
+
+        final Long memberId = getUid(refreshToken);
+        final String accessToken = makeAccessToken(memberId);
+
+        MemberTokenDto memberTokenDto = MemberTokenDto.builder()
+                .id(memberId)
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+
+        memberTokenRepository.save(memberTokenDto.toEntity());
+
+        return accessToken;
     }
 
     public MemberTokenDto saveMemberToken(MemberTokenDto memberTokenDto){
         MemberToken entity = memberTokenDto.toEntity();
-        memberTokenRepository.save(entity);
-        return new MemberTokenDto(entity);
-    }
-
-    @Transactional
-    public MemberTokenDto updateMemberToken(Long memberId, String accessToken){
-        MemberToken memberToken = memberTokenRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException());
-        memberToken.update(accessToken);
-        return new MemberTokenDto(memberToken);
+        return new MemberTokenDto(memberTokenRepository.save(entity));
     }
 
     @Transactional
@@ -124,18 +119,13 @@ public class TokenService {
         }
     }
 
-    @Transactional
-    public String refreshAccessToken(String refreshToken){
-        MemberToken memberToken = memberTokenRepository.findByRefreshToken(refreshToken)
-                .orElseThrow(() -> new NoSuchElementException());
-
-        String accessToken = makeAccessToken(getUid(refreshToken));
-
-        MemberTokenDto memberTokenDto = MemberTokenDto.builder()
-                .id(getUid(refreshToken))
-                .accessToken(accessToken)
-                .refreshToken(refreshToken).build();
-        memberTokenRepository.save(memberTokenDto.toEntity());
-        return accessToken;
+    public Long getUid(final String accessToken){
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(generateKeyAsByte())
+                .build()
+                .parseClaimsJws(accessToken)
+                .getBody();
+        return Long.valueOf(claims.getId());
     }
+
 }
