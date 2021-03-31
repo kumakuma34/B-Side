@@ -17,20 +17,17 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public MemberDto joinOrLogin(MemberDto memberDto){
-        boolean firstJoin = false;
-        if(has(memberDto.getEmail())){
-            firstJoin = true;
-            join(memberDto);
-        }
-        return findByEmail(memberDto.getEmail());
-    }
-
     @Transactional
     public MemberDto join(MemberDto memberDto) {
         Member entity = memberDto.toEntity();
         memberRepository.save(entity);
         return new MemberDto(entity);
+    }
+
+    public String findNameById(Long id){
+        Member entity = memberRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException());
+        return new MemberDto(entity).getNickName();
     }
 
     public MemberDto findById(Long id){

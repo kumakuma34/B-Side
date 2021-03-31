@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class MemberDto {
+
     private Long id;
     private String email;
     @JsonProperty("nick_name")
@@ -37,5 +39,10 @@ public class MemberDto {
                 .profileUrl(this.getProfileUrl())
                 .userRole(this.getUserRole())
                 .build();
+    }
+
+    public void checkOrElseThrow(){
+        if(nickName == null || profileUrl == null)
+            throw new HttpMessageNotReadableException("");
     }
 }
