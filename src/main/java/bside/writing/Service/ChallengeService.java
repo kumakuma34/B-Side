@@ -4,13 +4,16 @@ import bside.writing.domain.challenge.Challenge;
 import bside.writing.Repository.ChallengeRepository;
 import bside.writing.dto.ChallengeDto;
 import bside.writing.enums.ChallengeCode;
+import bside.writing.enums.ChallengeStatusCode;
 import bside.writing.enums.ThemeCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -40,6 +43,11 @@ public class ChallengeService {
             themeId.add(id);
         }
 
+        //TODO : Enum Reverse로 가져올 수 있게 수정 가능?
+        String statusName = "";
+        if(request.getStatus() == 0) statusName = ChallengeStatusCode.RECRUITING.name();
+        else if(request.getStatus() == 1) statusName = ChallengeStatusCode.IN_PROGRESS.name();
+        else if(request.getStatus() == 2) statusName = ChallengeStatusCode.COMPLETE.name();
         return ChallengeDto.Response.builder()
                 .coverImg(request.getCoverImg())
                 .challengeTitle(request.getChallengeTitle())
@@ -50,14 +58,13 @@ public class ChallengeService {
                 .duration(request.getDuration())
                 .submitDaysCnt(request.getSubmitDaysCnt())
                 .status(request.getStatus())
+                .status_name(statusName)
                 .createdId(uid)
                 .modifiedId(uid)
                 .theme1(themeId.get(0))
                 .theme2(themeId.get(1))
                 .theme3(themeId.get(2))
-                .theme1_name(token[0])
-                .theme2_name(token[1])
-                .theme3_name(token[2])
+                .themeNames(Arrays.asList(token))
                 .build();
     }
 
@@ -86,9 +93,12 @@ public class ChallengeService {
     //theme id > Name 변환 함수
     public ChallengeDto.Response setThemeName(ChallengeDto.Response response){
         ChallengeDto.Response result = response;
-        result.setTheme1_name("문창주가 개발해줄 themeName");
-        result.setTheme2_name("문창주가 개발해줄 themeName");
-        result.setTheme3_name("문창주가 개발해줄 themeName");
+        List<String> themeNames = new ArrayList<>();
+        //TODO : 글감 Id로 글감 Name 받아오는 함수로 수정, 개발된건가?
+        themeNames.add("글감1");
+        themeNames.add("글감2");
+        themeNames.add("글감3");
+        result.setThemeNames(themeNames);
         return result;
     }
 

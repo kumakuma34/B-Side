@@ -8,6 +8,7 @@ import bside.writing.dto.ChallengeDto;
 import bside.writing.enums.ChallengeSearchCode;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -29,7 +30,14 @@ public class ChallengeController {
         return challengeService.addNewChallenge(challengeService.makeAllInfoDTO(request, uid));
     }
 
-    //challenge 조회
+    //challenge 조회(비그인)
+    @CrossOrigin("*")
+    @RequestMapping(value = "challenge/noLogin", method = RequestMethod.GET)
+    public List<ChallengeDto.Response> getChallengeNoLogin() throws IOException{
+        return challengeService.getSearchResult(0,-1L);
+    }
+
+    //challenge 조회(로그인)
     @CrossOrigin("*")
     @RequestMapping(value = "challenge", method = RequestMethod.GET)
     public List<ChallengeDto.Response> getChallenge(@RequestParam String search_type, @RequestHeader(name="Authorization") String accessToken) throws IOException{

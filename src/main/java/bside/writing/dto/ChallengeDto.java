@@ -3,6 +3,7 @@ package bside.writing.dto;
 import bside.writing.Repository.ThemeRepository;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.domain.theme.Theme;
+import bside.writing.enums.ChallengeStatusCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -101,8 +102,12 @@ public class ChallengeDto {
         private LocalDate startDt;
         private int duration;
         private int submitDaysCnt;
+        @JsonIgnore
         private int status;
+        private String status_name;
+        @JsonIgnore
         private long createdId;
+        @JsonIgnore
         private long modifiedId;
         @JsonIgnore
         private long theme1;
@@ -110,9 +115,7 @@ public class ChallengeDto {
         private long theme2;
         @JsonIgnore
         private long theme3;
-        private String theme1_name;
-        private String theme2_name;
-        private String theme3_name;
+        private List<String> themeNames;
         private List<String> joinMembers;
         private Long ownerId;
         private String ownerName;
@@ -149,6 +152,9 @@ public class ChallengeDto {
             this.duration = entity.getDuration();
             this.submitDaysCnt = entity.getSubmitDaysCnt();
             this.status = entity.getStatus();
+            if(entity.getStatus() == 0) this.status_name = ChallengeStatusCode.RECRUITING.name();
+            else if(entity.getStatus() == 1) this.status_name = ChallengeStatusCode.IN_PROGRESS.name();
+            else if(entity.getStatus() == 2) this.status_name = ChallengeStatusCode.COMPLETE.name();
             this.createdId = entity.getCreatedId();
             this.modifiedId = entity.getModifiedId();
             if(entity.getTheme1() != null){
