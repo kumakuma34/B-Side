@@ -6,12 +6,14 @@ import bside.writing.Service.TokenService;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.dto.ChallengeDto;
 import bside.writing.enums.ChallengeSearchCode;
+import bside.writing.enums.ChallengeStatusCode;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,16 +36,23 @@ public class ChallengeController {
     @CrossOrigin("*")
     @RequestMapping(value = "challenge/noLogin", method = RequestMethod.GET)
     public List<ChallengeDto.Response> getChallengeNoLogin() throws IOException{
-        return challengeService.getSearchResult(0,-1L);
+        return challengeService.getSearchResult(ChallengeStatusCode.RECRUITING.getVal(),-1L);//모집중인 챌린지만 조회
     }
 
     //challenge 조회(로그인)
     @CrossOrigin("*")
     @RequestMapping(value = "challenge", method = RequestMethod.GET)
-    public List<ChallengeDto.Response> getChallenge(@RequestParam String search_type, @RequestHeader(name="Authorization") String accessToken) throws IOException{
+    public List<ChallengeDto.Response> getChallenge(@RequestHeader(name="Authorization") String accessToken) throws IOException{
         Long uid = tokenService.getUid(accessToken);
-        int searchType = ChallengeSearchCode.valueOf(search_type).getVal();
-        return challengeService.getSearchResult(searchType, uid);
+        List<ChallengeDto.Response> result = new ArrayList<>();
+
+        List<ChallengeDto.Response> inProgress = challengeService.getSearchResult(ChallengeStatusCode.IN_PROGRESS.getVal(), uid);
+        List<ChallengeDto.Response> recruiting = challengeService.getSearchResult(ChallengeStatusCode.RECRUITING.getVal(), uid);
+
+        inProgress.forEach(e->result.add(e));
+        recruiting.forEach(e->result.add(e));
+
+        return result;
     }
 
 
