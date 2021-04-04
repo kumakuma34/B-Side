@@ -13,4 +13,5 @@ public interface ThemeRepository extends JpaRepository<Theme, Long> {
     List<Theme> getNRandomTheme(int n);
     
     Optional<Theme> findByName(final String name);
+
 }

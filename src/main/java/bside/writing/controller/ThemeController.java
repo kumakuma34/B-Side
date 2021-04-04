@@ -6,7 +6,9 @@ import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,12 +18,18 @@ public class ThemeController {
 
     @CrossOrigin("*")
     @RequestMapping(value = "/theme", method = RequestMethod.GET)
-    public List<ThemeDto> getTheme(@RequestBody ThemeDto.Request themeRequstDto){
-        JsonObject res = new JsonObject();
-        if(themeRequstDto.getCategory().equals("random")) {
-            return themeService.getNRandomTheme(themeRequstDto.getCount());
+    public Map<String, Object> getTheme(@RequestParam(value="searchMethod") String searchCode,
+                        @RequestParam(value="count") int themeCount){
+
+        Map<String, Object> response = new LinkedHashMap<>();
+
+
+        //TODO : 추후 분기 처리 필요
+        if(searchCode.equals("random")) {
+            response.put("theme_list", themeService.getNRandomTheme(themeCount));
         }
-        return null;
+
+        return response;
     }
 
 }

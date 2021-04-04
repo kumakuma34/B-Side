@@ -23,8 +23,7 @@ public class MemberController {
 
         Long memberId = tokenService.getUid(accessToken);
         memberDto.checkOrElseThrow();
-        memberService.update(memberId, memberDto.getNickName(), memberDto.getProfileUrl());
-        response.put("uid", memberId);
+        response.put("member_info", memberService.update(memberId, memberDto.getNickName(), memberDto.getProfileUrl()));
 
         return response;
     }
@@ -37,7 +36,7 @@ public class MemberController {
         Long memberId = tokenService.getUid(accessToken);
         MemberDto memberDto = memberService.findById(memberId);
 
-        response.put("email", memberDto.getEmail());
+        //response.put("email", memberDto.getEmail());
         response.put("nick_name", memberDto.getNickName());
         response.put("profile_url", memberDto.getProfileUrl());
         return response;

@@ -6,6 +6,8 @@ import bside.writing.dto.MemberDto;
 import bside.writing.dto.MemberTokenDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -37,9 +39,14 @@ public class TokenController {
 
         tokenService.saveMemberToken(memberTokenDto);
 
+        Map<String, Object> memberInfo = new LinkedHashMap<>();
+        memberInfo.put("nick_name", memberDto.getNickName());
+        memberInfo.put("profile_url", memberDto.getProfileUrl());
+        memberInfo.put("sign_in", signIn);
+
         response.put("access_token", accessToken);
         response.put("refresh_token", refreshToken);
-        response.put("sign_in", signIn);
+        response.put("member_info", memberInfo);
         return response;
     }
 

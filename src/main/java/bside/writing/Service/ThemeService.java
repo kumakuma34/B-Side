@@ -18,7 +18,7 @@ public class ThemeService {
     public List<ThemeDto> getNRandomTheme(int n){
         final int MAX_COUNT = 10;
         if(n > MAX_COUNT){
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("exceeding maximum search count : 10");
         }
 
         List<ThemeDto> randomThemeList = themeRepository.getNRandomTheme(n)
