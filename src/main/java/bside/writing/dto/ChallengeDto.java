@@ -5,6 +5,7 @@ import bside.writing.domain.challenge.Challenge;
 import bside.writing.domain.theme.Theme;
 import bside.writing.enums.ChallengeStatusCode;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -53,7 +54,7 @@ public class ChallengeDto {
     @AllArgsConstructor
     public static class Request{
         @JsonProperty("cover_img")
-        private int coverImg;
+        private String coverImg;
 
         @JsonProperty("challenge_title")
         private String  challengeTitle;
@@ -92,9 +93,10 @@ public class ChallengeDto {
     @Setter
     @Builder
     @AllArgsConstructor
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class Response {
         private Long challengeId;
-        private int coverImg;
+        private String coverImg;
         private String  challengeTitle;
         private String  challengeDetail;
         private int  maxParticipant;
@@ -117,6 +119,7 @@ public class ChallengeDto {
         private long theme3;
         private List<String> themeNames;
         private List<String> joinMembers;
+        @JsonIgnore
         private Long ownerId;
         private String ownerName;
         private Boolean isOwner;
@@ -200,7 +203,7 @@ public class ChallengeDto {
     //legacy
     private Long challenge_id;
 
-    private int cover_img;
+    private String cover_img;
 
     private String challenge_title;
 

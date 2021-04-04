@@ -1,5 +1,6 @@
 package bside.writing.Service;
 
+import bside.writing.Repository.ThemeRepository;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.Repository.ChallengeRepository;
 import bside.writing.dto.ChallengeDto;
@@ -12,10 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +22,7 @@ public class ChallengeService {
     private final ThemeService themeService;
     private final MemberService memberService;
     private final ChallengeMemberService challengeMemberService;
+    private final ThemeRepository themeRepository;
     private int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
 
     public ChallengeDto.Response makeAllInfoDTO(ChallengeDto.Request request, Long uid){
@@ -94,10 +93,12 @@ public class ChallengeService {
     public ChallengeDto.Response setThemeName(ChallengeDto.Response response){
         ChallengeDto.Response result = response;
         List<String> themeNames = new ArrayList<>();
-        //TODO : 글감 Id로 글감 Name 받아오는 함수로 수정, 개발된건가?
-        themeNames.add("글감1");
-        themeNames.add("글감2");
-        themeNames.add("글감3");
+        if(!Objects.isNull(response.getTheme1()) && response.getTheme1() != 0L)
+            themeNames.add(themeRepository.findById(response.getTheme1()).orElseThrow(()->new IllegalArgumentException("No such Theme Id")).getName());
+        if(!Objects.isNull(response.getTheme2()) && response.getTheme2() != 0L)
+            themeNames.add(themeRepository.findById(response.getTheme2()).orElseThrow(()->new IllegalArgumentException("No such Theme Id")).getName());
+        if(!Objects.isNull(response.getTheme3()) && response.getTheme3() != 0L)
+            themeNames.add(themeRepository.findById(response.getTheme3()).orElseThrow(()->new IllegalArgumentException("No such Theme Id")).getName());
         result.setThemeNames(themeNames);
         return result;
     }
@@ -145,7 +146,7 @@ public class ChallengeService {
         setUerInfo(result);
         result.setOwnerId(challenge.getCreatedId());
         result.setOwnerName(memberService.findNameById(challenge.getCreatedId()));
-        if(uid == challenge.getChallengeId()) result.setIsOwner(true);
+        if(uid == challenge.getCreatedId()) result.setIsOwner(true);
         else result.setIsOwner(false);
         return result;
     }

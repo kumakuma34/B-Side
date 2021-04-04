@@ -22,8 +22,9 @@ public class Challenge extends BaseTimeEntity {
     @Column(name ="challenge_id")
     private Long challengeId;
 
-    @Column(name = "cover_img")
-    private int coverImg;
+    //TODO : challenge cover img string으로 변
+    @Column(name = "cover_img" , length = 255)
+    private String coverImg;
 
     @Column(name = "challenge_title", length = 50, nullable = false)
     private String  challengeTitle;
