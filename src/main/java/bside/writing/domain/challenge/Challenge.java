@@ -1,5 +1,7 @@
 package bside.writing.domain.challenge;
 
+import bside.writing.Service.ChallengeService;
+import bside.writing.dto.ChallengeDto;
 import bside.writing.templateClass.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
@@ -9,6 +11,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "challenge")
@@ -74,7 +77,17 @@ public class Challenge extends BaseTimeEntity {
             throw new IllegalArgumentException("challenge participant full");
         this.currentParticipant++;
     }
+    public void update(ChallengeDto.Request request ){
 
+        this.coverImg = request.getCoverImg();
+        this.challengeTitle = request.getChallengeTitle();
+        this.challengeDetail = request.getChallengeDetail();
+        this.maxParticipant = request.getMaxParticipant();
+        this.startDt = request.getStartDt();
+        this.duration = request.getDuration();
+        this.submitDaysCnt = request.getSubmitDaysCnt();
+
+    }
     @Override
     public String toString() {
         return "Challenge{" +

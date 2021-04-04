@@ -1,6 +1,7 @@
 package bside.writing.dto;
 
 import bside.writing.Repository.ThemeRepository;
+import bside.writing.Service.ChallengeService;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.domain.theme.Theme;
 import bside.writing.enums.ChallengeStatusCode;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ChallengeDto {
+    private static ChallengeService challengeService;
     @Getter
     @Setter
     @AllArgsConstructor
@@ -53,6 +55,7 @@ public class ChallengeDto {
     @Builder
     @AllArgsConstructor
     public static class Request{
+        private Long challengeId;
         @JsonProperty("cover_img")
         private String coverImg;
 
@@ -65,9 +68,6 @@ public class ChallengeDto {
         @JsonProperty("max_participant")
         private int  maxParticipant;
 
-        @JsonProperty("current_participant")
-        private int currentParticipant;
-
         @JsonProperty("start_dt")
         private LocalDate startDt;
 
@@ -76,9 +76,8 @@ public class ChallengeDto {
         @JsonProperty("submit_days_cnt")
         private int submitDaysCnt;
 
-        private int status;
+        private String theme_string;//"글감1, 글감2, 글감3"
 
-        private String theme_string;//#글감1 #글감2
     }
 
     @Getter
