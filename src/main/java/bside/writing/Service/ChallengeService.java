@@ -26,7 +26,7 @@ public class ChallengeService {
     private int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
 
     public ChallengeDto.Response makeAllInfoDTO(ChallengeDto.Request request, Long uid){
-        String[] token = request.getTheme_string().split(" ");
+        String[] token = request.getTheme_string().split(", ");
         int maxCnt = ThemeCode.MAX_THEME_COUNT.getVal();
         int maxLen = ThemeCode.MAX_THEME_LENGTH.getVal();
         if(token.length > maxCnt){
@@ -38,7 +38,7 @@ public class ChallengeService {
             if(token[i].length() > maxLen) {
                 throw new IllegalArgumentException("Theme length must be under 10");
             }
-            Long id = themeService.findOrSaveTheme(token[i].substring(1,token[i].length()));
+            Long id = themeService.findOrSaveTheme(token[i]);
             themeId.add(id);
         }
 
