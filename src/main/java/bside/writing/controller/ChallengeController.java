@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,9 +29,21 @@ public class ChallengeController {
     //challenge 신규 생성
     @CrossOrigin("*")
     @RequestMapping(value = "challenge", method = RequestMethod.POST)
-    public Challenge saveChallenge(@RequestBody ChallengeDto.Request request, @RequestHeader(name="Authorization") String accessToken ) throws IOException{
+    public Map<String, Object> saveChallenge(@RequestBody ChallengeDto.Request request, @RequestHeader(name="Authorization") String accessToken ) throws IOException{
         Long uid = tokenService.getUid(accessToken);
-        return challengeService.addNewChallenge(challengeService.makeAllInfoDTO(request, uid));
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("challenge_id", challengeService.addNewChallenge(request, uid).getChallengeId());
+        return response;
+    }
+
+    //challenge 수정
+    @CrossOrigin("*")
+    @RequestMapping(value = "challenge/{challenge_id}", method = RequestMethod.POST)
+    public ChallengeDto.Response updateChallenge(@PathVariable String challenge_id , @RequestBody ChallengeDto.Request request, @RequestHeader(name="Authorization") String accessToken) throws IOException{
+        Long uid  = tokenService.getUid(accessToken);
+        request.setChallengeId(Long.valueOf(challenge_id));
+        return challengeService.updateChallenge(request, uid);
+
     }
 
     //challenge 조회(비그인)
@@ -42,17 +56,19 @@ public class ChallengeController {
     //challenge 조회(로그인)
     @CrossOrigin("*")
     @RequestMapping(value = "challenge", method = RequestMethod.GET)
-    public List<ChallengeDto.Response> getChallenge(@RequestHeader(name="Authorization") String accessToken) throws IOException{
+    public Map<String, Object> getChallenge(@RequestHeader(name="Authorization") String accessToken) throws IOException{
+        Map<String, Object> response = new LinkedHashMap<>();
+
         Long uid = tokenService.getUid(accessToken);
         List<ChallengeDto.Response> result = new ArrayList<>();
 
         List<ChallengeDto.Response> inProgress = challengeService.getSearchResult(ChallengeStatusCode.IN_PROGRESS.getVal(), uid);
         List<ChallengeDto.Response> recruiting = challengeService.getSearchResult(ChallengeStatusCode.RECRUITING.getVal(), uid);
 
-        inProgress.forEach(e->result.add(e));
-        recruiting.forEach(e->result.add(e));
+        response.put("recruiting" , recruiting);
+        response.put("inProgress", inProgress);
 
-        return result;
+        return response;
     }
 
 
@@ -74,10 +90,5 @@ public class ChallengeController {
 
     }
 
-
-/*
-TODO : 모집 중 챌린지 조회
-TODO : 진행 중 챌린지 조회
- */
 
 }
