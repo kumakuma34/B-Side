@@ -43,7 +43,15 @@ public class ChallengeController {
         Long uid  = tokenService.getUid(accessToken);
         request.setChallengeId(Long.valueOf(challenge_id));
         return challengeService.updateChallenge(request, uid);
+    }
 
+    //challenge 삭제
+    @CrossOrigin("*")
+    @RequestMapping(value = "challenge/{challenge_id}", method = RequestMethod.DELETE)
+    public String deleteChallenge(@PathVariable String challenge_id , @RequestHeader(name="Authorization") String accessToken) throws IOException{
+        Long uid  = tokenService.getUid(accessToken);
+        challengeService.deleteChallenge(Long.valueOf(challenge_id));
+        return challenge_id + " deleted";
     }
 
     //challenge 조회(비그인)
@@ -87,7 +95,6 @@ public class ChallengeController {
     public ChallengeDto.Response getChallengeDetail(@PathVariable String challenge_id , @RequestHeader(name="Authorization") String accessToken) throws IOException{
         Long uid  = tokenService.getUid(accessToken);
         return challengeService.getChallengeDetail(Long.valueOf(challenge_id), uid);
-
     }
 
 

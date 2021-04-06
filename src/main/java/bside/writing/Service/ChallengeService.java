@@ -60,8 +60,14 @@ public class ChallengeService {
                 .orElseThrow(()-> new NoSuchElementException("no such challenge"));
         challenge.update(request);
         return new ChallengeDto.Response(challenge);
-        //TODO : challenge themeId 1, 2, 3 말고 string으로 저장할지 설계 검토..
     }
+
+    @Transactional
+    public void deleteChallenge(Long id){
+        challengeRepository.deleteById(id);
+    }
+
+
     public Challenge RequestToEntity(ChallengeDto.Request request, Long uid) {
         checkRequest(request);
         return Challenge.builder()
