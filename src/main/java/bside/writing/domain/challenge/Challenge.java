@@ -25,7 +25,6 @@ public class Challenge extends BaseTimeEntity {
     @Column(name ="challenge_id")
     private Long challengeId;
 
-    //TODO : challenge cover img string으로 변
     @Column(name = "cover_img" , length = 255)
     private String coverImg;
 
@@ -67,10 +66,6 @@ public class Challenge extends BaseTimeEntity {
 
     @Column(name = "modified_id")
     private long modifiedId;
-    //public Challenge(){};//default Constructor
-
-//    @Formula(value = "select DATE_ADD(c.startDt, INTERVAL c.duration * 7 DAY) from challenge")
-//    private LocalDateTime endDt;
 
     public void increaseCurrentParticipant(){
         if(this.currentParticipant >= this.maxParticipant)

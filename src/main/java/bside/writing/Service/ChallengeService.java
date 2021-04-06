@@ -27,6 +27,11 @@ public class ChallengeService {
     private final ThemeRepository themeRepository;
     private int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
 
+    //request validation
+    public void checkRequest(ChallengeDto.Request request){
+        if(request.getDuration() <= 0) throw new IllegalArgumentException("duration should be > 0");
+        if(request.getMaxParticipant() <= 0) throw new IllegalArgumentException("max participant should be > 0");
+    }
     public List<Long> parseThemeString(String themeString){
         String[] token = themeString.split(", ");
         int maxCnt = ThemeCode.MAX_THEME_COUNT.getVal();
@@ -48,6 +53,7 @@ public class ChallengeService {
 
     @Transactional
     public ChallengeDto.Response updateChallenge(ChallengeDto.Request request , Long id){
+        checkRequest(request);
         Challenge challenge = challengeRepository.findById(request.getChallengeId())
                 .orElseThrow(()-> new NoSuchElementException("no such challenge"));
         challenge.update(request);
@@ -56,6 +62,7 @@ public class ChallengeService {
     }
     public Challenge RequestToEntity(ChallengeDto.Request request, Long uid) {
         List<Long> themeIds = this.parseThemeString(request.getTheme_string());
+        checkRequest(request);
         return Challenge.builder()
                 .challengeId(request.getChallengeId())
                 .coverImg(request.getCoverImg())
