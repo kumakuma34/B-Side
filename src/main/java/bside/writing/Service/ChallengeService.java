@@ -27,7 +27,14 @@ public class ChallengeService {
     private final ThemeRepository themeRepository;
     private int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
 
-    public List<Long> parseThemeString(String themeString){
+    //request validation
+    public void checkRequest(ChallengeDto.Request request){
+        if(request.getDuration() <= 0) throw new IllegalArgumentException("duration should be > 0");
+        if(request.getMaxParticipant() <= 0) throw new IllegalArgumentException("max participant should be > 0");
+    }
+
+    //theme String parse
+    public List<String> parseThemeString(String themeString){
         String[] token = themeString.split(", ");
         int maxCnt = ThemeCode.MAX_THEME_COUNT.getVal();
         int maxLen = ThemeCode.MAX_THEME_LENGTH.getVal();
@@ -43,19 +50,26 @@ public class ChallengeService {
             Long id = themeService.findOrSaveTheme(token[i]);
             themeId.add(id);
         }
-        return themeId;
+        return Arrays.asList(token);
     }
 
     @Transactional
     public ChallengeDto.Response updateChallenge(ChallengeDto.Request request , Long id){
+        checkRequest(request);
         Challenge challenge = challengeRepository.findById(request.getChallengeId())
                 .orElseThrow(()-> new NoSuchElementException("no such challenge"));
         challenge.update(request);
         return new ChallengeDto.Response(challenge);
-        //TODO : challenge themeId 1, 2, 3 말고 string으로 저장할지 설계 검토..
     }
+
+    @Transactional
+    public void deleteChallenge(Long id){
+        challengeRepository.deleteById(id);
+    }
+
+
     public Challenge RequestToEntity(ChallengeDto.Request request, Long uid) {
-        List<Long> themeIds = this.parseThemeString(request.getTheme_string());
+        checkRequest(request);
         return Challenge.builder()
                 .challengeId(request.getChallengeId())
                 .coverImg(request.getCoverImg())
@@ -69,9 +83,7 @@ public class ChallengeService {
                 .status(ChallengeStatusCode.RECRUITING.getVal())
                 .createdId(uid)
                 .modifiedId(uid)
-                .theme1(themeIds.get(0))
-                .theme2(themeIds.get(1))
-                .theme3(themeIds.get(2))
+                .theme(request.getTheme())
                 .build();
     }
 //    public ChallengeDto.Response makeAllInfoDTO(ChallengeDto.Request request, Long uid){
@@ -91,7 +103,6 @@ public class ChallengeService {
 //            themeId.add(id);
 //        }
 //
-//        //TODO : Enum Reverse로 가져올 수 있게 수정 가능?
 //        String statusName = "";
 //        if(request.getStatus() == 0) statusName = ChallengeStatusCode.RECRUITING.name();
 //        else if(request.getStatus() == 1) statusName = ChallengeStatusCode.IN_PROGRESS.name();
@@ -142,14 +153,7 @@ public class ChallengeService {
     //theme id > Name 변환 함수
     public ChallengeDto.Response setThemeName(ChallengeDto.Response response){
         ChallengeDto.Response result = response;
-        List<String> themeNames = new ArrayList<>();
-        if(!Objects.isNull(response.getTheme1()) && response.getTheme1() != 0L)
-            themeNames.add(themeRepository.findById(response.getTheme1()).orElseThrow(()->new IllegalArgumentException("No such Theme Id")).getName());
-        if(!Objects.isNull(response.getTheme2()) && response.getTheme2() != 0L)
-            themeNames.add(themeRepository.findById(response.getTheme2()).orElseThrow(()->new IllegalArgumentException("No such Theme Id")).getName());
-        if(!Objects.isNull(response.getTheme3()) && response.getTheme3() != 0L)
-            themeNames.add(themeRepository.findById(response.getTheme3()).orElseThrow(()->new IllegalArgumentException("No such Theme Id")).getName());
-        result.setThemeNames(themeNames);
+        result.setThemeNames(parseThemeString(response.getTheme()));
         return result;
     }
 
@@ -184,7 +188,6 @@ public class ChallengeService {
         Challenge challenge = challengeRepository.findById(challenge_id).orElseThrow(()-> new NoSuchElementException("no such Challenge"));
         challenge.increaseCurrentParticipant();
         challengeRepository.save(challenge);
-
         challengeMemberService.joinChallenge(challenge_id, uid);
     }
 
@@ -192,7 +195,7 @@ public class ChallengeService {
     public ChallengeDto.Response getChallengeDetail(Long challenge_id, Long uid){
         Challenge challenge = challengeRepository.findById(challenge_id).orElseThrow(()-> new NoSuchElementException("no such Challenge"));
         ChallengeDto.Response result = new ChallengeDto.Response(challenge);
-        setThemeName(result);
+        result.setThemeNames(parseThemeString(result.getTheme()));
         setUerInfo(result);
         result.setOwnerId(challenge.getCreatedId());
         result.setOwnerName(memberService.findNameById(challenge.getCreatedId()));
@@ -205,6 +208,7 @@ public class ChallengeService {
 
     /*
     TODO : 매일 일배치로 시작일자 도달한 챌린지 status 업데이트 (0>1)
+    TODO : Enum reverse 가져올 수 있게 수정 가능?
      */
 
 }

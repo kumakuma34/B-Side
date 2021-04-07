@@ -25,7 +25,6 @@ public class Challenge extends BaseTimeEntity {
     @Column(name ="challenge_id")
     private Long challengeId;
 
-    //TODO : challenge cover img string으로 변
     @Column(name = "cover_img" , length = 255)
     private String coverImg;
 
@@ -53,24 +52,14 @@ public class Challenge extends BaseTimeEntity {
     @Column(length = 10)
     private int status;
 
-    @Column
-    private Long theme1;
-
-    @Column
-    private Long theme2;
-
-    @Column
-    private Long theme3;
-
     @Column(name = "created_id")
     private long createdId;
 
     @Column(name = "modified_id")
     private long modifiedId;
-    //public Challenge(){};//default Constructor
 
-//    @Formula(value = "select DATE_ADD(c.startDt, INTERVAL c.duration * 7 DAY) from challenge")
-//    private LocalDateTime endDt;
+    @Column(name = "theme", length = 100)
+    private String theme;
 
     public void increaseCurrentParticipant(){
         if(this.currentParticipant >= this.maxParticipant)
@@ -78,7 +67,6 @@ public class Challenge extends BaseTimeEntity {
         this.currentParticipant++;
     }
     public void update(ChallengeDto.Request request ){
-
         this.coverImg = request.getCoverImg();
         this.challengeTitle = request.getChallengeTitle();
         this.challengeDetail = request.getChallengeDetail();
@@ -86,13 +74,13 @@ public class Challenge extends BaseTimeEntity {
         this.startDt = request.getStartDt();
         this.duration = request.getDuration();
         this.submitDaysCnt = request.getSubmitDaysCnt();
-
     }
+
     @Override
     public String toString() {
         return "Challenge{" +
                 "challengeId=" + challengeId +
-                ", coverImg=" + coverImg +
+                ", coverImg='" + coverImg + '\'' +
                 ", challengeTitle='" + challengeTitle + '\'' +
                 ", challengeDetail='" + challengeDetail + '\'' +
                 ", maxParticipant=" + maxParticipant +
@@ -101,11 +89,9 @@ public class Challenge extends BaseTimeEntity {
                 ", duration=" + duration +
                 ", submitDaysCnt=" + submitDaysCnt +
                 ", status=" + status +
-                ", theme1=" + theme1 +
-                ", theme2=" + theme2 +
-                ", theme3=" + theme3 +
                 ", createdId=" + createdId +
                 ", modifiedId=" + modifiedId +
+                ", theme='" + theme + '\'' +
                 '}';
     }
 }
