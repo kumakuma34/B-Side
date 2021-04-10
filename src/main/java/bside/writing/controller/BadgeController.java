@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,16 +19,17 @@ public class BadgeController {
 
     @CrossOrigin("*")
     @RequestMapping(value = "member/badge", method = RequestMethod.GET)
-    public Map<String, List> getBadges(@RequestParam(value="code") String badgeCode, @RequestHeader(name="Authorization") String accessToken){
+    public Map<String, List> getBadges(@RequestHeader(name="Authorization") String accessToken){
         Long memberId = tokenService.getUid(accessToken);
+
         List<Badge> badgeList;
-
-        if(badgeCode.equals("ALL"))
+        try{
             badgeList = badgeService.getBadgesByMemberId(memberId);
-        else
-            badgeList = badgeService.getBadgeByMemberIdAndBadgeCode(memberId, badgeCode);
-
-        List<BadgeDto> badgeDtoList = badgeService.toDtoList(badgeList);
-        return badgeService.toMapByBadgeCode(badgeDtoList);
+            List<BadgeDto> badgeDtoList = badgeService.toDtoList(badgeList);
+            return badgeService.updateList(badgeDtoList);
+        }
+        catch (NoSuchElementException e){
+            return badgeService.getDefaultResponse();
+        }
     }
 }

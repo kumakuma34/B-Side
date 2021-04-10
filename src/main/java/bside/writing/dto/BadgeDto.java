@@ -21,6 +21,8 @@ public class BadgeDto implements Comparable<BadgeDto>{
 
     private String badgeValue;
 
+    private String badgeUrl;
+
     public BadgeDto(Badge entity) {
         this.badgeId = entity.getBadgeId();
         this.memberId = entity.getMemberId();
@@ -42,5 +44,6 @@ public class BadgeDto implements Comparable<BadgeDto>{
         if(!badgeCode.equals(o.badgeCode)) return badgeCode.compareTo(o.badgeCode);
         return Integer.parseInt(badgeValue) - (Integer.parseInt(o.badgeValue));
     }
+
 
 }
