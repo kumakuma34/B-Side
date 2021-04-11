@@ -35,9 +35,6 @@ public class Article extends BaseTimeEntity {
     @Column(name = "week")
     private int week;
 
-    @Column(name = "submit_cnt")
-    private int submitCnt;
-
     @Column(name = "visible" , length = 1)
     private String visible;
 }
