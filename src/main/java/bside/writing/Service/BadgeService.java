@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class BadgeService {
 
-    @Value("${SERVER_URL}")
+    @Value("${SERVER_BADGE_URL}")
     private String SERVER_URL;
     private final BadgeRepository badgeRepository;
 

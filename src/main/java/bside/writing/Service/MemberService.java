@@ -26,27 +26,27 @@ public class MemberService {
 
     public String findNameById(Long id){
         Member entity = memberRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new NoSuchElementException("no such user"));
         return new MemberDto(entity).getNickName();
     }
 
     public MemberDto findById(Long id){
         Member entity = memberRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new NoSuchElementException("no such user"));
         return new MemberDto(entity);
     }
 
     @Transactional
     public MemberDto findByEmail(String email){
         Member entity = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new NoSuchElementException("no such user"));
         return new MemberDto(entity);
     }
 
     @Transactional
     public MemberDto update(Long memberId, String newNickName, String newPictureURL){
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new NoSuchElementException("no such user"));
         member.update(newNickName, newPictureURL);
         return new MemberDto(member);
     }
