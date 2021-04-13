@@ -63,7 +63,6 @@ public class Challenge extends BaseTimeEntity {
 
     public void increaseCurrentParticipant(){
         if(this.currentParticipant >= this.maxParticipant)
-            throw new IllegalArgumentException("challenge participant full");
         this.currentParticipant++;
     }
     public void update(ChallengeDto.Request request ){
