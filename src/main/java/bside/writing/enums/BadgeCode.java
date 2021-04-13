@@ -10,13 +10,13 @@ public enum BadgeCode {
     ,LIKE_COUNT(Arrays.asList("1","10","20"))
     ;
 
-    private List criteria;
+    private List<String> criteria;
 
-    BadgeCode(List criteria) {
+    BadgeCode(List<String> criteria) {
         this.criteria = criteria;
     }
 
-    public List getCriteria() {
+    public List<String> getCriteria() {
         return criteria;
     }
 }

@@ -70,4 +70,32 @@ public class BadgeService {
         return updatedResponse;
     }
 
+    public BadgeDto checkAndGetBadge(BadgeDto badgeDto){
+        if(isAchieve(badgeDto) && !hasThisBadge(badgeDto)){
+            addBadge(badgeDto);
+            return badgeDto;
+        }
+        return null;
+    }
+
+    public boolean isAchieve(BadgeDto badgeDto){
+        BadgeCode badgeCode = BadgeCode.valueOf(badgeDto.getBadgeCode());
+        String curValue = badgeDto.getBadgeValue();
+
+        if(badgeCode.getCriteria().indexOf(curValue) >= 0){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasThisBadge(BadgeDto badgeDto){
+        Optional<Badge> badge = badgeRepository.findByMemberIdAndBadgeCodeAndBadgeValue(badgeDto.getMemberId(), badgeDto.getBadgeCode(), badgeDto.getBadgeValue());
+        if(badge.isPresent()) return true;
+        return false;
+    }
+
+    @Transactional
+    public Badge addBadge(BadgeDto badgeDto){
+        return badgeRepository.save(badgeDto.toEntity());
+    }
 }
