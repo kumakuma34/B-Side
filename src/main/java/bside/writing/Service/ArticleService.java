@@ -4,12 +4,18 @@ import bside.writing.Repository.ArticleRepository;
 import bside.writing.Repository.ChallengeRepository;
 import bside.writing.domain.article.Article;
 import bside.writing.dto.ArticleDto;
+import javassist.compiler.ast.Pair;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +52,30 @@ public class ArticleService {
                 .status(request.getStatus())
                 .build();
         return articleRepository.save(entity).getArticleId();
+    }
+
+    public Map<Integer , Object> getSubmitStatus(Long uid, Long challenge_id){
+        Map<Integer,Object> result = new LinkedHashMap<>();
+
+        int week = getWeekCnt(challenge_id);
+        int submitCnt = challengeRepository.findById(challenge_id).get().getSubmitDaysCnt();
+        for(int i = 1 ;i <= week ; i++){
+            List<Object> list = new ArrayList<>();
+            for(int j = 1; j <= submitCnt; j++){
+                if(articleRepository.findSubmitTime(challenge_id,i,j,uid).isPresent())
+                    list.add(articleRepository.findSubmitTime(challenge_id,i,j,uid).get());
+                else{
+                    if(i == week){
+                        list.add("CURRENT");
+                        break;
+                    }
+                    else{
+                        list.add("FALSE");
+                    }
+                }
+            }
+            result.put(i,list);
+        }
+        return result;
     }
 }
