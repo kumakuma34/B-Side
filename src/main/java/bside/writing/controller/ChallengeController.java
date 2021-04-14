@@ -72,9 +72,14 @@ public class ChallengeController {
 
         List<ChallengeDto.Response> inProgress = challengeService.getSearchResult(ChallengeStatusCode.IN_PROGRESS.getVal(), uid);
         List<ChallengeDto.Response> recruiting = challengeService.getSearchResult(ChallengeStatusCode.RECRUITING.getVal(), uid);
+        List<ChallengeDto.Response> complete = challengeService.getSearchResult(ChallengeStatusCode.COMPLETE.getVal(),uid);
+        List<ChallengeDto.Response> myChallenge = challengeService.getSearchResult(ChallengeStatusCode.MINE.getVal(),uid);
 
         response.put("recruiting" , recruiting);
         response.put("inProgress", inProgress);
+        response.put("complete", complete);
+        response.put("myChallenge", myChallenge);
+
 
         return response;
     }

@@ -169,8 +169,8 @@ public class ChallengeService {
         Page<Challenge> list = null;
         if(searchType == 0) list = challengeRepository.findOpenChallenge(PageRequest.of(0,searchCnt));
         else if(searchType == 1) list = challengeRepository.findInChallenge(member_id,PageRequest.of(0,searchCnt));
-        else if(searchType == 2) list = challengeRepository.findMyChallenge(member_id,PageRequest.of(0,searchCnt));
-        else if(searchType == 3) list = challengeRepository.findMyDoneChallenge(member_id, PageRequest.of(0,searchCnt));
+        else if(searchType == 2) list = challengeRepository.findMyDoneChallenge(member_id, PageRequest.of(0,searchCnt));
+        else if(searchType == 3) list = challengeRepository.findMyChallenge(member_id,PageRequest.of(0,searchCnt));
         return list;
     }
 

@@ -1,5 +1,6 @@
 package bside.writing.Service;
 
+import bside.writing.Repository.ChallengeRepository;
 import bside.writing.Repository.MemberRepository;
 import bside.writing.Repository.NotificationRepository;
 import bside.writing.domain.notification.Notification;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final MemberRepository memberRepository;
+    private final ChallengeRepository challengeRepository;
+    //private final
 
     @Transactional
     public <T extends Entityable> NotificationDto save(T notificationDto){
@@ -43,9 +46,9 @@ public class NotificationService {
         return notificationDtoList.stream()
                 .map((dto) -> {
                     if (dto.getFromArticleId() != null)
-                        dto.setFromArticleName("장현수킬러 일기");
+                        dto.setFromArticleName("article repo 미구현");
                     if (dto.getFromChallengeId() != null)
-                        dto.setFromChallengeName("장현수 킬러들 모임");
+                        dto.setFromChallengeName(challengeRepository.findById(dto.getFromArticleId()).get().getChallengeTitle());
                     if (dto.getFromMemberId() != null)
                         dto.setFromMemberName(memberRepository.findById(dto.getFromMemberId()).get().getNickName());
                     return dto;

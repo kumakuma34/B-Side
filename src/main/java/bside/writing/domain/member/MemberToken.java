@@ -32,7 +32,4 @@ public class MemberToken extends BaseTimeEntity implements Serializable {
         this.refreshToken = refreshToken;
     }
 
-    public void update(String accessToken) {
-        this.accessToken = accessToken;
-    }
 }
