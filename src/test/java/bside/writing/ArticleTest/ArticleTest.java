@@ -23,6 +23,18 @@ public class ArticleTest {
         //then
         System.out.println(weeks);
     }
+
+    @Test
+    void 주차제출횟수조회(){
+        //Given
+        Long challengeId = 32L;
+        Long memberId = 47L;
+        int week = 1;
+        //when
+        int submitCnt = articleService.getSubmitCnt(week , challengeId,memberId);
+        //then
+        System.out.println(submitCnt);
+    }
     @Test
     void 글생성(){
         //Given
@@ -35,7 +47,7 @@ public class ArticleTest {
                 .articleTitle("긴내용테스")
                 .articleDetail(text)
                 .challengeId(32L)
-                .visible("1")
+                .status("0")
                 .build();
         //when
         System.out.println(articleService.addNewArticle(request,47L));

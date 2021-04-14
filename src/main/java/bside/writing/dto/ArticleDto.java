@@ -18,8 +18,8 @@ public class ArticleDto {
         private String articleDetail;
         @JsonProperty("challenge_id")
         private Long challengeId;
-        @JsonProperty("visible")
-        private String visible;
+        @JsonProperty("status")
+        private String status;
 
     }
 }
