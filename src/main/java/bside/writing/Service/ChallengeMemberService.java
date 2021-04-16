@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +23,8 @@ public class ChallengeMemberService {
         if(prev.isEmpty()) return true;
         else return false;
     }
+
+    //챌린지 참여 함수
     public ChallengeMember joinChallenge(Long challenge_id, Long uid){
         if(!checkDuplicate(challenge_id, uid))
             throw new IllegalArgumentException("member alread in this challenge"); //챌린지 참여 중복 여부 검사
@@ -33,6 +36,15 @@ public class ChallengeMemberService {
                 .build();
 
         return challengeMemberRepository.save(entity);
+    }
+
+    //챌린지 글 제출 횟수 증가 함수
+    public void submitCntIncrease(Long challengeId , Long uid){
+        Optional<ChallengeMember> entity = challengeMemberRepository.findByChallengeAndMember(challengeId,uid);
+        entity.orElseThrow(()->new IllegalArgumentException("no such member in challenge"));
+        ChallengeMember e = entity.get();
+        e.increaseSubmitCnt();
+        challengeMemberRepository.save(e);
     }
 
     //TODO : challenge member list<id> 형태로 조회해서 반환
