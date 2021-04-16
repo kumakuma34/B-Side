@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.tomcat.jni.Local;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class ArticleDto {
     @Getter
@@ -19,7 +23,27 @@ public class ArticleDto {
         @JsonProperty("challenge_id")
         private Long challengeId;
         @JsonProperty("status")
-        private String status;
+        private int status;
 
+    }
+
+    @Getter
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    public static class ResponseAsList{
+        @JsonProperty("article_id")
+        private Long articleId;
+        @JsonProperty("article_title")
+        private String articleTitle;
+        @JsonProperty("challenge_title")
+        private String challengeTitle;
+        private int week;
+        @JsonProperty("submit_cnt")
+        private int submitCnt;
+        @JsonProperty("created_date")
+        private LocalDateTime createdDate;
+        @JsonProperty("status")
+        private String status;
     }
 }

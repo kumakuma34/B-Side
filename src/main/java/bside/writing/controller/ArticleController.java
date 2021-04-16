@@ -32,4 +32,14 @@ public class ArticleController {
         return response;
     }
 
+    //글 조회
+    @RequestMapping(value = "article", method = RequestMethod.GET)
+    public Map<String, Object> getArticle(@RequestHeader(name="Authorization") String accessToken ) throws IOException{
+        Long uid = tokenService.getUid(accessToken);
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("temp", articleService.getTempArticle(uid));
+        response.put("submit", articleService.getSubmitArticle(uid));
+        return response;
+    }
+
 }

@@ -22,4 +22,12 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Optional<Timestamp> findSubmitTime(Long challenge_id , int week , int submitCnt , Long uid);
 
 
+    @Query(value = "SELECT * FROM article a " +
+            "where a.created_id = ?1 AND a.status != 2 ORDER BY a.created_date desc" , nativeQuery = true)
+    Optional<List<Article>> findSubmitArticle(Long uid);
+
+    @Query(value = "SELECT * FROM article a " +
+            "where a.created_id = ?1 AND a.status = 2 ORDER BY a.created_date desc" , nativeQuery = true)
+    Optional<List<Article>> findTempArticle(Long uid);
+
 }
