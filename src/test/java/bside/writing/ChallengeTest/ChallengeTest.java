@@ -17,7 +17,6 @@ import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@Transactional
 public class ChallengeTest {
 
     @Autowired
@@ -37,6 +36,16 @@ public class ChallengeTest {
         System.out.println(isDup);
     }
 
+    @Test
+    public void 챌린지참여자증가(){
+        //Given
+        Long challengeId = 46L;
+        Long memberId = 47L;
+
+        //when
+        challengeMemberService.submitCntIncrease(challengeId,memberId);
+        System.out.println(challengeMemberRepository.findByChallengeAndMember(challengeId,memberId).get().getSubmitArticleCnt());
+    }
 
 
 }
