@@ -38,6 +38,6 @@ public class Article extends BaseTimeEntity {
     @Column(name ="submit_cnt")
     private int submitCnt;
 
-    @Column(name = "status" , length = 1)
-    private String status;
+    @Column(name = "status")
+    private int status;
 }

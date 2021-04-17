@@ -51,10 +51,10 @@ public class ArticleTest {
                 "\n" +
                 "EDIT: Please pay attention to Adam Siemions comment and check the database engine you are using, before applying columnDefinition = \"TEXT\".";
         ArticleDto.Request request = ArticleDto.Request.builder()
-                .articleTitle("긴내용테스")
+                .articleTitle("임시글임")
                 .articleDetail(text)
                 .challengeId(32L)
-                .status("0")
+                .status(2)
                 .build();
         //when
         System.out.println(articleService.addNewArticle(request,47L));

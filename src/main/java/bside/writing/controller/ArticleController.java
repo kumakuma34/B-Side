@@ -32,4 +32,28 @@ public class ArticleController {
         return response;
     }
 
+    //글 조회
+    @RequestMapping(value = "article", method = RequestMethod.GET)
+    public Map<String, Object> getArticle(@RequestHeader(name="Authorization") String accessToken ) throws IOException{
+        Long uid = tokenService.getUid(accessToken);
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("temp", articleService.getTempArticle(uid));
+        response.put("submit", articleService.getSubmitArticle(uid));
+        return response;
+    }
+
+    //저장한글 조회
+    @RequestMapping(value = "article/temp/{article_id}", method = RequestMethod.GET)
+    public ArticleDto.TempArticleResponse getTempArticleDetail(@PathVariable String article_id, @RequestHeader(name="Authorization") String accessToken ) throws IOException{
+        Long articleId = Long.valueOf(article_id);
+        return articleService.getTempArticleDetail(articleId);
+    }
+
+    //제출한글 조회
+    @RequestMapping(value = "article/{article_id}", method = RequestMethod.GET)
+    public ArticleDto.SubmitArticleResponse getArticleDetail(@PathVariable String article_id, @RequestHeader(name="Authorization") String accessToken ) throws IOException{
+        Long articleId = Long.valueOf(article_id);
+        return articleService.getSubmitArticleDetail(articleId);
+    }
+
 }
