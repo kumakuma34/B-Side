@@ -1,5 +1,6 @@
 package bside.writing.controller;
 
+import bside.writing.Service.ArticleService;
 import bside.writing.Service.ChallengeMemberService;
 import bside.writing.Service.ChallengeService;
 import bside.writing.Service.TokenService;
@@ -25,6 +26,7 @@ public class ChallengeController {
     private final ChallengeService challengeService;
     private final TokenService tokenService;
     private final ChallengeMemberService challengeMemberService;
+    private final ArticleService articleService;
 
     //challenge 신규 생성
     @CrossOrigin("*")
@@ -72,9 +74,14 @@ public class ChallengeController {
 
         List<ChallengeDto.Response> inProgress = challengeService.getSearchResult(ChallengeStatusCode.IN_PROGRESS.getVal(), uid);
         List<ChallengeDto.Response> recruiting = challengeService.getSearchResult(ChallengeStatusCode.RECRUITING.getVal(), uid);
+        List<ChallengeDto.Response> complete = challengeService.getSearchResult(ChallengeStatusCode.COMPLETE.getVal(),uid);
+        List<ChallengeDto.Response> myChallenge = challengeService.getSearchResult(ChallengeStatusCode.MINE.getVal(),uid);
 
         response.put("recruiting" , recruiting);
         response.put("inProgress", inProgress);
+        response.put("complete", complete);
+        response.put("myChallenge", myChallenge);
+
 
         return response;
     }
@@ -92,9 +99,13 @@ public class ChallengeController {
     //challenge join in detail
     @CrossOrigin("*")
     @RequestMapping(value = "challenge/{challenge_id}", method = RequestMethod.GET)
-    public ChallengeDto.Response getChallengeDetail(@PathVariable String challenge_id , @RequestHeader(name="Authorization") String accessToken) throws IOException{
+    public Map<String, Object> getChallengeDetail(@PathVariable String challenge_id , @RequestHeader(name="Authorization") String accessToken) throws IOException{
+        Map<String, Object> response = new LinkedHashMap<>();
+        Long challengeId = Long.valueOf(challenge_id);
         Long uid  = tokenService.getUid(accessToken);
-        return challengeService.getChallengeDetail(Long.valueOf(challenge_id), uid);
+        response.put("challenge", challengeService.getChallengeDetail(challengeId, uid));
+        response.put("submitStatus", articleService.getSubmitStatus(uid,challengeId));
+        return response;
     }
 
 

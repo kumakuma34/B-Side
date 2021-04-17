@@ -28,4 +28,8 @@ public class ChallengeMember extends BaseTimeEntity {
 
     @Column(name = "submit_article_cnt")
     private Long submitArticleCnt;
+
+    public void increaseSubmitCnt(){
+        this.submitArticleCnt++;
+    }
 }

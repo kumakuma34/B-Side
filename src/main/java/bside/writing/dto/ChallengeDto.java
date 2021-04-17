@@ -75,6 +75,8 @@ public class ChallengeDto {
         private Long ownerId;
         private String ownerName;
         private Boolean isOwner;
+        @JsonProperty("achievement_rate")
+        private int achievementRate;
 
         public String makeThemeString(){
             String theme = "";

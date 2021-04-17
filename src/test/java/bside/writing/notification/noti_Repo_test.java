@@ -1,10 +1,8 @@
 package bside.writing.notification;
 
 import bside.writing.Repository.NotificationRepository;
-import bside.writing.domain.notification.Notification;
 import bside.writing.dto.NotificationDto;
 import bside.writing.enums.NotiType;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
 
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-//@Transactional
+@Transactional
 public class noti_Repo_test {
 
     @Autowired

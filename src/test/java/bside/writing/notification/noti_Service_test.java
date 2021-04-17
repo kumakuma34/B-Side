@@ -1,10 +1,9 @@
 package bside.writing.notification;
 
 import bside.writing.Service.NotificationService;
-import bside.writing.domain.notification.Notification;
+
 import bside.writing.dto.NotificationDto;
-import bside.writing.enums.NotiType;
-import org.assertj.core.api.Assertions;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
