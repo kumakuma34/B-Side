@@ -1,8 +1,10 @@
 package bside.writing.Service;
 
+import bside.writing.Repository.ChallengeMemberRepository;
 import bside.writing.Repository.ThemeRepository;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.Repository.ChallengeRepository;
+import bside.writing.domain.challenge.ChallengeMember;
 import bside.writing.domain.member.Member;
 import bside.writing.dto.ChallengeDto;
 import bside.writing.enums.ChallengeCode;
@@ -24,6 +26,7 @@ public class ChallengeService {
     private final ThemeService themeService;
     private final MemberService memberService;
     private final ChallengeMemberService challengeMemberService;
+    private final ChallengeMemberRepository challengeMemberRepository;
     private final ThemeRepository themeRepository;
     private int searchCnt = ChallengeCode.DEFAULT_SEARCH_COUNT.getVal();
 
@@ -86,47 +89,6 @@ public class ChallengeService {
                 .theme(request.getTheme())
                 .build();
     }
-//    public ChallengeDto.Response makeAllInfoDTO(ChallengeDto.Request request, Long uid){
-//        String[] token = request.getTheme_string().split(", ");
-//        int maxCnt = ThemeCode.MAX_THEME_COUNT.getVal();
-//        int maxLen = ThemeCode.MAX_THEME_LENGTH.getVal();
-//        if(token.length > maxCnt){
-//            throw new IllegalArgumentException("Theme count must be under 3");
-//        }
-//
-//        ArrayList<Long> themeId = new ArrayList<>();
-//        for(int i = 0 ; i < token.length; i++){
-//            if(token[i].length() > maxLen) {
-//                throw new IllegalArgumentException("Theme length must be under 10");
-//            }
-//            Long id = themeService.findOrSaveTheme(token[i]);
-//            themeId.add(id);
-//        }
-//
-//        String statusName = "";
-//        if(request.getStatus() == 0) statusName = ChallengeStatusCode.RECRUITING.name();
-//        else if(request.getStatus() == 1) statusName = ChallengeStatusCode.IN_PROGRESS.name();
-//        else if(request.getStatus() == 2) statusName = ChallengeStatusCode.COMPLETE.name();
-//        return ChallengeDto.Response.builder()
-//                .challengeId(request.getChallengeId())
-//                .coverImg(request.getCoverImg())
-//                .challengeTitle(request.getChallengeTitle())
-//                .challengeDetail(request.getChallengeDetail())
-//                .maxParticipant(request.getMaxParticipant())
-//                .currentParticipant(request.getCurrentParticipant())
-//                .startDt(request.getStartDt())
-//                .duration(request.getDuration())
-//                .submitDaysCnt(request.getSubmitDaysCnt())
-//                .status(request.getStatus())
-//                .status_name(statusName)
-//                .createdId(uid)
-//                .modifiedId(uid)
-//                .theme1(themeId.get(0))
-//                .theme2(themeId.get(1))
-//                .theme3(themeId.get(2))
-//                .themeNames(Arrays.asList(token))
-//                .build();
-//    }
 
     public Challenge addNewChallenge(ChallengeDto.Request request , Long uid) {
         int title_len = ChallengeCode.CHALLENGE_TITLE_LENGTH.getVal();
@@ -157,11 +119,25 @@ public class ChallengeService {
         return result;
     }
 
-
-
     public ChallengeDto.Response setUerInfo(ChallengeDto.Response response){
         response.setJoinMembers(challengeMemberService.getMemberList(response.getChallengeId()));
         return response;
+    }
+
+    //달성률 계산
+    public int calcAchievementRate(Long challenge_id , Long uid){
+        Optional<ChallengeMember> challengeMember = challengeMemberRepository.findByChallengeAndMember(challenge_id,uid);
+        Optional<Challenge> challenge = challengeRepository.findById(challenge_id);
+        challenge.orElseThrow(()-> new IllegalArgumentException("no " +challenge_id));
+
+        int submitCnt = 0;
+        if(challengeMember.isPresent()){
+            submitCnt = challengeMember.get().getSubmitArticleCnt().intValue();
+        }
+        int week = challenge.get().getDuration();
+        int cnt = challenge.get().getSubmitDaysCnt();
+
+        return (int)((float)submitCnt / ((float)week* (float)cnt) * 100);
     }
 
     //challenge 조회
@@ -180,6 +156,7 @@ public class ChallengeService {
         List<ChallengeDto.Response> result = new ArrayList<>();
         list.forEach(e->result.add(new ChallengeDto.Response(e)));
         result.forEach(e->setThemeName(e));
+        result.forEach(e-> e.setAchievementRate(calcAchievementRate(e.getChallengeId(),member_id)));
         return result;
     }
 
@@ -208,7 +185,8 @@ public class ChallengeService {
 
     /*
     TODO : 매일 일배치로 시작일자 도달한 챌린지 status 업데이트 (0>1)
-    TODO : Enum reverse 가져올 수 있게 수정 가능?
+    TODO : Enum reverse 가져올 수 있게 수정
+    TODO : 달성률 추가해서 return
      */
 
 }

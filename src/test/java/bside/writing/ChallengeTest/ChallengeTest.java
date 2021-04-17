@@ -3,6 +3,7 @@ package bside.writing.ChallengeTest;
 import bside.writing.Repository.BadgeRepository;
 import bside.writing.Repository.ChallengeMemberRepository;
 import bside.writing.Service.ChallengeMemberService;
+import bside.writing.Service.ChallengeService;
 import bside.writing.domain.badge.Badge;
 import bside.writing.dto.BadgeDto;
 import bside.writing.enums.BadgeCode;
@@ -23,6 +24,8 @@ public class ChallengeTest {
     ChallengeMemberRepository challengeMemberRepository;
     @Autowired
     ChallengeMemberService challengeMemberService;
+    @Autowired
+    ChallengeService challengeService;
 
     @Test
     public void 챌린지참여_중복검(){
@@ -45,6 +48,16 @@ public class ChallengeTest {
         //when
         challengeMemberService.submitCntIncrease(challengeId,memberId);
         System.out.println(challengeMemberRepository.findByChallengeAndMember(challengeId,memberId).get().getSubmitArticleCnt());
+    }
+
+    @Test
+    public void 달성률검사(){
+        //Given
+        Long challengeID = 47L;
+        Long memberId = 47L;
+
+        //when
+        System.out.println(challengeService.calcAchievementRate(challengeID,memberId));
     }
 
 

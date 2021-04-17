@@ -19,6 +19,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ArticleService {
     public final ChallengeRepository challengeRepository;
+    public final ChallengeMemberService challengeMemberService;
     public final ArticleRepository articleRepository;
 
     //주차 계산 함수
@@ -40,8 +41,11 @@ public class ArticleService {
     public Long addNewArticle(ArticleDto.Request request , Long uid){
         int week = getWeekCnt(request.getChallengeId());
         int submitCnt = getSubmitCnt(week,request.getChallengeId(),uid);
-        if(request.getStatus() == 2) {
+        if(request.getStatus() == 2) {//임시 저장일 경우
             week = 0; submitCnt = 0;
+        }
+        else{//글 제출일 경우
+            challengeMemberService.submitCntIncrease(request.getChallengeId(), uid);
         }
         Article entity = Article.builder()
                 .articleTitle(request.getArticleTitle())

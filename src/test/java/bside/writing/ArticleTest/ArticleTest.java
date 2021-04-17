@@ -54,7 +54,7 @@ public class ArticleTest {
                 .articleTitle("임시글임")
                 .articleDetail(text)
                 .challengeId(32L)
-                .status("2")
+                .status(2)
                 .build();
         //when
         System.out.println(articleService.addNewArticle(request,47L));
