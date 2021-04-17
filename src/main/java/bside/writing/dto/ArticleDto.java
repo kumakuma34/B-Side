@@ -1,6 +1,7 @@
 package bside.writing.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import javassist.LoaderClassPath;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,5 +46,20 @@ public class ArticleDto {
         private LocalDateTime createdDate;
         @JsonProperty("status")
         private String status;
+    }
+
+    @Getter
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    public static class TempArticleResponse{
+        @JsonProperty("article_id")
+        private Long articleId;
+        @JsonProperty("article_title")
+        private String articleTitle;
+        @JsonProperty("created_date")
+        private LocalDateTime createDate;
+        @JsonProperty("article_detail")
+        private String articleDetail;
     }
 }

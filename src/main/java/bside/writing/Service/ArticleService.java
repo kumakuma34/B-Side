@@ -72,7 +72,7 @@ public class ArticleService {
                .submitCnt(entity.getSubmitCnt())
                .build();
     }
-    //저장한 글 조회
+    //저장한 글 전제 조회
     public List<ArticleDto.ResponseAsList> getTempArticle(Long uid){
         List<ArticleDto.ResponseAsList> result = new ArrayList<>();
         if(articleRepository.findTempArticle(uid).isPresent()){
@@ -87,7 +87,7 @@ public class ArticleService {
         return result;
     }
 
-    //제출한 글 조회
+    //제출한 글 전제 조회
     public List<ArticleDto.ResponseAsList> getSubmitArticle(Long uid){
         List<ArticleDto.ResponseAsList> result = new ArrayList<>();
         if(articleRepository.findSubmitArticle(uid).isPresent()){
@@ -95,6 +95,17 @@ public class ArticleService {
                     result.add(makeResponseAsList(article)));
         }
         return result;
+    }
+
+    public ArticleDto.TempArticleResponse getTempArticleDetail(Long articleId){
+        Optional<Article> entity = articleRepository.findById(articleId);
+        entity.orElseThrow(()-> new IllegalArgumentException("no such Article"));
+        return ArticleDto.TempArticleResponse.builder()
+                .articleId(entity.get().getArticleId())
+                .articleTitle(entity.get().getArticleTitle())
+                .articleDetail(entity.get().getArticleDetail())
+                .createDate(entity.get().getCreatedDate())
+                .build();
     }
     //제출 현황 조회 함수
     public Map<Integer , Object> getSubmitStatus(Long uid, Long challenge_id){
