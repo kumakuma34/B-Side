@@ -5,14 +5,14 @@ import bside.writing.Repository.MemberRepository;
 import bside.writing.Repository.NotificationRepository;
 import bside.writing.domain.notification.Notification;
 import bside.writing.dto.NotificationDto;
+import bside.writing.enums.NotiType;
 import bside.writing.templateClass.Entityable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -21,7 +21,6 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final MemberRepository memberRepository;
     private final ChallengeRepository challengeRepository;
-    //private final
 
     @Transactional
     public <T extends Entityable> NotificationDto save(T notificationDto){
@@ -30,10 +29,10 @@ public class NotificationService {
     }
 
     @Transactional
-    public List<NotificationDto> getNotification(Long memberId) {
-        List<Notification> notificationsList = notificationRepository.findByMemberId(memberId)
-                .orElseThrow();
-        return IdtoName(toNotiDtoList(notificationsList));
+    public List<NotificationDto> getNotification(Long memberId){
+        List<Notification> notiList = notificationRepository.findByMemberId(memberId)
+                .orElseThrow(()-> new NoSuchElementException("no notification"));
+        return IdtoName(toNotiDtoList(notiList));
     }
 
     public List<NotificationDto> toNotiDtoList(List<Notification> notificationList){
@@ -45,14 +44,13 @@ public class NotificationService {
     public List<NotificationDto> IdtoName(List<NotificationDto> notificationDtoList){
         return notificationDtoList.stream()
                 .map((dto) -> {
-                    if (dto.getFromArticleId() != null)
-                        dto.setFromArticleName("article repo 미구현");
-                    if (dto.getFromChallengeId() != null)
-                        dto.setFromChallengeName(challengeRepository.findById(dto.getFromArticleId()).get().getChallengeTitle());
-                    if (dto.getFromMemberId() != null)
-                        dto.setFromMemberName(memberRepository.findById(dto.getFromMemberId()).get().getNickName());
+                    if (dto.getNotiType().getFromType().equals(NotiType.ARTICLE_LIKE.getFromType())){
+                        dto.setFromName("article name");
+                    }
+                    else if(dto.getNotiType().getFromType().equals(NotiType.BEFORE_START_CHALLENGE.getFromType())){
+                        dto.setFromName(challengeRepository.findById(dto.getFromId()).get().getChallengeTitle());
+                    }
                     return dto;
                 }).collect(Collectors.toList());
     }
-
 }

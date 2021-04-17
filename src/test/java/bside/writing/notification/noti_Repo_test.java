@@ -3,6 +3,7 @@ package bside.writing.notification;
 import bside.writing.Repository.NotificationRepository;
 import bside.writing.domain.notification.Notification;
 import bside.writing.dto.NotificationDto;
+import bside.writing.enums.NotiType;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,30 +18,31 @@ import java.util.Optional;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@Transactional
+//@Transactional
 public class noti_Repo_test {
 
     @Autowired
     NotificationRepository notificationRepository;
 
     @Test
-    public void 알람_생성(){
+    public void save_wellcom_noti(){
         NotificationDto notificationDto = NotificationDto.builder()
                 .memberId(30L)
-                .fromMemberId(47L)
-                .notiMessage("장현수 지금 죽이고 놀러가겠습니다")
+                .notiMessage("라이틴 가입을 축하드립니다")
                 .notiRead(false)
-                .notiType("유저알람")
-                .notiUrl("www.google.com")
-                .build();
-        Notification save = notificationRepository.save(notificationDto.toEntity());
-        Assertions.assertThat(save.getMemberId()).isEqualTo(notificationDto.getMemberId());
+                .notiType(NotiType.WELLCOM).build();
+        notificationRepository.save(notificationDto.toEntity());
     }
 
     @Test
-    public void 알람_조회(){
-        Optional<List<Notification>> byMemberId = notificationRepository.findByMemberId(30L);
-
+    public void save_article_noti(){
+        NotificationDto notificationDto = NotificationDto.builder()
+                .memberId(30L)
+                .notiMessage("에서 좋아요를 받았어요")
+                .notiRead(false)
+                .notiType(NotiType.ARTICLE_LIKE)
+                .fromId(1L)
+                .build();
+        notificationRepository.save(notificationDto.toEntity());
     }
-
 }
