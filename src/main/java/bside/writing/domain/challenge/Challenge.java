@@ -73,6 +73,7 @@ public class Challenge extends BaseTimeEntity {
         this.startDt = request.getStartDt();
         this.duration = request.getDuration();
         this.submitDaysCnt = request.getSubmitDaysCnt();
+        this.theme = request.getTheme();
     }
 
     @Override
