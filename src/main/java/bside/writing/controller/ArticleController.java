@@ -49,4 +49,11 @@ public class ArticleController {
         return articleService.getTempArticleDetail(articleId);
     }
 
+    //제출한글 조회
+    @RequestMapping(value = "article/{article_id}", method = RequestMethod.GET)
+    public ArticleDto.SubmitArticleResponse getArticleDetail(@PathVariable String article_id, @RequestHeader(name="Authorization") String accessToken ) throws IOException{
+        Long articleId = Long.valueOf(article_id);
+        return articleService.getSubmitArticleDetail(articleId);
+    }
+
 }

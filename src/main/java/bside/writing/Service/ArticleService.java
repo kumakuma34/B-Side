@@ -3,6 +3,7 @@ package bside.writing.Service;
 import bside.writing.Repository.ArticleRepository;
 import bside.writing.Repository.ChallengeRepository;
 import bside.writing.domain.article.Article;
+import bside.writing.domain.challenge.Challenge;
 import bside.writing.dto.ArticleDto;
 import bside.writing.enums.ArticleStatusCode;
 import javassist.compiler.ast.Pair;
@@ -21,6 +22,7 @@ public class ArticleService {
     public final ChallengeRepository challengeRepository;
     public final ChallengeMemberService challengeMemberService;
     public final ArticleRepository articleRepository;
+    public final MemberService memberService;
 
     //주차 계산 함수
     public int getWeekCnt(Long challenge_id){
@@ -97,6 +99,7 @@ public class ArticleService {
         return result;
     }
 
+    //저장한 글 상세 조회
     public ArticleDto.TempArticleResponse getTempArticleDetail(Long articleId){
         Optional<Article> entity = articleRepository.findById(articleId);
         entity.orElseThrow(()-> new IllegalArgumentException("no such Article"));
@@ -106,6 +109,25 @@ public class ArticleService {
                 .articleDetail(entity.get().getArticleDetail())
                 .createDate(entity.get().getCreatedDate())
                 .build();
+    }
+
+    //제출한 글 상세 조회
+    public ArticleDto.SubmitArticleResponse getSubmitArticleDetail(Long articleId){
+        Optional<Article> entity = articleRepository.findById(articleId);
+        entity.orElseThrow(()-> new IllegalArgumentException("no such Article"));
+        Optional<Challenge> challenge = challengeRepository.findById(entity.get().getChallengeId());
+        return ArticleDto.SubmitArticleResponse.builder()
+                .week(entity.get().getWeek())
+                .submitCnt(entity.get().getSubmitCnt())
+                .challengeTitle(challenge.get().getChallengeTitle())
+                .author(memberService.findNameById(entity.get().getCreatedId()))
+                .likeCnt(0)
+                .articleId(entity.get().getArticleId())
+                .articleTitle(entity.get().getArticleTitle())
+                .createDate(entity.get().getCreatedDate())
+                .articleDetail(entity.get().getArticleDetail())
+                .build();
+        //TODO : 글 좋아요 구현 되면 좋아요 갯수 수정
     }
     //제출 현황 조회 함수
     public Map<Integer , Object> getSubmitStatus(Long uid, Long challenge_id){

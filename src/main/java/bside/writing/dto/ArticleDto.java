@@ -62,4 +62,26 @@ public class ArticleDto {
         @JsonProperty("article_detail")
         private String articleDetail;
     }
+
+    @Getter
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    public static class SubmitArticleResponse{
+        private int week;
+        @JsonProperty("submit_cnt")
+        private int submitCnt;
+        @JsonProperty("challenge_title")
+        private String challengeTitle;
+        private String author;
+        private int likeCnt;
+        @JsonProperty("article_id")
+        private Long articleId;
+        @JsonProperty("article_title")
+        private String articleTitle;
+        @JsonProperty("created_date")
+        private LocalDateTime createDate;
+        @JsonProperty("article_detail")
+        private String articleDetail;
+    }
 }
