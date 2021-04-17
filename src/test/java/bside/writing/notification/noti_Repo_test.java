@@ -34,9 +34,21 @@ public class noti_Repo_test {
     public void save_article_noti(){
         NotificationDto notificationDto = NotificationDto.builder()
                 .memberId(30L)
-                .notiMessage("에서 좋아요를 받았어요")
+                .notiMessage(NotiType.ARTICLE_LIKE.getMsg())
                 .notiRead(false)
                 .notiType(NotiType.ARTICLE_LIKE)
+                .fromId(1L)
+                .build();
+        notificationRepository.save(notificationDto.toEntity());
+    }
+
+    @Test
+    public void save_challenge_noti(){
+        NotificationDto notificationDto = NotificationDto.builder()
+                .memberId(30L)
+                .notiMessage(NotiType.DELETE_CHALLENGE.getMsg())
+                .notiRead(false)
+                .notiType(NotiType.DELETE_CHALLENGE)
                 .fromId(1L)
                 .build();
         notificationRepository.save(notificationDto.toEntity());

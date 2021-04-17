@@ -2,13 +2,16 @@ package bside.writing.dto;
 
 import bside.writing.domain.notification.Notification;
 import bside.writing.enums.NotiType;
-import bside.writing.templateClass.Entityable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -37,11 +40,15 @@ public class NotificationDto{
     @JsonIgnore
     private LocalDateTime notiStartDate;
 
-    @JsonProperty("from_id")
+    @JsonIgnore
     private Long fromId;
 
-    @JsonProperty("from_name")
+    @JsonIgnore
     private String fromName;
+
+    @JsonProperty("link_target")
+    private Map<String, Object> target = new LinkedHashMap<>();
+
 
     public NotificationDto(Notification entity) {
         this.id = entity.getId();
@@ -52,6 +59,9 @@ public class NotificationDto{
         this.notiStartDate = entity.getNotiStartDate();
         this.fromId = entity.getFromId();
         this.fromName = entity.getFromName();
+
+        target.put("id", fromId);
+        target.put("name", fromName);
     }
 
     public Notification toEntity(){
