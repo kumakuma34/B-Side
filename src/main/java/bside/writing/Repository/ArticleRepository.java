@@ -1,6 +1,7 @@
 package bside.writing.Repository;
 
 import bside.writing.domain.article.Article;
+import bside.writing.domain.article.ArticleSubmitCount;
 import bside.writing.domain.challenge.Challenge;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,4 +31,11 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             "where a.created_id = ?1 AND a.status = 2 ORDER BY a.created_date desc" , nativeQuery = true)
     Optional<List<Article>> findTempArticle(Long uid);
 
+    @Query(value = "SELECT "+
+            " new bside.writing.domain.article.ArticleSubmitCount(a.createdId , count(a)) " +
+            "FROM Article a " +
+            "WHERE a.challengeId = ?1 AND a.status != 2 "+
+            "GROUP BY a.createdId "+
+            "ORDER BY count(a)")
+    List<ArticleSubmitCount> findSubmitCount(Long challengeId);
 }

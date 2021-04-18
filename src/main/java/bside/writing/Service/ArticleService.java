@@ -3,16 +3,15 @@ package bside.writing.Service;
 import bside.writing.Repository.ArticleRepository;
 import bside.writing.Repository.ChallengeRepository;
 import bside.writing.domain.article.Article;
+import bside.writing.domain.article.ArticleSubmitCount;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.dto.ArticleDto;
 import bside.writing.enums.ArticleStatusCode;
-import javassist.compiler.ast.Pair;
+import bside.writing.domain.article.RankResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -152,6 +151,14 @@ public class ArticleService {
             }
             result.put(i,list);
         }
+        return result;
+    }
+
+    public List<RankResult<String , Integer>> getRank(Long challengeId){
+        List<RankResult<String, Integer>> result = new ArrayList<>();
+        List<ArticleSubmitCount> queryResult = articleRepository.findSubmitCount(challengeId);
+        if(queryResult.isEmpty()) return result;
+        queryResult.forEach(e->result.add(new RankResult(memberService.findNameById(e.getMemberId()), e.getSubmitCnt())));
         return result;
     }
 }

@@ -1,18 +1,15 @@
 package bside.writing.ArticleTest;
 
 import bside.writing.Repository.ArticleRepository;
-import bside.writing.Repository.ChallengeRepository;
 import bside.writing.Service.ArticleService;
-import bside.writing.Service.BadgeService;
+import bside.writing.domain.article.ArticleSubmitCount;
 import bside.writing.dto.ArticleDto;
-import org.apache.tomcat.jni.Local;
+import bside.writing.domain.article.RankResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
@@ -69,5 +66,17 @@ public class ArticleTest {
         System.out.println(articleRepository.findSubmitTime(challengeId ,1,1,uid));
         Map<Integer , Object> result = articleService.getSubmitStatus(uid,challengeId);
         System.out.println(result);
+    }
+
+    @Test
+    public void 글제출횟수조회(){
+        //given
+        Long challengeId = 40L;
+
+        List<ArticleSubmitCount> result = articleRepository.findSubmitCount(challengeId);
+        result.forEach(e->System.out.println(e.getMemberId() + " : " + e.getSubmitCnt()));
+
+        List<RankResult<String , Integer>> result2 = articleService.getRank(challengeId);
+        result2.forEach(e->System.out.println(e.getFirst()));
     }
 }
