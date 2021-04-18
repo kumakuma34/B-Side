@@ -34,10 +34,9 @@ public class Notification extends BaseTimeEntity {
     @Column(name = "noti_start_date")
     private LocalDateTime notiStartDate;
 
+    @Column(name = "from_type")
+    private String fromType;
+
     @Column(name = "from_id")
     private Long fromId;
-
-    @Column(name = "from_name")
-    private String fromName;
-
 }

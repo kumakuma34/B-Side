@@ -1,7 +1,7 @@
 package bside.writing.notification;
 
 import bside.writing.Repository.NotificationRepository;
-import bside.writing.dto.NotificationDto;
+import bside.writing.dto.NotificationSaveDto;
 import bside.writing.enums.NotiType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,35 +21,10 @@ public class noti_Repo_test {
     NotificationRepository notificationRepository;
 
     @Test
-    public void save_wellcom_noti(){
-        NotificationDto notificationDto = NotificationDto.builder()
+    public void save_wellcom_noti() {
+        NotificationSaveDto notificationDto = NotificationSaveDto.builder()
                 .memberId(30L)
-                .notiMessage("라이틴 가입을 축하드립니다")
-                .notiRead(false)
-                .notiType(NotiType.WELLCOM).build();
-        notificationRepository.save(notificationDto.toEntity());
-    }
-
-    @Test
-    public void save_article_noti(){
-        NotificationDto notificationDto = NotificationDto.builder()
-                .memberId(30L)
-                .notiMessage(NotiType.ARTICLE_LIKE.getMsg())
-                .notiRead(false)
-                .notiType(NotiType.ARTICLE_LIKE)
-                .fromId(1L)
-                .build();
-        notificationRepository.save(notificationDto.toEntity());
-    }
-
-    @Test
-    public void save_challenge_noti(){
-        NotificationDto notificationDto = NotificationDto.builder()
-                .memberId(30L)
-                .notiMessage(NotiType.DELETE_CHALLENGE.getMsg())
-                .notiRead(false)
-                .notiType(NotiType.DELETE_CHALLENGE)
-                .fromId(1L)
+                .notiType(NotiType.WELLCOM)
                 .build();
         notificationRepository.save(notificationDto.toEntity());
     }
