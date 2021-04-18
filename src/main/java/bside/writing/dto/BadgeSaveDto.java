@@ -1,6 +1,7 @@
 package bside.writing.dto;
 
 import bside.writing.domain.badge.Badge;
+import bside.writing.enums.BadgeCode;
 import io.jsonwebtoken.lang.Assert;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,12 +11,12 @@ public class BadgeSaveDto {
 
     private Long memberId;
 
-    private String badgeCode;
+    private BadgeCode badgeCode;
 
     private String badgeValue;
 
     @Builder
-    public BadgeSaveDto(Long memberId, String badgeCode, String badgeValue) {
+    public BadgeSaveDto(Long memberId, BadgeCode badgeCode, String badgeValue) {
         Assert.notNull(memberId, "memberid must not be null");
         Assert.notNull(badgeCode, "badgeCode must not be null");
         Assert.notNull(badgeValue, "badgeValue must not be null");
@@ -28,7 +29,7 @@ public class BadgeSaveDto {
     public Badge toEntity(){
         return Badge.builder()
                 .memberId(memberId)
-                .badgeCode(badgeCode)
+                .badgeCode(badgeCode.name())
                 .badgeValue(badgeValue)
                 .build();
     }
