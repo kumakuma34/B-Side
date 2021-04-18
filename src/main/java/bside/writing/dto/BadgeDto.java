@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-
 @Getter
 @Builder
 @AllArgsConstructor
@@ -28,6 +27,12 @@ public class BadgeDto implements Comparable<BadgeDto>{
         this.memberId = entity.getMemberId();
         this.badgeCode = entity.getBadgeCode();
         this.badgeValue = entity.getBadgeValue();
+    }
+
+    public BadgeDto(BadgeSaveDto saveDto) {
+        this.memberId = saveDto.getMemberId();
+        this.badgeCode = saveDto.getBadgeCode();
+        this.badgeValue = saveDto.getBadgeValue();
     }
 
     public Badge toEntity(){
