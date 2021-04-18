@@ -45,23 +45,5 @@ public class badgeServiceTest {
         Assertions.assertThat(result).isFalse();
     }
 
-    @Test
-    void 뱃지_확인_후_생성(){
-        BadgeDto badgeDto = BadgeDto.builder()
-                .memberId(1L)
-                .badgeCode(BadgeCode.CHALLENGE_FINISH.name())
-                .badgeValue("1") // 1,2,8
-                .build();
 
-        boolean has = badgeService.hasThisBadge(badgeDto);
-        Assertions.assertThat(has).isFalse();
-
-        badgeService.checkAndGetBadge(badgeDto);
-
-        has = badgeService.hasThisBadge(badgeDto);
-        Assertions.assertThat(has).isTrue();
-
-        BadgeDto duplicateResult = badgeService.checkAndGetBadge(badgeDto);
-        Assertions.assertThat(duplicateResult).isNull();
-    }
 }
