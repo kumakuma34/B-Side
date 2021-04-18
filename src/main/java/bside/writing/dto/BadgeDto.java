@@ -31,7 +31,7 @@ public class BadgeDto implements Comparable<BadgeDto>{
 
     public BadgeDto(BadgeSaveDto saveDto) {
         this.memberId = saveDto.getMemberId();
-        this.badgeCode = saveDto.getBadgeCode();
+        this.badgeCode = saveDto.getBadgeCode().name();
         this.badgeValue = saveDto.getBadgeValue();
     }
 
