@@ -2,6 +2,7 @@ package bside.writing.Service;
 
 import bside.writing.Repository.BadgeRepository;
 import bside.writing.domain.badge.Badge;
+import bside.writing.dto.BadgeSaveDto;
 import bside.writing.enums.BadgeCode;
 import bside.writing.dto.BadgeDto;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -19,6 +19,8 @@ public class BadgeService {
 
     @Value("${SERVER_BADGE_URL}")
     private String SERVER_URL;
+    private String imgFileExtension = ".svg";
+
     private final BadgeRepository badgeRepository;
 
     public Map<String, List> getDefaultResponse(){
@@ -30,7 +32,7 @@ public class BadgeService {
                         Map<String, Object> cur = new LinkedHashMap<>();
                         cur.put("badge_value", badgeValue);
                         cur.put("achieve", false);
-                        cur.put("image_url", SERVER_URL + code.name() + badgeValue + "-default.png");
+                        cur.put("image_url", SERVER_URL + code.name() + badgeValue + "-default" + imgFileExtension);
                         list.add(cur);
                     }
                     defaultResponse.put(code.name(), list);
@@ -49,7 +51,7 @@ public class BadgeService {
         return  badgeList.stream().map((entity) -> BadgeDto.builder()
                 .badgeCode(entity.getBadgeCode())
                 .badgeValue(entity.getBadgeValue())
-                .badgeUrl(SERVER_URL + entity.getBadgeCode() + entity.getBadgeValue() + ".png")
+                .badgeUrl(SERVER_URL + entity.getBadgeCode() + entity.getBadgeValue() + imgFileExtension)
                 .build())
                 .collect(Collectors.toList());
     }
@@ -65,12 +67,13 @@ public class BadgeService {
             int index = BadgeCode.valueOf(curBadgeDto.getBadgeCode()).getCriteria().indexOf(curBadgeDto.getBadgeValue());
             Map<String, Object> map = (Map<String, Object>) curBadgeList.get(index);
             map.replace("achieve", true);
-            map.replace("image_url", SERVER_URL + curBadgeDto.getBadgeCode() + curBadgeDto.getBadgeValue() + ".png");
+            map.replace("image_url", SERVER_URL + curBadgeDto.getBadgeCode() + curBadgeDto.getBadgeValue() + imgFileExtension);
         }
         return updatedResponse;
     }
 
-    public BadgeDto checkAndGetBadge(BadgeDto badgeDto){
+    public BadgeDto checkAndGetBadge(BadgeSaveDto saveDto){
+        BadgeDto badgeDto = new BadgeDto(saveDto);
         if(isAchieve(badgeDto) && !hasThisBadge(badgeDto)){
             addBadge(badgeDto);
             return badgeDto;

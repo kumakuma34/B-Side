@@ -2,7 +2,7 @@ package bside.writing.controller;
 
 import bside.writing.Service.NotificationService;
 import bside.writing.Service.TokenService;
-import bside.writing.dto.NotificationDto;
+import bside.writing.dto.NotificationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +22,9 @@ public class NotificationController {
         Map<String, List> response = new HashMap<>();
 
         Long memberId = tokenService.getUid(accessToken);
-        List<NotificationDto> notification = notificationService.getNotification(memberId);
+        List<NotificationResponseDto> notifications = notificationService.getNotificationAsResponseDto(memberId);
 
-        response.put("notifications", notification);
+        response.put("notifications", notifications);
         return response;
     }
 

@@ -30,7 +30,7 @@ public class ChallengeTest {
     @Test
     public void 챌린지참여_중복검(){
         //Given
-        Long challengeId = 7L;
+        Long challengeId = 47L;
         Long uid = 47L;
 
         //when
@@ -42,7 +42,7 @@ public class ChallengeTest {
     @Test
     public void 챌린지참여자증가(){
         //Given
-        Long challengeId = 46L;
+        Long challengeId = 47L;
         Long memberId = 47L;
 
         //when

@@ -22,27 +22,21 @@ public class Notification extends BaseTimeEntity {
     @Column(name = "member_id", nullable = false)
     private Long memberId;
 
-    @Column(name = "from_member_id")
-    private Long fromMemberId;
-
-    @Column(name = "from_article_id")
-    private Long fromArticleId;
-
-    @Column(name = "from_challenge_id")
-    private Long fromChallengeId;
-
     @Column(name = "noti_type", nullable = false)
     private String notiType;
 
     @Column(name = "noti_message", nullable = false)
     private String notiMessage;
 
-    @Column(name = "noti_url")
-    private String notiUrl;
-
     @Column(name = "noti_read", nullable = false)
     private Boolean notiRead;
 
     @Column(name = "noti_start_date")
     private LocalDateTime notiStartDate;
+
+    @Column(name = "from_type")
+    private String fromType;
+
+    @Column(name = "from_id")
+    private Long fromId;
 }
