@@ -14,28 +14,32 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-    @Query(value = "SELECT MAX(a.submit_cnt) FROM article a " +
-            "where a.challenge_id = ?1 AND a.created_id = ?2 and a.week = ?3 and a.status != 2" , nativeQuery = true)
-    Optional<Integer> findMaxSubmitCnt(Long challenge_id , Long member_id , int week);
+    @Query(value = "SELECT count(*) FROM article a " +
+            "where a.challenge_id = ?1 AND a.created_id = ?2 and a.week = ?3 and a.status != 2", nativeQuery = true)
+    Optional<Integer> findMaxSubmitCnt(Long challenge_id, Long member_id, int week);
 
     @Query(value = "SELECT a.created_date FROM article a " +
-            "where a.challenge_id = ?1 AND a.week = ?2 AND a.submit_cnt = ?3 AND a.created_id = ?4 AND a.status != 2" , nativeQuery = true)
-    Optional<Timestamp> findSubmitTime(Long challenge_id , int week , int submitCnt , Long uid);
+            "where a.challenge_id = ?1 AND a.week = ?2 AND a.submit_cnt = ?3 AND a.created_id = ?4 AND a.status != 2", nativeQuery = true)
+    Optional<Timestamp> findSubmitTime(Long challenge_id, int week, int submitCnt, Long uid);
 
 
     @Query(value = "SELECT * FROM article a " +
-            "where a.created_id = ?1 AND a.status != 2 ORDER BY a.created_date desc" , nativeQuery = true)
+            "where a.created_id = ?1 AND a.status != 2 ORDER BY a.created_date desc", nativeQuery = true)
     Optional<List<Article>> findSubmitArticle(Long uid);
 
     @Query(value = "SELECT * FROM article a " +
-            "where a.created_id = ?1 AND a.status = 2 ORDER BY a.created_date desc" , nativeQuery = true)
+            "where a.created_id = ?1 AND a.status = 2 ORDER BY a.created_date desc", nativeQuery = true)
     Optional<List<Article>> findTempArticle(Long uid);
 
-    @Query(value = "SELECT "+
+    @Query(value = "SELECT " +
             " new bside.writing.domain.article.ArticleSubmitCount(a.createdId , count(a)) " +
             "FROM Article a " +
-            "WHERE a.challengeId = ?1 AND a.status != 2 "+
-            "GROUP BY a.createdId "+
+            "WHERE a.challengeId = ?1 AND a.status != 2 " +
+            "GROUP BY a.createdId " +
             "ORDER BY count(a)")
     List<ArticleSubmitCount> findSubmitCount(Long challengeId);
+
+    @Query(value = "SELECT count(*) FROM article a " +
+            "where a.created_id = ?1 AND a.status != 2", nativeQuery = true)
+    Long findAllSubmitCount(Long uid);
 }

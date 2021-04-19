@@ -31,9 +31,9 @@ public class ArticleTest {
     @Test
     void 주차제출횟수조회(){
         //Given
-        Long challengeId = 32L;
+        Long challengeId = 47L;
         Long memberId = 47L;
-        int week = 1;
+        int week = 2;
         //when
         int submitCnt = articleService.getSubmitCnt(week , challengeId,memberId);
         //then
@@ -76,7 +76,16 @@ public class ArticleTest {
         List<ArticleSubmitCount> result = articleRepository.findSubmitCount(challengeId);
         result.forEach(e->System.out.println(e.getMemberId() + " : " + e.getSubmitCnt()));
 
-        List<RankResult<String , Integer>> result2 = articleService.getRank(challengeId);
-        result2.forEach(e->System.out.println(e.getFirst()));
+    }
+
+
+    @Test
+    public void 글전체횟수제출조회(){
+        //given
+        Long challengeId = 47L;
+
+        Long count = articleRepository.findAllSubmitCount(47L);
+        System.out.println(count);
+
     }
 }

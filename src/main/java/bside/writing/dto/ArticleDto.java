@@ -84,4 +84,5 @@ public class ArticleDto {
         @JsonProperty("article_detail")
         private String articleDetail;
     }
+
 }

@@ -33,6 +33,7 @@ public class ArticleController {
     }
 
     //글 조회
+    @CrossOrigin("*")
     @RequestMapping(value = "article", method = RequestMethod.GET)
     public Map<String, Object> getArticle(@RequestHeader(name="Authorization") String accessToken ) throws IOException{
         Long uid = tokenService.getUid(accessToken);
@@ -43,6 +44,7 @@ public class ArticleController {
     }
 
     //저장한글 조회
+    @CrossOrigin("*")
     @RequestMapping(value = "article/temp/{article_id}", method = RequestMethod.GET)
     public ArticleDto.TempArticleResponse getTempArticleDetail(@PathVariable String article_id, @RequestHeader(name="Authorization") String accessToken ) throws IOException{
         Long articleId = Long.valueOf(article_id);
@@ -50,10 +52,20 @@ public class ArticleController {
     }
 
     //제출한글 조회
+    @CrossOrigin("*")
     @RequestMapping(value = "article/{article_id}", method = RequestMethod.GET)
     public ArticleDto.SubmitArticleResponse getArticleDetail(@PathVariable String article_id, @RequestHeader(name="Authorization") String accessToken ) throws IOException{
         Long articleId = Long.valueOf(article_id);
         return articleService.getSubmitArticleDetail(articleId);
+    }
+
+    //article 삭제
+    @CrossOrigin("*")
+    @RequestMapping(value = "article/{article_id}", method = RequestMethod.DELETE)
+    public String deleteArticle(@PathVariable String article_id , @RequestHeader(name="Authorization") String accessToken) throws IOException{
+        Long uid  = tokenService.getUid(accessToken);
+        articleService.deleteArticle(Long.valueOf(article_id));
+        return article_id + " deleted";
     }
 
 }

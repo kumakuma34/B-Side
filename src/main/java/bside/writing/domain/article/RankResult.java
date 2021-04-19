@@ -16,3 +16,5 @@ public class RankResult<T,S>{
         return new RankResult<T,S>(first, second);
     }
 }
+
+//TODO : 얘네 DTO로 옮겨서 수정, 엔티티도아닌데 나와있어서 이상함
