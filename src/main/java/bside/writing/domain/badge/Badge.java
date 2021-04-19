@@ -28,4 +28,12 @@ public class Badge extends BaseTimeEntity {
     @Column(name = "badge_max_value", nullable = false)
     private int badgeValue;
 
+    public void increaseBadgeValue(){
+        badgeValue++;
+    }
+
+    public void decreaseBadgeValue(){
+        badgeValue--;
+    }
+
 }

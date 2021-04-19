@@ -2,7 +2,7 @@ package bside.writing.badge.badgeRepo;
 
 import bside.writing.Repository.BadgeRepository;
 import bside.writing.domain.badge.Badge;
-import bside.writing.dto.BadgeDto;
+import bside.writing.dto.BadgeResponseDto;
 import bside.writing.enums.BadgeCode;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +20,12 @@ public class badgeRepositoryTest {
 
     @Test
     void 뱃지_저장(){
-        BadgeDto badgeDto = BadgeDto.builder()
+        BadgeResponseDto badgeResponseDto = BadgeResponseDto.builder()
                 .memberId(1L)
                 .badgeCode(BadgeCode.CHALLENGE_FINISH.name())
                 .badgeValue("8")
                 .build();
-        badgeRepository.save(badgeDto.toEntity());
+        badgeRepository.save(badgeResponseDto.toEntity());
     }
 
     @Test

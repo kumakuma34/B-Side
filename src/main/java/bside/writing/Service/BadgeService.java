@@ -2,9 +2,10 @@ package bside.writing.Service;
 
 import bside.writing.Repository.BadgeRepository;
 import bside.writing.domain.badge.Badge;
+import bside.writing.dto.BadgeDto;
 import bside.writing.dto.BadgeSaveDto;
 import bside.writing.enums.BadgeCode;
-import bside.writing.dto.BadgeDto;
+import bside.writing.dto.BadgeResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,47 @@ public class BadgeService {
     private String imgFileExtension = ".svg";
 
     private final BadgeRepository badgeRepository;
+
+
+    @Transactional
+    public Badge addBadge(BadgeResponseDto badgeResponseDto){
+        return badgeRepository.save(badgeResponseDto.toEntity());
+    }
+
+    @Transactional
+    public BadgeDto increaseBadgeValue(Long memberId, BadgeCode badgeCode){
+        Badge badge = badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode)
+                .orElseThrow(() -> new NoSuchElementException("no badge"));
+        badge.increaseBadgeValue();
+        return new BadgeDto(badge);
+    }
+
+    @Transactional
+    public BadgeDto decreaseBadgeValue(Long memberId, BadgeCode badgeCode){
+        Badge badge = badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode)
+                .orElseThrow(() -> new NoSuchElementException("no badge"));
+        badge.decreaseBadgeValue();
+        return new BadgeDto(badge);
+    }
+
+    @Transactional
+    public BadgeDto getBadgeByMemberIdAndBadgeCode(Long memberId, BadgeCode badgeCode){
+        return new BadgeDto(badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode)
+                .orElseThrow(() -> new NoSuchElementException("no badge")));
+    }
+
+    @Transactional
+    public List<BadgeDto> getBadgesByMemberId(Long memberId){
+        List<Badge> result = badgeRepository.findByMemberId(memberId);
+        if(result.size() == 0)
+            throw new NoSuchElementException("no badge");
+        return toDtoList(result);
+    }
+
+    public List<BadgeDto> toDtoList(List<Badge> badgeList){
+        return  badgeList.stream().map((entity) -> new BadgeDto(entity))
+                .collect(Collectors.toList());
+    }
 
     public Map<String, List> getDefaultResponse(){
         Map<String, List> defaultResponse = new LinkedHashMap<>();
@@ -41,64 +83,5 @@ public class BadgeService {
         return defaultResponse;
     }
 
-    @Transactional
-    public List<Badge> getBadgesByMemberId(Long memberId){
-        return badgeRepository.findByMemberId(memberId)
-                .orElseThrow(()->new NoSuchElementException());
-    }
 
-    public List<BadgeDto> toDtoList(List<Badge> badgeList){
-        return  badgeList.stream().map((entity) -> BadgeDto.builder()
-                .badgeCode(entity.getBadgeCode())
-                .badgeValue(entity.getBadgeValue())
-                .badgeUrl(SERVER_URL + entity.getBadgeCode() + entity.getBadgeValue() + imgFileExtension)
-                .build())
-                .collect(Collectors.toList());
-    }
-
-    public Map<String, List> updateList(List<BadgeDto> badgeDtoList){
-        Map<String, List> updatedResponse = getDefaultResponse();
-        Collections.sort(badgeDtoList);
-
-        for(int i = 0; i < badgeDtoList.size(); ++i){
-            BadgeDto curBadgeDto = badgeDtoList.get(i);
-            List curBadgeList = updatedResponse.get(curBadgeDto.getBadgeCode());
-
-            int index = BadgeCode.valueOf(curBadgeDto.getBadgeCode()).getCriteria().indexOf(curBadgeDto.getBadgeValue());
-            Map<String, Object> map = (Map<String, Object>) curBadgeList.get(index);
-            map.replace("achieve", true);
-            map.replace("image_url", SERVER_URL + curBadgeDto.getBadgeCode() + curBadgeDto.getBadgeValue() + imgFileExtension);
-        }
-        return updatedResponse;
-    }
-
-    public BadgeDto checkAndGetBadge(BadgeSaveDto saveDto){
-        BadgeDto badgeDto = new BadgeDto(saveDto);
-        if(isAchieve(badgeDto) && !hasThisBadge(badgeDto)){
-            addBadge(badgeDto);
-            return badgeDto;
-        }
-        return null;
-    }
-
-    public boolean isAchieve(BadgeDto badgeDto){
-        BadgeCode badgeCode = BadgeCode.valueOf(badgeDto.getBadgeCode());
-        String curValue = badgeDto.getBadgeValue();
-
-        if(badgeCode.getCriteria().indexOf(curValue) >= 0){
-            return true;
-        }
-        return false;
-    }
-
-    public boolean hasThisBadge(BadgeDto badgeDto){
-        Optional<Badge> badge = badgeRepository.findByMemberIdAndBadgeCodeAndBadgeValue(badgeDto.getMemberId(), badgeDto.getBadgeCode(), badgeDto.getBadgeValue());
-        if(badge.isPresent()) return true;
-        return false;
-    }
-
-    @Transactional
-    public Badge addBadge(BadgeDto badgeDto){
-        return badgeRepository.save(badgeDto.toEntity());
-    }
 }
