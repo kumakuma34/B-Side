@@ -18,16 +18,7 @@ public class BadgeDto implements Comparable<BadgeDto>{
     @JsonProperty("badge_code")
     private String badgeCode;
 
-    private String badgeValue;
-
-    private String badgeUrl;
-
-    public BadgeDto(Badge entity) {
-        this.badgeId = entity.getBadgeId();
-        this.memberId = entity.getMemberId();
-        this.badgeCode = entity.getBadgeCode();
-        this.badgeValue = entity.getBadgeValue();
-    }
+    private int badgeValue;
 
     public BadgeDto(BadgeSaveDto saveDto) {
         this.memberId = saveDto.getMemberId();
@@ -47,7 +38,7 @@ public class BadgeDto implements Comparable<BadgeDto>{
     @Override
     public int compareTo(BadgeDto o) {
         if(!badgeCode.equals(o.badgeCode)) return badgeCode.compareTo(o.badgeCode);
-        return Integer.parseInt(badgeValue) - (Integer.parseInt(o.badgeValue));
+        return badgeValue - o.badgeValue;
     }
 
 

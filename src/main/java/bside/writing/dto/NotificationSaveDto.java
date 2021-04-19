@@ -12,7 +12,7 @@ public class NotificationSaveDto {
 
     private Long memberId;
     private NotiType notiType;
-    private String notiMessage;
+    private String notiMessage; 
     private LocalDateTime notiStartDate;
     private NotiTargetType fromType;
     private Long fromId;

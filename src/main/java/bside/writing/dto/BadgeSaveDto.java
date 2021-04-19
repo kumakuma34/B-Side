@@ -13,10 +13,10 @@ public class BadgeSaveDto {
 
     private BadgeCode badgeCode;
 
-    private String badgeValue;
+    private int badgeValue;
 
     @Builder
-    public BadgeSaveDto(Long memberId, BadgeCode badgeCode, String badgeValue) {
+    public BadgeSaveDto(Long memberId, BadgeCode badgeCode, int badgeValue) {
         Assert.notNull(memberId, "memberid must not be null");
         Assert.notNull(badgeCode, "badgeCode must not be null");
         Assert.notNull(badgeValue, "badgeValue must not be null");

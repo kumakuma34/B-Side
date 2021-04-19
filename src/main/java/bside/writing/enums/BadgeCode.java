@@ -7,22 +7,22 @@ public enum BadgeCode {
     //code명 + badge 획득 기준값
 
     // article 제출 횟수 badge
-    ARTICLE_COMMIT(Arrays.asList("1","10","50"))
+    ARTICLE_COMMIT(Arrays.asList(1,10,50))
     // challenge 참여 badge
-    ,CHALLENGE_PARTICIPATE(Arrays.asList("1","6","12"))
+    ,CHALLENGE_PARTICIPATE(Arrays.asList(1,6,12))
     // challenge 완주 badge
-    ,CHALLENGE_FINISH(Arrays.asList("1","2","8"))
+    ,CHALLENGE_FINISH(Arrays.asList(1,2,8))
     // like 획득 badge
-    ,LIKE_COUNT(Arrays.asList("1","10","20"))
+    ,LIKE_COUNT(Arrays.asList(1,10,20))
     ;
 
-    private List<String> criteria;
+    private List<Integer> criteria;
 
-    BadgeCode(List<String> criteria) {
+    BadgeCode(List<Integer> criteria) {
         this.criteria = criteria;
     }
 
-    public List<String> getCriteria() {
+    public List<Integer> getCriteria() {
         return criteria;
     }
 }
