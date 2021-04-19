@@ -12,4 +12,9 @@ import java.util.Optional;
 
 public interface ArticleLikeRepository extends JpaRepository<ArticleLike, Long> {
 
+    @Query(value = "SELECT * FROM article_like a " +
+            "where a.article_id = ?1 AND a.member_id = ?2", nativeQuery = true)
+    Optional<ArticleLike> findDuplicate(Long articleId , Long uid);
+
+
 }
