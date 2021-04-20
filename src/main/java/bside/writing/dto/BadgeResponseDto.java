@@ -2,32 +2,35 @@ package bside.writing.dto;
 
 import bside.writing.domain.badge.Badge;
 import bside.writing.enums.BadgeCode;
-import io.jsonwebtoken.lang.Assert;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class BadgeSaveDto {
+@Builder
+@AllArgsConstructor
+public class BadgeResponseDto{
 
+    @JsonIgnore
+    private Long badgeId;
+
+    @JsonIgnore
     private Long memberId;
 
+    @JsonProperty("badge_code")
     private BadgeCode badgeCode;
 
+    @JsonProperty("badge_value")
     private int badgeValue;
 
-    @Builder
-    public BadgeSaveDto(Long memberId, BadgeCode badgeCode, int badgeValue) {
-        Assert.notNull(memberId, "memberid must not be null");
-        Assert.notNull(badgeCode, "badgeCode must not be null");
-        Assert.notNull(badgeValue, "badgeValue must not be null");
-
-        this.memberId = memberId;
-        this.badgeCode = badgeCode;
-        this.badgeValue = badgeValue;
-    }
+    @JsonProperty("badge_url")
+    private String badgeUrl;
 
     public Badge toEntity(){
         return Badge.builder()
+                .badgeId(badgeId)
                 .memberId(memberId)
                 .badgeCode(badgeCode.name())
                 .badgeValue(badgeValue)
