@@ -18,21 +18,4 @@ public class badgeRepositoryTest {
     @Autowired
     BadgeRepository badgeRepository;
 
-    @Test
-    void 뱃지_저장(){
-        BadgeResponseDto badgeResponseDto = BadgeResponseDto.builder()
-                .memberId(1L)
-                .badgeCode(BadgeCode.CHALLENGE_FINISH.name())
-                .badgeValue("8")
-                .build();
-        badgeRepository.save(badgeResponseDto.toEntity());
-    }
-
-    @Test
-    void 뱃지_조회(){
-        String badgeCode = BadgeCode.CHALLENGE_FINISH.name();
-        Optional<Badge> byMemberIdAndBadgeCode = badgeRepository.findByMemberIdAndBadgeCodeAndBadgeValue(1L, badgeCode,"8");
-        System.out.println("byMemberIdAndBadgeCode = " + byMemberIdAndBadgeCode);
-    }
-
 }

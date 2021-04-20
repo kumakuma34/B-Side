@@ -3,13 +3,11 @@ package bside.writing.controller;
 import bside.writing.Service.BadgeService;
 import bside.writing.Service.TokenService;
 import bside.writing.domain.badge.Badge;
-import bside.writing.dto.BadgeResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +20,6 @@ public class BadgeController {
     public Map<String, List> getBadges(@RequestHeader(name="Authorization") String accessToken){
         Long memberId = tokenService.getUid(accessToken);
 
-        List<Badge> badgeList;
-
-        return null;
+        return badgeService.makeResponseList(memberId);
     }
 }
