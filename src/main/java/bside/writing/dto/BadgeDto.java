@@ -10,6 +10,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
+@AllArgsConstructor
 public class BadgeDto{
 
     private Long badgeId;
