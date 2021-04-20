@@ -186,7 +186,6 @@ public class ChallengeService {
     /*
     TODO : 매일 일배치로 시작일자 도달한 챌린지 status 업데이트 (0>1)
     TODO : Enum reverse 가져올 수 있게 수정
-    TODO : 달성률 추가해서 return
      */
 
 }
