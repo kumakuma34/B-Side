@@ -3,16 +3,18 @@ package bside.writing.Service;
 import bside.writing.Repository.ArticleRepository;
 import bside.writing.Repository.ChallengeRepository;
 import bside.writing.domain.article.Article;
+import bside.writing.domain.article.ArticleSubmitCount;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.dto.ArticleDto;
+import bside.writing.dto.BadgeSaveDto;
 import bside.writing.enums.ArticleStatusCode;
-import javassist.compiler.ast.Pair;
+import bside.writing.domain.article.RankResult;
+import bside.writing.enums.BadgeCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -23,6 +25,7 @@ public class ArticleService {
     public final ChallengeMemberService challengeMemberService;
     public final ArticleRepository articleRepository;
     public final MemberService memberService;
+    public final BadgeService badgeService;
 
     //주차 계산 함수
     public int getWeekCnt(Long challenge_id){
@@ -48,6 +51,11 @@ public class ArticleService {
         }
         else{//글 제출일 경우
             challengeMemberService.submitCntIncrease(request.getChallengeId(), uid);
+            badgeService.checkAndGetBadge(BadgeSaveDto.builder()
+                    .memberId(uid)
+                    .badgeCode(BadgeCode.ARTICLE_COMMIT)
+                    .badgeValue(articleRepository.findAllSubmitCount(uid).toString())
+                    .build());
         }
         Article entity = Article.builder()
                 .articleTitle(request.getArticleTitle())
@@ -154,4 +162,19 @@ public class ArticleService {
         }
         return result;
     }
+
+    public List<RankResult<String , Integer>> getRank(Long challengeId){
+        List<RankResult<String, Integer>> result = new ArrayList<>();
+        List<ArticleSubmitCount> queryResult = articleRepository.findSubmitCount(challengeId);
+        if(queryResult.isEmpty()) return result;
+        queryResult.forEach(e->result.add(new RankResult(memberService.findNameById(e.getMemberId()), e.getSubmitCnt())));
+        return result;
+    }
+
+    //글 삭제
+    @Transactional
+    public void deleteArticle(Long id){
+        articleRepository.deleteById(id);
+    }
+
 }
