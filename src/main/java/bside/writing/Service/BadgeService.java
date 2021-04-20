@@ -32,7 +32,7 @@ public class BadgeService {
 
     @Transactional
     public BadgeDto increaseBadgeValue(Long memberId, BadgeCode badgeCode){
-        Badge badge = badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode)
+        Badge badge = badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode.name())
                 .orElseThrow(() -> new NoSuchElementException("no badge"));
         badge.increaseBadgeValue();
         return new BadgeDto(badge);
@@ -40,7 +40,7 @@ public class BadgeService {
 
     @Transactional
     public BadgeDto decreaseBadgeValue(Long memberId, BadgeCode badgeCode){
-        Badge badge = badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode)
+        Badge badge = badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode.name())
                 .orElseThrow(() -> new NoSuchElementException("no badge"));
         badge.decreaseBadgeValue();
         return new BadgeDto(badge);
@@ -48,7 +48,7 @@ public class BadgeService {
 
     @Transactional
     public BadgeDto getBadge(Long memberId, BadgeCode badgeCode){
-        return new BadgeDto(badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode)
+        return new BadgeDto(badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode.name())
                 .orElseThrow(() -> new NoSuchElementException("no badge")));
     }
 
