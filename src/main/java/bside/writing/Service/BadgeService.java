@@ -5,15 +5,12 @@ import bside.writing.domain.badge.Badge;
 import bside.writing.dto.BadgeDto;
 import bside.writing.dto.BadgeSaveDto;
 import bside.writing.enums.BadgeCode;
-import bside.writing.dto.BadgeResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -27,49 +24,50 @@ public class BadgeService {
 
 
     @Transactional
-    public Badge save(BadgeSaveDto badgeSaveDto){
+    private Badge save(BadgeSaveDto badgeSaveDto){
         return badgeRepository.save(badgeSaveDto.toEntity());
     }
 
     @Transactional
-    public BadgeDto increaseBadgeValue(Long memberId, BadgeCode badgeCode){
-        Badge badge = badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode.name())
-                .orElseThrow(() -> new NoSuchElementException("no badge"));
-        badge.increaseBadgeValue();
+    public BadgeDto increaseBadgeCurValue(Long memberId, BadgeCode badgeCode){
+        Badge badge = getBadgeEntity(memberId, badgeCode);
+        badge.increaseBadgeCurValue();
+
+        for (Integer curCriteria: badgeCode.getCriteria()) {
+            if(badge.getBadgeCurValue() >= curCriteria){
+                badge.setBadgeMaxValue(curCriteria);
+            }
+        }
+
         return new BadgeDto(badge);
     }
 
     @Transactional
-    public BadgeDto decreaseBadgeValue(Long memberId, BadgeCode badgeCode){
-        Badge badge = badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode.name())
-                .orElseThrow(() -> new NoSuchElementException("no badge"));
-        badge.decreaseBadgeValue();
+    public BadgeDto decreaseBadgeCurValue(Long memberId, BadgeCode badgeCode){
+        Badge badge = getBadgeEntity(memberId, badgeCode);
+        badge.decreaseBadgeCurValue();
         return new BadgeDto(badge);
+    }
+
+    @Transactional
+    public Badge getBadgeEntity(Long memberId, BadgeCode badgeCode){
+        return badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode.name())
+                .orElseGet(()-> save(BadgeSaveDto.builder()
+                        .memberId(memberId)
+                        .badgeCode(badgeCode)
+                        .build()));
     }
 
     @Transactional
     public BadgeDto getBadge(Long memberId, BadgeCode badgeCode){
         return new BadgeDto(badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode.name())
-                .orElse(Badge.builder()
-                        .badgeCode(badgeCode.name())
-                        .badgeValue(0)
-                        .build()));
+                .orElseGet(()-> save(BadgeSaveDto.builder()
+                        .memberId(memberId)
+                        .badgeCode(badgeCode)
+                        .build())));
     }
 
-    @Transactional
-    public List<BadgeDto> getBadgeList(Long memberId){
-        List<Badge> result = badgeRepository.findByMemberId(memberId);
-        if(result.size() == 0)
-            throw new NoSuchElementException("no badge");
-        return toDtoList(result);
-    }
-
-    public List<BadgeDto> toDtoList(List<Badge> badgeList){
-        return  badgeList.stream().map((entity) -> new BadgeDto(entity))
-                .collect(Collectors.toList());
-    }
-
-    public Map<String, List> makeResponseList(long memberId){
+    public Map<String, List> makeResponse(long memberId){
         Map<String, List> response = new LinkedHashMap<>();
 
         for (BadgeCode curBadgeCode: BadgeCode.values()) {
@@ -78,7 +76,7 @@ public class BadgeService {
             for (Integer curCriteriaValue: curBadgeCode.getCriteria()) {
                 Map<String, Object> curBadge = new LinkedHashMap<>();
                 curBadge.put("badge_value", curCriteriaValue);
-                if(badge.getBadgeValue() >= curCriteriaValue){
+                if(badge.getBadgeMaxValue() >= curCriteriaValue){
                     curBadge.put("achieve", true);
                     curBadge.put("image_url", SERVER_URL + curBadgeCode.name() + curCriteriaValue + imgFileExtension);
                 }

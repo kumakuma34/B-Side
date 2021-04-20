@@ -2,8 +2,6 @@ package bside.writing.dto;
 
 import bside.writing.domain.badge.Badge;
 import bside.writing.enums.BadgeCode;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +17,9 @@ public class BadgeDto{
 
     private BadgeCode badgeCode;
 
-    private int badgeValue;
+    private int badgeCurValue;
+
+    private int badgeMaxValue;
 
     private String badgeUrl;
 
@@ -27,7 +27,8 @@ public class BadgeDto{
         this.badgeId = entity.getBadgeId();
         this.memberId = entity.getMemberId();
         this.badgeCode = BadgeCode.valueOf(entity.getBadgeCode());
-        this.badgeValue = entity.getBadgeValue();
+        this.badgeCurValue = entity.getBadgeCurValue();
+        this.badgeMaxValue = entity.getBadgeMaxValue();
     }
 
     public Badge toEntity(){
@@ -35,7 +36,8 @@ public class BadgeDto{
                 .badgeId(badgeId)
                 .memberId(memberId)
                 .badgeCode(badgeCode.name())
-                .badgeValue(badgeValue)
+                .badgeCurValue(badgeCurValue)
+                .badgeMaxValue(badgeMaxValue)
                 .build();
     }
 }

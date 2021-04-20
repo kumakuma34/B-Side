@@ -33,7 +33,7 @@ public class BadgeResponseDto{
                 .badgeId(badgeId)
                 .memberId(memberId)
                 .badgeCode(badgeCode.name())
-                .badgeValue(badgeValue)
+                .badgeMaxValue(badgeValue)
                 .build();
     }
 }

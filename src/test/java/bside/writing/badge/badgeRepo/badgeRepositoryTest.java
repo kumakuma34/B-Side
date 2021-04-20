@@ -18,4 +18,5 @@ public class badgeRepositoryTest {
     @Autowired
     BadgeRepository badgeRepository;
 
+
 }
