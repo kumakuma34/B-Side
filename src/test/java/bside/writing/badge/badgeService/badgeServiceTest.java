@@ -22,8 +22,8 @@ public class badgeServiceTest {
     @Test
     public void search_badge(){
         Long memberId = 30L;
-        //Map<String, List> stringListMap = badgeService.makeResponseList(memberId);
-        //System.out.println("stringListMap = " + stringListMap);
+        Map<String, List> stringListMap = badgeService.makeResponseList(memberId);
+        System.out.println("stringListMap = " + stringListMap);
 
     }
 
