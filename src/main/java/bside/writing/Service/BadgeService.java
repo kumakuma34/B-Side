@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -49,7 +50,10 @@ public class BadgeService {
     @Transactional
     public BadgeDto getBadge(Long memberId, BadgeCode badgeCode){
         return new BadgeDto(badgeRepository.findByMemberIdAndBadgeCode(memberId, badgeCode.name())
-                .orElseThrow(() -> new NoSuchElementException("no badge")));
+                .orElse(Badge.builder()
+                        .badgeCode(badgeCode.name())
+                        .badgeValue(0)
+                        .build()));
     }
 
     @Transactional
