@@ -13,24 +13,28 @@ public class BadgeSaveDto {
 
     private BadgeCode badgeCode;
 
-    private int badgeValue;
+    @Builder.Default
+    private int badgeCurValue = 0;
+
+    @Builder.Default
+    private int badgeMaxValue = 0;
 
     @Builder
-    public BadgeSaveDto(Long memberId, BadgeCode badgeCode, int badgeValue) {
+    public BadgeSaveDto(Long memberId, BadgeCode badgeCode, int badgeCurValue) {
         Assert.notNull(memberId, "memberid must not be null");
         Assert.notNull(badgeCode, "badgeCode must not be null");
-        Assert.notNull(badgeValue, "badgeValue must not be null");
-
+        Assert.notNull(badgeCurValue, "badgeCurValue must not be null");
         this.memberId = memberId;
         this.badgeCode = badgeCode;
-        this.badgeValue = badgeValue;
+        this.badgeCurValue = badgeCurValue;
     }
 
     public Badge toEntity(){
         return Badge.builder()
                 .memberId(memberId)
                 .badgeCode(badgeCode.name())
-                .badgeValue(badgeValue)
+                .badgeCurValue(badgeCurValue)
+                .badgeMaxValue(badgeMaxValue)
                 .build();
     }
 }

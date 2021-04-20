@@ -1,5 +1,6 @@
 package bside.writing.Service;
 
+import bside.writing.Repository.BadgeRepository;
 import bside.writing.domain.member.Member;
 import bside.writing.Repository.MemberRepository;
 import bside.writing.dto.MemberDto;
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final BadgeRepository badgeRepository;
 
     @Transactional
     public MemberDto join(MemberDto memberDto) {
