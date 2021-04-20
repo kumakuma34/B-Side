@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface BadgeRepository extends JpaRepository<Badge, Long> {
     List<Badge> findByMemberId(final Long memberId);
 
-    Optional<Badge> findByMemberIdAndBadgeCode(final Long memberId, final BadgeCode badgeCode);
+    Optional<Badge> findByMemberIdAndBadgeCode(final Long memberId, final String BadgeCode);
 
     Optional<Badge> findByMemberIdAndBadgeCodeAndBadgeValue(final Long memberId, final String BadgeCode, final String BadgeValue);
 }
