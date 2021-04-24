@@ -173,9 +173,20 @@ public class ChallengeService {
         Challenge challenge = challengeRepository.findById(challenge_id).orElseThrow(()-> new NoSuchElementException("no such Challenge"));
         ChallengeDto.Response result = new ChallengeDto.Response(challenge);
         result.setThemeNames(parseThemeString(result.getTheme()));
+
         setUerInfo(result);
-        result.setOwnerId(challenge.getCreatedId());
-        result.setOwnerName(memberService.findNameById(challenge.getCreatedId()));
+
+        result.setOwnerId(challenge.getCreatedId());//챌린지 소유자 ID설정
+
+        result.setOwnerName(memberService.findNameById(challenge.getCreatedId()));//챌린지 소유자 이름 설정
+
+        result.setInChallenge(challengeMemberService.checkDuplicate(challenge_id,uid));//챌린지에 속했는지 여부 설정
+
+        //글 제출 가능 여부 설정
+        if(challenge.getStatus() == 0|| challenge.getStatus() ==2)
+            result.setSubmitArticleStatus(false);
+        else
+            result.setSubmitArticleStatus(true);
         if(uid == challenge.getCreatedId()) result.setIsOwner(true);
         else result.setIsOwner(false);
         return result;

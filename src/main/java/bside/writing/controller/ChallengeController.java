@@ -96,7 +96,7 @@ public class ChallengeController {
         return "Success!!";
     }
 
-    //challenge join in detail
+    //challenge search in detail
     @CrossOrigin("*")
     @RequestMapping(value = "challenge/{challenge_id}", method = RequestMethod.GET)
     public Map<String, Object> getChallengeDetail(@PathVariable String challenge_id , @RequestHeader(name="Authorization") String accessToken) throws IOException{
