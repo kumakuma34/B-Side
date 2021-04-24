@@ -23,9 +23,9 @@ public class ArticleTest {
         //Given
         Long challengeId = 30L;
         //when
-        int weeks = articleService.getWeekCnt(challengeId);
-        //then
-        System.out.println(weeks);
+//        int weeks = articleService.getWeekCnt(challengeId);
+//        //then
+//        System.out.println(weeks);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ArticleTest {
                 .status(2)
                 .build();
         //when
-        System.out.println(articleService.addNewArticle(request,47L));
+        //System.out.println(articleService.addNewArticle(request,47L));
 
     }
 
@@ -63,9 +63,9 @@ public class ArticleTest {
         //given
         Long challengeId = 11L;
         Long uid = 47L;
-        System.out.println(articleRepository.findSubmitTime(challengeId ,1,1,uid));
-        Map<Integer , Object> result = articleService.getSubmitStatus(uid,challengeId);
-        System.out.println(result);
+//        System.out.println(articleRepository.findSubmitTime(challengeId ,1,1,uid));
+//        Map<Integer , Object> result = articleService.getSubmitStatus(uid,challengeId);
+//        System.out.println(result);
     }
 
     @Test

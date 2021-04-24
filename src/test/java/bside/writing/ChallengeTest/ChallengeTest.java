@@ -39,8 +39,8 @@ public class ChallengeTest {
         Long memberId = 47L;
 
         //when
-        challengeMemberService.submitCntIncrease(challengeId,memberId);
-        System.out.println(challengeMemberRepository.findByChallengeAndMember(challengeId,memberId).get().getSubmitArticleCnt());
+//        challengeMemberService.submitCntIncrease(challengeId,memberId);
+//        System.out.println(challengeMemberRepository.findByChallengeAndMember(challengeId,memberId).get().getSubmitArticleCnt());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ChallengeTest {
         Long memberId = 47L;
 
         //when
-        System.out.println(challengeService.calcAchievementRate(challengeID,memberId));
+        //System.out.println(challengeService.calcAchievementRate(challengeID,memberId));
     }
 
 

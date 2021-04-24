@@ -23,10 +23,10 @@ public class noti_Service_test {
 
     @Test
     public void 노티_맴버아이디로_조회_정상조건() {
-        List<NotificationResponseDto> notifications = notificationService.getNotificationAsResponseDto(30L);
-        for (NotificationResponseDto noti : notifications) {
-            System.out.println("noti = " + noti);
-        }
+//        List<NotificationResponseDto> notifications = notificationService.getNotificationAsResponseDto(30L);
+//        for (NotificationResponseDto noti : notifications) {
+//            System.out.println("noti = " + noti);
+//        }
     }
 
     @Test
