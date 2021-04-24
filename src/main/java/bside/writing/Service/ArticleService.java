@@ -177,4 +177,12 @@ public class ArticleService {
         articleRepository.deleteById(id);
     }
 
+
+    @Transactional
+    public boolean toggleArticleVisibility(Long id){
+        Article entity = articleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("no such article"));
+        return entity.toggleStatus();
+    }
+
 }

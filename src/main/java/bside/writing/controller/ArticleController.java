@@ -4,6 +4,7 @@ import bside.writing.Service.*;
 import bside.writing.dto.ArticleDto;
 import bside.writing.dto.ChallengeDto;
 import bside.writing.enums.ChallengeStatusCode;
+import io.opencensus.trace.Link;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,5 +75,17 @@ public class ArticleController {
         articleLikeService.articleLike(Long.valueOf(article_id), uid);
         return article_id + " like";
     }
+
+    //글 보이기/숨기기 toggle
+    @CrossOrigin("*")
+    @RequestMapping(value = "article/{articleId}/visible", method = RequestMethod.PUT)
+    public Map<String, Object> toggleArticleVisibility(@PathVariable String articleId){
+        Map<String, Object> response = new LinkedHashMap<>();
+        boolean visible = articleService.toggleArticleVisibility(Long.valueOf(articleId));
+        response.put("article_id", articleId);
+        response.put("visible", visible);
+        return response;
+    }
+
 
 }
