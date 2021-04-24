@@ -40,4 +40,10 @@ public class Article extends BaseTimeEntity {
 
     @Column(name = "status")
     private int status;
+
+    public boolean toggleStatus(){
+        status = status == 1 ? 0 : 1;
+        if(status == 1) return true;
+        return false;
+    }
 }

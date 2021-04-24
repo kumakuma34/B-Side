@@ -18,7 +18,8 @@ public class ThemeController {
 
     @CrossOrigin("*")
     @RequestMapping(value = "/theme", method = RequestMethod.GET)
-    public Map<String, Object> getTheme(@RequestParam(value="searchMethod") String searchCode,
+    public Map<String, Object> getTheme(
+            @RequestParam(value="searchMethod") String searchCode,
                         @RequestParam(value="count") int themeCount){
 
         Map<String, Object> response = new LinkedHashMap<>();
