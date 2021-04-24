@@ -20,14 +20,14 @@ public class ChallengeMemberService {
     //챌린지 중복 참여 여부 검사
     public boolean checkDuplicate(Long challenge_id , Long uid){
         List<Long> prev = challengeMemberRepository.findDuplicate(challenge_id,uid);
-        if(prev.isEmpty()) return true;
-        else return false;
+        if(prev.isEmpty()) return false;
+        else return true;
     }
 
     //챌린지 참여 함수
     public ChallengeMember joinChallenge(Long challenge_id, Long uid){
-        if(!checkDuplicate(challenge_id, uid))
-            throw new IllegalArgumentException("member alread in this challenge"); //챌린지 참여 중복 여부 검사
+        if(checkDuplicate(challenge_id, uid))
+            throw new IllegalArgumentException("member already in this challenge"); //챌린지 참여 중복 여부 검사
 
         ChallengeMember entity = ChallengeMember.builder()
                 .challengeId(challenge_id)
