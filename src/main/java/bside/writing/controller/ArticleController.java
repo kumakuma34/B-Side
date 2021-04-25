@@ -78,7 +78,7 @@ public class ArticleController {
 
     //글 보이기/숨기기 toggle
     @CrossOrigin("*")
-    @RequestMapping(value = "article/{articleId}/visible", method = RequestMethod.PUT)
+    @RequestMapping(value = "article/{articleId}/toggle-visibility", method = RequestMethod.PUT)
     public Map<String, Object> toggleArticleVisibility(@PathVariable String articleId){
         Map<String, Object> response = new LinkedHashMap<>();
         boolean visible = articleService.toggleArticleVisibility(Long.valueOf(articleId));
