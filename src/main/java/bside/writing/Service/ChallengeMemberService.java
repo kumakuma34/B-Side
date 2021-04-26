@@ -1,6 +1,7 @@
 package bside.writing.Service;
 
 import bside.writing.Repository.ChallengeMemberRepository;
+import bside.writing.Repository.ChallengeRepository;
 import bside.writing.domain.challenge.Challenge;
 import bside.writing.domain.challenge.ChallengeMember;
 import bside.writing.dto.ThemeDto;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ChallengeMemberService {
     private final ChallengeMemberRepository challengeMemberRepository;
+    private final ChallengeRepository challengeRepository;
     private final MemberService memberService;
 
     //챌린지 중복 참여 여부 검사

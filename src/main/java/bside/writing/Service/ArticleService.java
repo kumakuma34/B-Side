@@ -49,14 +49,14 @@ public class ArticleService {
         if(request.getStatus() == 2) {//임시 저장일 경우
             week = 0; submitCnt = 0;
         }
-        /*else{//글 제출일 경우
+        else{//글 제출일 경우
             challengeMemberService.submitCntIncrease(request.getChallengeId(), uid);
-            badgeService.checkAndGetBadge(BadgeSaveDto.builder()
-                    .memberId(uid)
-                    .badgeCode(BadgeCode.ARTICLE_COMMIT)
-                    .badgeValue(articleRepository.findAllSubmitCount(uid).toString())
-                    .build());
-        }*/
+//            badgeService.checkAndGetBadge(BadgeSaveDto.builder()
+//                    .memberId(uid)
+//                    .badgeCode(BadgeCode.ARTICLE_COMMIT)
+//                    .badgeValue(articleRepository.findAllSubmitCount(uid).toString())
+//                    .build());
+        }
         Article entity = Article.builder()
                 .articleTitle(request.getArticleTitle())
                 .articleDetail(request.getArticleDetail())
