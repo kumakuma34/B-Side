@@ -62,8 +62,8 @@ public class Challenge extends BaseTimeEntity {
     private String theme;
 
     public void increaseCurrentParticipant(){
-        if(this.currentParticipant >= this.maxParticipant)
-        this.currentParticipant++;
+        if(this.currentParticipant <= this.maxParticipant)
+            this.currentParticipant++;
     }
     public void update(ChallengeDto.Request request ){
         this.coverImg = request.getCoverImg();

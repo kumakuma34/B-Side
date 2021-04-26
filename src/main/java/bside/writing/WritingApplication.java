@@ -1,5 +1,6 @@
 package bside.writing;
 
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import bside.writing.templateClass.DaoRetriever;
@@ -9,6 +10,7 @@ import javax.persistence.NoResultException;
 import java.util.Optional;
 
 @EnableJpaAuditing //JPA Auditing 활성화
+@EnableBatchProcessing//배치 기능 활성화
 @SpringBootApplication
 public class WritingApplication {
 
