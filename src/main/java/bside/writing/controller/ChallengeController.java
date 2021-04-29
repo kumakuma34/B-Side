@@ -106,6 +106,7 @@ public class ChallengeController {
         response.put("challenge", challengeService.getChallengeDetail(challengeId, uid));
         response.put("submitStatus", articleService.getSubmitStatus(uid,challengeId));
         response.put("rank" , articleService.getRank(challengeId));
+
         return response;
     }
 

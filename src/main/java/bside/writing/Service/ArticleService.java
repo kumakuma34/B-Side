@@ -163,11 +163,13 @@ public class ArticleService {
         return result;
     }
 
-    public List<RankResult<String , Integer>> getRank(Long challengeId){
-        List<RankResult<String, Integer>> result = new ArrayList<>();
+    public List<RankResult<String , Integer, String>> getRank(Long challengeId){
+        List<RankResult<String, Integer, String>> result = new ArrayList<>();
         List<ArticleSubmitCount> queryResult = articleRepository.findSubmitCount(challengeId);
-        if(queryResult.isEmpty()) return result;
-        queryResult.forEach(e->result.add(new RankResult(memberService.findNameById(e.getMemberId()), e.getSubmitCnt())));
+        if(queryResult.isEmpty())
+            return result;
+
+        queryResult.forEach(e->result.add(new RankResult(memberService.findNameById(e.getMemberId()), e.getSubmitCnt(), memberService.findById(e.getMemberId()).getProfileUrl())));
         return result;
     }
 
