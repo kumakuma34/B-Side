@@ -3,17 +3,18 @@ package bside.writing.domain.article;
 import lombok.Getter;
 
 @Getter
-public class RankResult<T,S>{
+public class RankResult<T,S,R>{
     T member;
     S count;
-
-    public RankResult(T first, S second) {
+    R url;
+    public RankResult(T first, S second, R third) {
         this.member = first;
         this.count = second;
+        url = third;
     }
 
-    static <T,S> RankResult<T,S> add(T first, S second){
-        return new RankResult<T,S>(first, second);
+    static <T,S,R> RankResult<T,S,R> add(T first, S second, R third){
+        return new RankResult<T,S,R>(first, second, third);
     }
 }
 
